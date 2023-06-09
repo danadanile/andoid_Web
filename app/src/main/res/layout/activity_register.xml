@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
 
-    tools:context=".MainActivity">
+    tools:context=".Register">
+
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="50dp">
 
             <TextView
                 android:id="@+id/loginText"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:text="@string/register_welcome"
                 android:textAlignment="center"
                 android:textColor="@color/color"
@@ -39,67 +38,87 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/screen_layout"
                 android:layout_marginTop="40dp"
+                android:autofillHints="no"
+                android:background="@drawable/screen_layout"
+                android:drawableStart="@drawable/ic_username"
                 android:drawablePadding="8dp"
-                android:hint="Username"
+                android:hint="@string/username"
+                android:inputType="text"
                 android:padding="8dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_username"
-                />
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/screen_layout"
                 android:layout_marginTop="20dp"
+                android:autofillHints="no"
+                android:background="@drawable/screen_layout"
+                android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="8dp"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:padding="8dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_password"/>
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/screen_layout"
                 android:layout_marginTop="20dp"
+                android:autofillHints="no"
+                android:background="@drawable/screen_layout"
+                android:drawableStart="@drawable/ic_confirm_password"
                 android:drawablePadding="8dp"
-                android:hint="Confirm password"
+                android:hint="@string/confirm_password"
                 android:inputType="textPassword"
                 android:padding="8dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_confirm_password"/>
-
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/display_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/screen_layout"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/screen_layout"
+                android:drawableStart="@drawable/ic_display_name"
                 android:drawablePadding="8dp"
-                android:hint="Display name"
+                android:hint="@string/display_name"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:padding="8dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_display_name"/>
+                android:textColor="@color/black" />
 
+            <RelativeLayout
+                android:id="@+id/parentView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/white"
-                android:text="image"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
+                <Button
+                    android:id="@+id/gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/color"
+                    android:text="@string/open_gallery"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cornerRadius="15dp" />
 
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@id/gallery"
+                    android:layout_toEndOf="@id/gallery"
+                    android:contentDescription="@string/image"
+                    android:gravity="right|end"
+                    app:cornerRadius="20dp"
+                    tools:ignore="RtlHardcoded" />
 
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/loginButton"
@@ -107,7 +126,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/color"
-                android:text="Login"
+                android:text="@string/register"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
         </LinearLayout>
@@ -117,11 +136,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
@@ -129,10 +148,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/already_registered"
-                android:textColor="@color/color"
+                android:textColor="@color/grey"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="56dp" />
 
@@ -142,10 +162,11 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="12dp"
                 android:backgroundTint="@color/color"
-                android:text="create new"
+                android:text="@string/login"
                 android:textSize="14sp"
                 app:cornerRadius="20dp"
                 app:layout_constraintStart_toEndOf="@+id/signupText"
+                app:layout_constraintVertical_bias="0.5"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteY="0dp" />
 
