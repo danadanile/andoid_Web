@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ex4</string>
     <string name="login_welcome">Welcome to login page!</string>
+    <string name="register_welcome">Register page</string>
+    <string name="already_registered">Already registered?</string>
     <string name="register">Don&#39;t have an account?</string>
 </resources>
