@@ -1,7 +1,16 @@
 <resources>
     <string name="app_name">ex4</string>
-    <string name="login_welcome">Welcome to login page!</string>
-    <string name="register_welcome">Register page</string>
+    <string name="login_welcome">Welcome to the chat</string>
+    <string name="register_welcome">Register here</string>
     <string name="already_registered">Already registered?</string>
-    <string name="register">Don&#39;t have an account?</string>
+    <string name="register_account">Don\'t have an account?</string>
+    <string name="create">create new</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="display_name">Display name</string>
+    <string name="open_gallery">Open Gallery</string>
+    <string name="image">image</string>
+    <string name="register">Register</string>
 </resources>
