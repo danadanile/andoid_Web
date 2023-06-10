@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
 
     tools:context=".Login">
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,47 +26,58 @@
 
             <TextView
                 android:id="@+id/loginText"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/login_welcome"
                 android:textAlignment="center"
                 android:textColor="@color/color"
-                android:textSize="28sp"
+                android:textSize="25sp"
                 android:textStyle="normal" />
 
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/screen_layout"
                 android:layout_marginTop="40dp"
+                android:background="@drawable/screen_layout"
+                android:drawableStart="@drawable/ic_username"
                 android:drawablePadding="8dp"
                 android:hint="@string/username"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:drawableStart="@drawable/ic_username"
                 android:importantForAutofill="no"
-                android:inputType="text" />
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/screen_layout"
                 android:layout_marginTop="20dp"
+                android:autofillHints="no"
+                android:background="@drawable/screen_layout"
+                android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="8dp"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:padding="8dp"
-                android:textColor="@color/black"
-                android:drawableStart="@drawable/ic_password"
-                android:autofillHints="no" />
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:backgroundTint="@color/color"
                 android:text="@string/login"
                 android:textSize="18sp"
