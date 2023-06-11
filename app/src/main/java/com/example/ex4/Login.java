@@ -30,6 +30,14 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    private void NavigateToContacts() {
+        Button bthRegister = findViewById(R.id.loginButton);
+        bthRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Contacts.class);
+            startActivity(intent);
+        });
+    }
+
     private void handleLogin() {
         Button bthLogin = findViewById(R.id.loginButton);
         bthLogin.setOnClickListener(view -> {
@@ -39,5 +47,6 @@ public class Login extends AppCompatActivity {
             EditText passwordInput = findViewById(R.id.password);
             password = passwordInput.getText().toString();
         });
+        NavigateToContacts();
     }
 }
