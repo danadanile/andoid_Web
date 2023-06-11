@@ -12,11 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Register extends AppCompatActivity {
     private final int GALLERY_REQ_CODE = 1000;
-
-    private String username;
-    private String password;
-    private String confirmPassword;
-    private String displayName;
+    User user;
     private ImageView imgGallery;
 
     @Override
@@ -37,7 +33,9 @@ public class Register extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == GALLERY_REQ_CODE) {
+
                 imgGallery.setImageURI(data.getData());
+                user.setImgGallery(imgGallery);
             }
         }
     }
@@ -75,16 +73,16 @@ public class Register extends AppCompatActivity {
         Button bthRegister = findViewById(R.id.registerButton);
         bthRegister.setOnClickListener(view -> {
             EditText usernameInput = findViewById(R.id.username);
-            username = usernameInput.getText().toString();
+            user.setUsername(usernameInput.getText().toString());
 
             EditText passwordInput = findViewById(R.id.password);
-            password = passwordInput.getText().toString();
+            user.setPassword(passwordInput.getText().toString());
 
             EditText confirmPassInput = findViewById(R.id.confirm_password);
-            confirmPassword = confirmPassInput.getText().toString();
+            user.setConfirmPassword(confirmPassInput.getText().toString());
 
             EditText displayNameInput = findViewById(R.id.display_name);
-            displayName = displayNameInput.getText().toString();
+            user.setDisplayName(displayNameInput.getText().toString());
         });
         backToLogin();
     }
