@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_margin="10dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
 
@@ -38,7 +38,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:autofillHints="no"
                 android:background="@drawable/screen_layout"
                 android:drawableStart="@drawable/ic_username"
@@ -100,7 +100,7 @@
                     android:id="@+id/gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:backgroundTint="@color/color"
                     android:text="@string/open_gallery"
                     android:textColor="@color/white"
@@ -135,7 +135,7 @@
                 android:id="@+id/registerButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/color"
                 android:text="@string/register"
                 android:textSize="18sp"

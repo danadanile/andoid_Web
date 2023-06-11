@@ -57,10 +57,19 @@ public class Register extends AppCompatActivity {
     private void navigateToLogin() {
         Button bthLogin = findViewById(R.id.loginButton);
         bthLogin.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Login.class);
+            Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
         });
     }
+
+    private void backToLogin() {
+        Button bthLogin = findViewById(R.id.registerButton);
+        bthLogin.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+        });
+    }
+
 
     private void handleRegister() {
         Button bthRegister = findViewById(R.id.registerButton);
@@ -77,5 +86,6 @@ public class Register extends AppCompatActivity {
             EditText displayNameInput = findViewById(R.id.display_name);
             displayName = displayNameInput.getText().toString();
         });
+        backToLogin();
     }
 }

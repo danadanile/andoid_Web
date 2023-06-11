@@ -16,7 +16,7 @@ public class Contacts extends AppCompatActivity {
         // Navigate to the add contact page
         Button bthAdd = findViewById(R.id.btnAdd);
         bthAdd.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AddContact.class);
+            Intent intent = new Intent(getApplicationContext(), AddContact.class);
             startActivity(intent);
         });
     }
