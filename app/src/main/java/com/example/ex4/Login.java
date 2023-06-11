@@ -12,6 +12,7 @@ public class Login extends AppCompatActivity {
     private String username;
     private String password;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,4 +50,6 @@ public class Login extends AppCompatActivity {
         });
         NavigateToContacts();
     }
+
+
 }

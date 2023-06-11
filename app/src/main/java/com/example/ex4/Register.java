@@ -3,6 +3,7 @@ package com.example.ex4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Register extends AppCompatActivity {
     private final int GALLERY_REQ_CODE = 1000;
-    User user;
+//    User user;
     private ImageView imgGallery;
 
     @Override
@@ -25,6 +26,7 @@ public class Register extends AppCompatActivity {
         handleRegister();
 
         navigateToLogin();
+
     }
 
     @Override
@@ -35,7 +37,7 @@ public class Register extends AppCompatActivity {
             if (requestCode == GALLERY_REQ_CODE) {
 
                 imgGallery.setImageURI(data.getData());
-                user.setImgGallery(imgGallery);
+
             }
         }
     }
@@ -61,6 +63,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void backToLogin() {
+
         Button bthLogin = findViewById(R.id.registerButton);
         bthLogin.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -73,17 +76,24 @@ public class Register extends AppCompatActivity {
         Button bthRegister = findViewById(R.id.registerButton);
         bthRegister.setOnClickListener(view -> {
             EditText usernameInput = findViewById(R.id.username);
-            user.setUsername(usernameInput.getText().toString());
+            String username = usernameInput.getText().toString();
 
             EditText passwordInput = findViewById(R.id.password);
-            user.setPassword(passwordInput.getText().toString());
+            String password = passwordInput.getText().toString();
 
             EditText confirmPassInput = findViewById(R.id.confirm_password);
-            user.setConfirmPassword(confirmPassInput.getText().toString());
+            String confirmPassword = confirmPassInput.getText().toString();
 
             EditText displayNameInput = findViewById(R.id.display_name);
-            user.setDisplayName(displayNameInput.getText().toString());
+            String displayName = displayNameInput.getText().toString();
+
+
+            // Create a new User object with the entered data
+            User user = new User(username, password, displayName, "");
+            UserAPI userAPI = new UserAPI();
+            userAPI.createUser(user);
         });
+
         backToLogin();
     }
 }
