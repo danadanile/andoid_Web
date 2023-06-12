@@ -62,16 +62,6 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    private void backToLogin() {
-
-        Button bthLogin = findViewById(R.id.registerButton);
-        bthLogin.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-        });
-    }
-
-
     private void handleRegister() {
         Button bthRegister = findViewById(R.id.registerButton);
         bthRegister.setOnClickListener(view -> {
@@ -87,13 +77,12 @@ public class Register extends AppCompatActivity {
             EditText displayNameInput = findViewById(R.id.display_name);
             String displayName = displayNameInput.getText().toString();
 
-
             // Create a new User object with the entered data
             User user = new User(username, password, displayName, "");
             UserAPI userAPI = new UserAPI();
             userAPI.createUser(user);
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
         });
-
-        backToLogin();
     }
 }
