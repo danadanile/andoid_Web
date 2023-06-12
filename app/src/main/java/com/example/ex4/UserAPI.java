@@ -1,5 +1,7 @@
 package com.example.ex4;
 
+import androidx.annotation.NonNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +28,7 @@ public class UserAPI {
         Call<User> call = webServiceAPI.createUser(user);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 int statusCode = response.code();
                 if (response.isSuccessful()) {
                     //User createdUser = response.body();
@@ -41,7 +43,7 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 // Handle the failure
             }
         });
@@ -51,12 +53,12 @@ public class UserAPI {
         Call<User> call = webServiceAPI.getUser(username);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 User user = response.body();
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
             }
         });
     }

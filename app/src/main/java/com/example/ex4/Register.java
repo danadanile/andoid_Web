@@ -3,7 +3,6 @@ package com.example.ex4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,9 +34,7 @@ public class Register extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == GALLERY_REQ_CODE) {
-
                 imgGallery.setImageURI(data.getData());
-
             }
         }
     }
@@ -86,7 +83,6 @@ public class Register extends AppCompatActivity {
 
             EditText displayNameInput = findViewById(R.id.display_name);
             String displayName = displayNameInput.getText().toString();
-
 
             // Create a new User object with the entered data
             User user = new User(username, password, displayName, "");
