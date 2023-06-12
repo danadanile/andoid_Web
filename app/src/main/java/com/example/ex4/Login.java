@@ -47,6 +47,8 @@ public class Login extends AppCompatActivity {
 
             EditText passwordInput = findViewById(R.id.password);
             password = passwordInput.getText().toString();
+
+
         });
         NavigateToContacts();
     }

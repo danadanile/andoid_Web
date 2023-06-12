@@ -12,8 +12,6 @@ public class UserAPI {
 
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
-//    User user = new User();
-
 
     public UserAPI() {
         retrofit = new Retrofit.Builder()
@@ -24,7 +22,6 @@ public class UserAPI {
     }
 
     public void createUser(User user) {
-//        User user = new User("sha", "1", "sha", "");
         Call<User> call = webServiceAPI.createUser(user);
         call.enqueue(new Callback<User>() {
             @Override
