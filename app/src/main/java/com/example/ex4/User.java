@@ -13,6 +13,7 @@ public class User {
         this.password = password;
         this.displayName = displayName;
         this.profilePic = profilePic;
+    }
 
 
 //    public void setUsername(String username) {
@@ -55,5 +56,5 @@ public class User {
 //    public String getPassword() {
 //        return password;
 //    }
-    }
+//    }
 }
