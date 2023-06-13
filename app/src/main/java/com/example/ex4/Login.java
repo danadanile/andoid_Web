@@ -9,8 +9,8 @@ import android.widget.EditText;
 
 public class Login extends AppCompatActivity {
 
-    private String username;
-    private String password;
+//    private String username;
+//    private String password;
 
 
     @Override
@@ -43,11 +43,12 @@ public class Login extends AppCompatActivity {
         Button bthLogin = findViewById(R.id.loginButton);
         bthLogin.setOnClickListener(view -> {
             EditText usernameInput = findViewById(R.id.username);
-            username = usernameInput.getText().toString();
+            String username = usernameInput.getText().toString();
 
             EditText passwordInput = findViewById(R.id.password);
-            password = passwordInput.getText().toString();
+            String password = passwordInput.getText().toString();
 
+            UserLogin userLogin = new UserLogin(username, password);
 
         });
         NavigateToContacts();
