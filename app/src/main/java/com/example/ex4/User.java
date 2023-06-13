@@ -1,7 +1,5 @@
 package com.example.ex4;
 
-import android.widget.ImageView;
-
 public class User {
     private String username;
     private String password;

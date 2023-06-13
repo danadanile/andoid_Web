@@ -1,5 +1,11 @@
 package com.example.ex4;
 
+import androidx.annotation.NonNull;
+
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,27 +25,28 @@ public class UserAPI {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
-    public void createUser(User user) {
-        Call<User> call = webServiceAPI.createUser(user);
-        call.enqueue(new Callback<User>() {
+    public void createUser(User user, ICallback callback) {
+        Call<String> call = webServiceAPI.createUser(user);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-                if (response.isSuccessful()) {
-                    //User createdUser = response.body();
-                } else if (statusCode == 400) {
-//                    const body = response.body();
-//                    const errorMsg = body.error;
-//                    setErrorMsg(errorMsg);
-//                    setError(true);
-                } else if (statusCode == 409) {
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (!response.isSuccessful()) {
+                    String errorMsg = null;
+                    try {
+                        errorMsg = response.errorBody().string();
+                    } catch (IOException e) {
 
+                    }
+                    callback.onFailure(errorMsg);
+
+                } else {
+                    callback.onSuccess(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                // Handle the failure
+            public void onFailure(Call<String> call, Throwable t) {
+
             }
         });
     }
