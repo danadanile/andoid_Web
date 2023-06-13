@@ -1,11 +1,8 @@
 package com.example.ex4;
 
 import androidx.annotation.NonNull;
-
 import com.google.gson.Gson;
-
 import java.io.IOException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +35,6 @@ public class UserAPI {
 
                     }
                     callback.onFailure(errorMsg);
-
                 } else {
                     callback.onSuccess(null);
                 }
@@ -55,12 +51,12 @@ public class UserAPI {
         Call<User> call = webServiceAPI.getUser(username);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 User user = response.body();
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
             }
         });
     }
