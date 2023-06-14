@@ -32,7 +32,7 @@
         android:layout_marginRight="10pt"
         android:backgroundTint="@color/color"
         android:contentDescription="@string/logout"
-        android:src="@drawable/ic_Logout"
+        android:src="@drawable/ic_logout"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
 
