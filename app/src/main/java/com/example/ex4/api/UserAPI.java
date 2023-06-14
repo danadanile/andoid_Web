@@ -7,7 +7,9 @@ import com.example.ex4.schemas.UserLogin;
 
 import java.io.IOException;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,9 +22,15 @@ public class UserAPI {
     WebServiceAPI webServiceAPI;
 
     public UserAPI() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
