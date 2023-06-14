@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,23 +26,25 @@ public class UserAPI {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
-    public void createUser(User user, ICallback callback) {
+    public void createUser(User user, ICallback<String> callback) {
         Call<String> call = webServiceAPI.createUser(user);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (!response.isSuccessful()) {
+                if (response.code() == 200) {
+                    callback.onSuccess("yes"); // Pass the response object to onSuccess()
+                } else {
                     String errorMsg = null;
                     try {
-                        errorMsg = response.errorBody().string();
+                        ResponseBody errorBody = response.errorBody();
+                        if (errorBody != null) {
+                            errorMsg = errorBody.string();
+                        }
+                        callback.onFailure(errorMsg);
                     } catch (IOException e) {
-
+                        e.printStackTrace();
                     }
                     callback.onFailure(errorMsg);
-
-                } else {
-                    callback.onSuccess(null);
-                }
             }
 
             @Override
@@ -49,6 +53,7 @@ public class UserAPI {
             }
         });
     }
+
 
     public void get(String username, String token, ICallback callback) {
         Call<User> call = webServiceAPI.getUser(username, token);
