@@ -18,10 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="10pt"
         android:src="@drawable/ic_add"
-        android:contentDescription="Add Button"
+        android:contentDescription="@string/add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/color"
+        android:backgroundTint="@color/background"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
