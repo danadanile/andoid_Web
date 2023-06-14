@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.ex4.BaseUrlManager;
 import com.example.ex4.R;
 
 public class Settings extends AppCompatActivity {

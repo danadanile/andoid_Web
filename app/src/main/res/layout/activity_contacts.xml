@@ -24,4 +24,16 @@
         android:backgroundTint="@color/background"
         />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10pt"
+        android:layout_marginRight="10pt"
+        android:backgroundTint="@color/color"
+        android:contentDescription="@string/logout"
+        android:src="@drawable/ic_Logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
