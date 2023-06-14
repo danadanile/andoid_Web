@@ -1,13 +1,8 @@
-package com.example.ex4;
+package com.example.ex4.pages;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import com.example.ex4.api.ICallback;
+import com.example.ex4.R;
+import com.example.ex4.schemas.User;
+import com.example.ex4.api.UserAPI;
 
 public class Register extends AppCompatActivity {
     private final int GALLERY_REQ_CODE = 1000;

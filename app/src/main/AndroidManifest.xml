@@ -20,22 +20,22 @@
 
 
         <activity
-            android:name=".AddContact"
+            android:name=".pages.AddContact"
             android:exported="false" />
         <activity
-            android:name=".Chat"
+            android:name=".pages.ChatPage"
             android:exported="false" />
         <activity
-            android:name=".Settings"
+            android:name=".pages.Settings"
             android:exported="false" />
         <activity
             android:name=".Contact"
             android:exported="false" />
         <activity
-            android:name=".Contacts"
+            android:name=".pages.Contacts"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".pages.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Register"
+            android:name=".pages.Register"
             android:exported="true" />
     </application>
 

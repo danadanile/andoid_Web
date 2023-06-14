@@ -1,10 +1,13 @@
-package com.example.ex4;
+package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.example.ex4.R;
+import com.example.ex4.pages.AddContact;
 
 public class Contacts extends AppCompatActivity {
 

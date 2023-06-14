@@ -1,8 +1,9 @@
-package com.example.ex4;
+package com.example.ex4.api;
 
-import androidx.annotation.NonNull;
-
-import com.google.gson.Gson;
+import com.example.ex4.MyApplication;
+import com.example.ex4.R;
+import com.example.ex4.schemas.User;
+import com.example.ex4.schemas.UserLogin;
 
 import java.io.IOException;
 
@@ -45,6 +46,7 @@ public class UserAPI {
                         e.printStackTrace();
                     }
                     callback.onFailure(errorMsg);
+                }
             }
 
             @Override
@@ -103,5 +105,4 @@ public class UserAPI {
     }
 
 }
-
 

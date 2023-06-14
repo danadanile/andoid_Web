@@ -1,4 +1,4 @@
-package com.example.ex4;
+package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.ex4.api.ICallback;
+import com.example.ex4.R;
+import com.example.ex4.api.UserAPI;
+import com.example.ex4.schemas.UserLogin;
 
 public class Login extends AppCompatActivity {
 

@@ -1,4 +1,7 @@
-package com.example.ex4;
+package com.example.ex4.api;
+
+import com.example.ex4.schemas.User;
+import com.example.ex4.schemas.UserLogin;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

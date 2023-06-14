@@ -1,10 +1,12 @@
-package com.example.ex4;
+package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Chat extends AppCompatActivity {
+import com.example.ex4.R;
+
+public class ChatPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

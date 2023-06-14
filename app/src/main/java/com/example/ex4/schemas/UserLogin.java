@@ -1,4 +1,4 @@
-package com.example.ex4;
+package com.example.ex4.schemas;
 
 public class UserLogin {
 

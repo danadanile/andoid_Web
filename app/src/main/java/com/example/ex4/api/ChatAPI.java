@@ -1,6 +1,7 @@
-package com.example.ex4;
+package com.example.ex4.api;
 
-import java.io.IOException;
+import com.example.ex4.MyApplication;
+import com.example.ex4.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
