@@ -33,8 +33,15 @@ public class UserAPI {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
+
+        // Get the singleton instance of BaseUrlManager
+        BaseUrlManager baseUrlManager = BaseUrlManager.getInstance();
+
+        // Access the current base URL
+        String currentBaseUrl = baseUrlManager.getBaseUrl();
+
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
+                .baseUrl(currentBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

@@ -1,4 +1,4 @@
-package com.example.ex4.pages;
+package com.example.ex4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.ex4.R;
-import com.example.ex4.pages.AddContact;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity {
 
@@ -17,9 +16,18 @@ public class Contacts extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
 
         // Navigate to the add contact page
-        Button bthAdd = findViewById(R.id.btnAdd);
+        FloatingActionButton bthAdd = findViewById(R.id.btnAdd);
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
+            startActivity(intent);
+        });
+        NavigateToLogin();
+    }
+
+    private void NavigateToLogin() {
+        Button bthRegister = findViewById(R.id.btnLogout);
+        bthRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         });
     }

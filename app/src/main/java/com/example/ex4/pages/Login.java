@@ -13,12 +13,10 @@ import com.example.ex4.R;
 import com.example.ex4.api.UserAPI;
 import com.example.ex4.schemas.UserLogin;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class Login extends AppCompatActivity {
-
-//    private String username;
-//    private String password;
     private String token;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +24,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         handleLogin();
+        handleSettings();
 
         NavigateToRegister();
+    }
+
+    private void handleSettings() {
+        // Navigate to the settings page
+        FloatingActionButton btnSettings = findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Settings.class);
+            startActivity(intent);
+        });
     }
 
     private void NavigateToRegister() {

@@ -18,4 +18,9 @@
     <string name="add">add</string>
     <string name="send">Send</string>
     <string name="BaseUrl">http://10.0.2.2:5000/api/</string>
+    <string name="settings">Settings</string>
+    <string name="address_text">Address of the server:</string>
+    <string name="add_button">Add Button</string>
+    <string name="save">Save</string>
+    <string name="nothing">nothing</string>
 </resources>
