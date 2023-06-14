@@ -1,10 +1,10 @@
-package com.example.ex4.pages;
+package com.example.ex4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.ex4.R;
+import android.widget.Button;
 
 public class ChatPage extends AppCompatActivity {
 
@@ -12,5 +12,14 @@ public class ChatPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        NavigateToContacts();
+    }
+
+    private void NavigateToContacts() {
+        Button bthRegister = findViewById(R.id.btnExitChat);
+        bthRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Contacts.class);
+            startActivity(intent);
+        });
     }
 }
