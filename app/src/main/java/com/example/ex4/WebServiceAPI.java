@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 
 public interface WebServiceAPI {
  @GET("Users/{username}")
- Call<User> getUser(@Path("username") String username);
+ Call<User> getUser(@Path("username") String username, @Header("Authorization") String token);
 
  @POST("Users")
  Call<String> createUser(@Body User user);
