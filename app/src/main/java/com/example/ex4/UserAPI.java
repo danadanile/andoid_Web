@@ -1,7 +1,9 @@
 package com.example.ex4;
 
 import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
+
 import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +37,7 @@ public class UserAPI {
 
                     }
                     callback.onFailure(errorMsg);
+
                 } else {
                     callback.onSuccess(null);
                 }
@@ -47,19 +50,53 @@ public class UserAPI {
         });
     }
 
-    public void get(String username) {
-        Call<User> call = webServiceAPI.getUser(username);
+    public void get(String username, String token, ICallback callback) {
+        Call<User> call = webServiceAPI.getUser(username, token);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                User user = response.body();
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()) {
+                    User user = response.body();
+                    callback.onSuccess(user);
+                }
+                else {
+                    callback.onFailure("Failed to login");
+                }
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
             }
         });
     }
+
+    public  void login(UserLogin userLogin, ICallback callback) {
+        Call<String> call = webServiceAPI.login(userLogin);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    String token = response.body();
+                    callback.onSuccess(token);
+                }
+                else  {
+                    String errorMsg = null;
+                    try {
+                        errorMsg = response.errorBody().string();
+                    } catch (IOException e) {
+                    }
+                    callback.onFailure(errorMsg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+    }
+
 }
 
 
