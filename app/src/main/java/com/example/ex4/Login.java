@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
 
 //    private String username;
 //    private String password;
+    private String token;
 
 
     @Override
@@ -49,10 +51,23 @@ public class Login extends AppCompatActivity {
             String password = passwordInput.getText().toString();
 
             UserLogin userLogin = new UserLogin(username, password);
+            UserAPI userAPI = new UserAPI();
 
+            userAPI.login(userLogin, new ICallback() {
+                @Override
+                public void onSuccess(Object response) {
+                    token = (String) response;
+                    Intent intent = new Intent(getApplicationContext(), Contacts.class);
+                    intent.putExtra("token", token);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    TextView errorElement = findViewById(R.id.error);
+                    errorElement.setText(error);
+                }
+            });
         });
-        NavigateToContacts();
     }
-
-
 }
