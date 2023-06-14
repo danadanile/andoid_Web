@@ -15,8 +15,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 
 public class UserAPI {
+
+    private String error;
+    private String token;
 
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
@@ -35,82 +41,102 @@ public class UserAPI {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
-    public void createUser(User user, ICallback<String> callback) {
-        Call<String> call = webServiceAPI.createUser(user);
-        call.enqueue(new Callback<String>() {
+    public void createUser(User user, ICallback callback) {
+        Call<Void> call = webServiceAPI.createUser(user);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
-                    callback.onSuccess("yes"); // Pass the response object to onSuccess()
+                    callback.status(true);
                 } else {
-                    String errorMsg = null;
                     try {
-                        ResponseBody errorBody = response.errorBody();
-                        if (errorBody != null) {
-                            errorMsg = errorBody.string();
-                        }
-                        callback.onFailure(errorMsg);
+                        String errorBodyString = response.errorBody().string();
+                        JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
+                        String errorMsg = errorJson.get("error").getAsString();
+                        setError(errorMsg);
+                        callback.status(false);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
-                    callback.onFailure(errorMsg);
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-    public void get(String username, String token, ICallback callback) {
-        Call<User> call = webServiceAPI.getUser(username, token);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
-                    User user = response.body();
-                    callback.onSuccess(user);
-                }
-                else {
-                    callback.onFailure("Failed to login");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.status(false);
             }
         });
     }
 
-    public  void login(UserLogin userLogin, ICallback callback) {
-        Call<String> call = webServiceAPI.login(userLogin);
-        call.enqueue(new Callback<String>() {
+
+//    public void get(String username, String token, ICallback callback) {
+//        Call<User> call = webServiceAPI.getUser(username, token);
+//        call.enqueue(new Callback<User>() {
+//            @Override
+//            public void onResponse(Call<User> call, Response<User> response) {
+//                if(response.isSuccessful()) {
+//                    User user = response.body();
+//                    callback.onSuccess(user);
+//                }
+//                else {
+//                    callback.onFailure("Failed to login");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User> call, Throwable t) {
+//            }
+//        });
+//    }
+
+    public void login(UserLogin userLogin, ICallback callback) {
+        Call<JsonObject> call = webServiceAPI.login(userLogin);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()) {
-                    String token = response.body();
-                    callback.onSuccess(token);
-                }
-                else  {
-                    String errorMsg = null;
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    JsonObject body = response.body();
+                    if (body != null && body.has("token")) {
+                        String token = body.get("token").getAsString();
+                        setToken(token);
+                        callback.status(true);
+                    }
+                } else {
                     try {
-                        errorMsg = response.errorBody().string();
+                        String errorBodyString = response.errorBody().string();
+                        JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
+                        String errorMsg = errorJson.get("error").getAsString();
+                        setError(errorMsg);
+                        callback.status(false);
                     } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    callback.onFailure(errorMsg);
                 }
+
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.status(false);
             }
-        });
 
+        });
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
 

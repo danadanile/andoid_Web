@@ -22,27 +22,27 @@ public class ChatAPI {
             webServiceAPI = retrofit.create(WebServiceAPI.class);
         }
 
-        public void getChats(String token, ICallback callback) {
-            Call<String> call = webServiceAPI.getChats(token);
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-//                         errorMsg = null;
+//        public void getChats(String token, ICallback callback) {
+//            Call<String> call = webServiceAPI.getChats(token);
+//            call.enqueue(new Callback<String>() {
+//                @Override
+//                public void onResponse(Call<String> call, Response<String> response) {
+//                    if (response.isSuccessful()) {
+////                         errorMsg = null;
+////
+////                        callback.onFailure(errorMsg);
 //
-//                        callback.onFailure(errorMsg);
-
-                    } else {
-                        callback.onSuccess(null);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-
-                }
-            });
-        }
+//                    } else {
+//                        callback.onSuccess(null);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<String> call, Throwable t) {
+//
+//                }
+//            });
+//        }
 
 //        public void get(String username) {
 //            Call<User> call = webServiceAPI.getUser(username);
