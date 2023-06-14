@@ -19,5 +19,14 @@ public class Contacts extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
             startActivity(intent);
         });
+        NavigateToLogin();
+    }
+
+    private void NavigateToLogin() {
+        Button bthRegister = findViewById(R.id.btnLogout);
+        bthRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+        });
     }
 }
