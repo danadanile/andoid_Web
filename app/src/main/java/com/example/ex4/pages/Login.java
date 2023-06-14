@@ -68,17 +68,17 @@ public class Login extends AppCompatActivity {
 
             userAPI.login(userLogin, new ICallback() {
                 @Override
-                public void onSuccess(Object response) {
-                    token = (String) response;
-                    Intent intent = new Intent(getApplicationContext(), Contacts.class);
-                    intent.putExtra("token", token);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    TextView errorElement = findViewById(R.id.error);
-                    errorElement.setText(error);
+                public void status(boolean status) {
+                    if(status) {
+                        token = "Bearer " + userAPI.getToken();
+                        Intent intent = new Intent(getApplicationContext(), Contacts.class);
+                        intent.putExtra("token", token);
+                        startActivity(intent);
+                    } else {
+                        String error = userAPI.getError();
+                        TextView errorElement = findViewById(R.id.error);
+                        errorElement.setText(error);
+                    }
                 }
             });
         });

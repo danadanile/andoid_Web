@@ -3,6 +3,9 @@ package com.example.ex4.api;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
 
+import com.google.gson.JsonObject;
+
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -15,9 +18,9 @@ public interface WebServiceAPI {
  Call<User> getUser(@Path("username") String username, @Header("Authorization") String token);
 
  @POST("Users")
- Call<String> createUser(@Body User user);
+ Call<Void> createUser(@Body User user);
  @POST("Tokens")
- Call<String> login(@Body UserLogin userLogin);
+ Call<JsonObject> login(@Body UserLogin userLogin);
 
  @GET("Chats")
  Call<String> getChats(@Header("Authorization") String token);

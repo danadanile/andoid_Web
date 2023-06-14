@@ -92,6 +92,8 @@ public class Register extends AppCompatActivity {
     private void handleRegister() {
         Button bthRegister = findViewById(R.id.registerButton);
         bthRegister.setOnClickListener(view -> {
+            TextView errorElement = findViewById(R.id.error);
+            errorElement.setText("");
             EditText usernameInput = findViewById(R.id.username);
             String username = usernameInput.getText().toString();
 
@@ -112,22 +114,23 @@ public class Register extends AppCompatActivity {
 
             UserAPI userAPI = new UserAPI();
 
-            userAPI.createUser(user, new ICallback<String>() {
+            userAPI.createUser(user, new ICallback() {
                 @Override
-                public void onSuccess(String response) {
-                    Intent intent = new Intent(getApplicationContext(), Login.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    if (!confirmPassword.equals(password)) {
+                public void status(boolean status) {
+                    if(status) {
+                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        startActivity(intent);
+                    } else {
+                        String error = "Invalid " + userAPI.getError();
+                        if (!confirmPassword.equals(password)) {
                         error += ", confirm password ";
+                         }
+                        TextView errorElement = findViewById(R.id.error);
+                        errorElement.setText(error);
                     }
-                    TextView errorElement = findViewById(R.id.error);
-                    errorElement.setText(error);
                 }
             });
         });
     }
 }
+
