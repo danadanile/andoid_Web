@@ -86,7 +86,7 @@
                 android:drawablePadding="8dp"
                 android:hint="@string/display_name"
                 android:importantForAutofill="no"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/already_registered"
                 android:textColor="@color/grey"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
@@ -168,12 +168,12 @@
 
             <Button
                 android:id="@+id/loginButton"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="12dp"
                 android:backgroundTint="@color/color"
                 android:text="@string/login"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 app:cornerRadius="20dp"
                 app:layout_constraintStart_toEndOf="@+id/signupText"
                 app:layout_constraintVertical_bias="0.5"
