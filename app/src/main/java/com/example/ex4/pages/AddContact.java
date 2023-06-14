@@ -1,10 +1,12 @@
-package com.example.ex4;
+package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.ex4.R;
 
 public class AddContact extends AppCompatActivity {
     private String contactUsername;

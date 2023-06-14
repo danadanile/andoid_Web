@@ -1,12 +1,15 @@
-package com.example.ex4;
+package com.example.ex4.api;
 
-import androidx.annotation.NonNull;
-
-import com.google.gson.Gson;
+import com.example.ex4.MyApplication;
+import com.example.ex4.R;
+import com.example.ex4.schemas.User;
+import com.example.ex4.schemas.UserLogin;
 
 import java.io.IOException;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,9 +22,15 @@ public class UserAPI {
     WebServiceAPI webServiceAPI;
 
     public UserAPI() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
@@ -45,6 +54,7 @@ public class UserAPI {
                         e.printStackTrace();
                     }
                     callback.onFailure(errorMsg);
+                }
             }
 
             @Override
@@ -103,5 +113,4 @@ public class UserAPI {
     }
 
 }
-
 

@@ -1,4 +1,4 @@
-package com.example.ex4;
+package com.example.ex4.api;
 
 public interface ICallback <T>{
     void onSuccess(T response);

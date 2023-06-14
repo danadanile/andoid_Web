@@ -1,4 +1,4 @@
-package com.example.ex4;
+package com.example.ex4.schemas;
 
 public class User {
     private String username;
