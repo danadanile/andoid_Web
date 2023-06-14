@@ -23,4 +23,6 @@
     <string name="add_button">Add Button</string>
     <string name="save">Save</string>
     <string name="nothing">nothing</string>
+    <string name="exit_chat" />
+    <string name="logout" />
 </resources>
