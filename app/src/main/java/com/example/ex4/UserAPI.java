@@ -19,8 +19,14 @@ public class UserAPI {
     WebServiceAPI webServiceAPI;
 
     public UserAPI() {
+        // Get the singleton instance of BaseUrlManager
+        BaseUrlManager baseUrlManager = BaseUrlManager.getInstance();
+
+        // Access the current base URL
+        String currentBaseUrl = baseUrlManager.getBaseUrl();
+
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
+                .baseUrl(currentBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -45,6 +51,7 @@ public class UserAPI {
                         e.printStackTrace();
                     }
                     callback.onFailure(errorMsg);
+                }
             }
 
             @Override
@@ -60,11 +67,10 @@ public class UserAPI {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     User user = response.body();
                     callback.onSuccess(user);
-                }
-                else {
+                } else {
                     callback.onFailure("Failed to login");
                 }
             }
@@ -75,16 +81,15 @@ public class UserAPI {
         });
     }
 
-    public  void login(UserLogin userLogin, ICallback callback) {
+    public void login(UserLogin userLogin, ICallback callback) {
         Call<String> call = webServiceAPI.login(userLogin);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     String token = response.body();
                     callback.onSuccess(token);
-                }
-                else  {
+                } else {
                     String errorMsg = null;
                     try {
                         errorMsg = response.errorBody().string();
@@ -103,5 +108,6 @@ public class UserAPI {
     }
 
 }
+
 
 

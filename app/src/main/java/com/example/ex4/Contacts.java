@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class Contacts extends AppCompatActivity {
 
     @Override
@@ -14,7 +16,7 @@ public class Contacts extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
 
         // Navigate to the add contact page
-        Button bthAdd = findViewById(R.id.btnAdd);
+        FloatingActionButton bthAdd = findViewById(R.id.btnAdd);
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
             startActivity(intent);

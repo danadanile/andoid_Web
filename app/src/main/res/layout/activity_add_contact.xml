@@ -46,7 +46,6 @@
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
-
             <TextView
                 android:id="@+id/error"
                 android:layout_width="match_parent"
