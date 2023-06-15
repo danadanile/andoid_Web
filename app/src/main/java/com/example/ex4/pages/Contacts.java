@@ -32,6 +32,17 @@ public class Contacts extends AppCompatActivity {
         bthRegister.setOnClickListener(view -> {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
+
         });
     }
+
+//    private void NavigateToChatPage() {
+//        Button btnExitChat = findViewById(R.id.);
+//        btnExitChat.setOnClickListener(view -> {
+//            Intent intent = new Intent(this, ChatPage.class);
+//            intent.putExtra("username", );
+//            intent.putExtra("photo", R.mipmap.ic_launcher_round); // Replace R.mipmap.ic_launcher_round with the actual photo resource
+//            startActivity(intent);
+//        });
+
 }

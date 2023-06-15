@@ -66,8 +66,62 @@
                     android:paddingStart="8dp"
                     android:hint="@string/nothing"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose Color"
+                    android:textSize="17sp"
+                    android:textColor="@color/color"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp" />
+
+                <Button
+                    android:id="@+id/blueButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:backgroundTint="@color/blue"
+                    android:text="@string/blue"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cornerRadius="15dp" />
+
+                <Button
+                    android:id="@+id/redButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/red"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cornerRadius="15dp" />
+
+                <Button
+                    android:id="@+id/pinkButton"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:backgroundTint="@color/color"
+
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cornerRadius="15dp" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/saveButton"
@@ -79,6 +133,4 @@
             android:textSize="18sp"
             app:cornerRadius="20dp" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
