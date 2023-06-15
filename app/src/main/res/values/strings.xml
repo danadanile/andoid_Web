@@ -25,4 +25,5 @@
     <string name="nothing">nothing</string>
     <string name="exit_chat" />
     <string name="logout" />
+    <string name="blue" />
 </resources>
