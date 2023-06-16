@@ -34,7 +34,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color"
+        android:background="@color/default_color"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="78dp" />
@@ -56,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/screen_layout"
+                android:background="@drawable/pink_frame"
                 android:hint="@string/newMsg"
                 android:importantForAutofill="no"
                 android:inputType="text"
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="12dp"
-                android:backgroundTint="@color/color"
+                android:backgroundTint="@color/default_color"
                 android:text="@string/send"
                 android:textSize="16sp"
                 app:cornerRadius="20dp"

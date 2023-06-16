@@ -1,12 +1,15 @@
 package com.example.ex4.pages;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,11 +24,17 @@ public class Register extends AppCompatActivity {
     private final int GALLERY_REQ_CODE = 1000;
     private ImageView imgGallery;
     private String base64Image;
+    private int selectedColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        Intent intent = getIntent();
+        selectedColor = intent.getIntExtra("selectedColor", 0);
+
+        setSelectedColorAndFrame();
 
         showImage();
 
@@ -85,6 +94,7 @@ public class Register extends AppCompatActivity {
         Button bthLogin = findViewById(R.id.loginButton);
         bthLogin.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Login.class);
+            intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
         });
     }
@@ -131,6 +141,62 @@ public class Register extends AppCompatActivity {
                 }
             });
         });
+    }
+
+
+    private void setEditTextBackground(int editTextId, int drawableId) {
+        EditText editText = findViewById(editTextId);
+        Drawable drawable = getResources().getDrawable(drawableId);
+        editText.setBackground(drawable);
+    }
+
+    // Call this method to change the background drawable of the username EditText
+    private void setFrameEditTextBackground(int drawableId) {
+        setEditTextBackground(R.id.username, drawableId);
+        setEditTextBackground(R.id.password, drawableId);
+        setEditTextBackground(R.id.confirm_password, drawableId);
+        setEditTextBackground(R.id.display_name, drawableId);
+    }
+
+    private void setButtonAndTextColors(int colorResId) {
+        int color = getResources().getColor(colorResId);
+
+        Button loginButton = findViewById(R.id.loginButton);
+        loginButton.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        Button registerButton = findViewById(R.id.registerButton);
+        registerButton.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        Button galleryButton = findViewById(R.id.gallery);
+        galleryButton.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        TextView loginText = findViewById(R.id.registerText);
+        loginText.setTextColor(color);
+    }
+
+    private void setSelectedColorAndFrame() {
+        // Retrieve the selected color from the intent
+
+        if (selectedColor != 0) {
+            LinearLayout rootLayout = findViewById(R.id.rootLayout);
+            // Set the background color
+            rootLayout.setBackgroundColor(selectedColor);
+
+            int defaultColor = getResources().getColor(R.color.default_background);
+            int purpleColor = getResources().getColor(R.color.purple_background);
+            int blueColor = getResources().getColor(R.color.blue_background);
+
+            if (selectedColor == blueColor) {
+                setFrameEditTextBackground(R.drawable.blue_frame);
+                setButtonAndTextColors(R.color.blue);
+            } else if (selectedColor == defaultColor) {
+                setFrameEditTextBackground(R.drawable.pink_frame);
+                setButtonAndTextColors(R.color.default_color);
+            } else if (selectedColor == purpleColor) {
+                setFrameEditTextBackground(R.drawable.purple_frame);
+                setButtonAndTextColors(R.color.purple);
+            }
+        }
     }
 }
 

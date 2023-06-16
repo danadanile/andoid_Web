@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/default_background"
     android:gravity="center"
     android:orientation="vertical"
 
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/new_contact"
                 android:textAlignment="center"
-                android:textColor="@color/color"
+                android:textColor="@color/default_color"
                 android:textSize="28sp"
                 android:textStyle="normal" />
 
@@ -40,7 +40,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
                 android:autofillHints="no"
-                android:background="@drawable/screen_layout"
+                android:background="@drawable/pink_frame"
                 android:drawablePadding="8dp"
                 android:inputType="text"
                 android:padding="8dp"
@@ -53,7 +53,7 @@
                 android:layout_marginTop="30dp"
                 android:text=""
                 android:textAlignment="center"
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
-                android:backgroundTint="@color/color"
+                android:backgroundTint="@color/default_color"
                 android:text="@string/add"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />

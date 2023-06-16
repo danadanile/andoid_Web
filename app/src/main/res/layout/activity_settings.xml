@@ -23,7 +23,7 @@
             android:layout_marginBottom="30dp"
             android:text="@string/settings"
             android:textAlignment="center"
-            android:textColor="@color/color"
+            android:textColor="@color/default_color"
             android:textSize="25sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/address_text"
-                    android:textColor="@color/color"
+                    android:textColor="@color/default_color"
                     android:textSize="17sp"
                     android:textStyle="normal"
                     app:layout_constraintBaseline_toBaselineOf="@+id/address"
@@ -56,7 +56,7 @@
                     android:id="@+id/address"
                     android:layout_width="220dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/screen_layout"
+                    android:background="@drawable/pink_frame"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:textColor="@color/black"
@@ -73,11 +73,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/colors"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Choose Color"
                     android:textSize="17sp"
-                    android:textColor="@color/color"
+                    android:textColor="@color/default_color"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp" />
@@ -88,7 +89,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="16dp"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/blue_background"
                     android:text="@string/blue"
                     android:layout_marginTop="16dp"
                     android:textColor="@color/white"
@@ -102,7 +103,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/red"
+                    android:backgroundTint="@color/purple_background"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:cornerRadius="15dp" />
@@ -114,7 +115,7 @@
                     android:layout_weight="1"
                     android:layout_marginTop="16dp"
                     android:layout_marginLeft="16dp"
-                    android:backgroundTint="@color/color"
+                    android:backgroundTint="@color/default_background"
 
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -128,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/color"
+            android:backgroundTint="@color/default_color"
             android:text="@string/save"
             android:textSize="18sp"
             app:cornerRadius="20dp" />
