@@ -73,10 +73,6 @@ public class ChatPage extends AppCompatActivity {
                 if(status) {
                     List<Message> messages= chatAPI.getMessages();
  //                   displayMessages(messages);
-                } else {
-                    String error = chatAPI.getError();
-                    TextView errorElement = findViewById(R.id.error);
-                    errorElement.setText(error);
                 }
             }
         });
@@ -126,10 +122,6 @@ public class ChatPage extends AppCompatActivity {
                 public void status(boolean status) {
                     if(status) {
                         finish();
-                    } else {
-                        String error = chatAPI.getError();
-                        TextView errorElement = findViewById(R.id.error);
-                        errorElement.setText(error);
                     }
                 }
             });
