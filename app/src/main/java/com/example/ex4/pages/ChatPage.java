@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
@@ -41,20 +42,20 @@ public class ChatPage extends AppCompatActivity {
 
     private void getMessagesChat() {
 
-//        ChatAPI chatAPI = new ChatAPI();
-//
-//        chatAPI.getMessages(token, id, new ICallback() {
-//            @Override
-//            public void status(boolean status) {
-//                if(status) {
-//                    finish();
-//                } else {
-//                    String error = chatAPI.getError();
-//                    TextView errorElement = findViewById(R.id.error);
-//                    errorElement.setText(error);
-//                }
-//            }
-//        });
+        ChatAPI chatAPI = new ChatAPI();
+
+        chatAPI.getMessages(MyApplication.getToken(), id, new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if(status) {
+                    //finish();
+                } else {
+                    String error = chatAPI.getError();
+                    TextView errorElement = findViewById(R.id.error);
+                    errorElement.setText(error);
+                }
+            }
+        });
 
     }
 
@@ -79,4 +80,13 @@ public class ChatPage extends AppCompatActivity {
             contactProfileImg.setImageResource(photoRes);
         }
     }
+
+
+    ///////////////////////////////////////////////////////////////check
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        // Call getMessagesChat() method again when the activity resumes
+//        getMessagesChat();
+//    }
 }

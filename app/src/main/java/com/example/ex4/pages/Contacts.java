@@ -135,4 +135,11 @@ public class Contacts extends AppCompatActivity {
 //            startActivity(intent);
 //        });
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Call getContacts() method again when the activity resumes
+        getContacts();
+    }
+
 }
