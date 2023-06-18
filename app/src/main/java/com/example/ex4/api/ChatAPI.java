@@ -88,22 +88,12 @@ public class ChatAPI {
         call.enqueue(new Callback<List<Contact>>() {
             @Override
             public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
-                Log.d("Response", "Response Code: " + response.code()); // Log the response code
                 if (response.isSuccessful()) {
                     setContactList(response.body());
                     callback.status(true);
                 } else {
-                    try {
-                        if (response.errorBody() != null) {
-                            String errorBodyString = response.errorBody().string();
-                            JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
-                            String errorMsg = errorJson.get("error").getAsString();
-                            setError(errorMsg);
-                        }
-                        callback.status(false);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Log.e("API Error", "Failed to get chats ");
+                    callback.status(false);
                 }
             }
 
@@ -123,15 +113,8 @@ public class ChatAPI {
                     setMessages(response.body());
                     callback.status(true);
                 } else {
-                    try {
-                        String errorBodyString = response.errorBody().string();
-                        JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
-                        String errorMsg = errorJson.get("error").getAsString();
-                        setError(errorMsg);
-                        callback.status(false);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Log.e("API Error", "Failed to get messages ");
+                    callback.status(false);
                 }
             }
 
@@ -151,17 +134,8 @@ public class ChatAPI {
                 if (response.isSuccessful()) {
                     callback.status(true);
                 } else {
-                    try {
-                        if (response.errorBody() != null) {
-                            String errorBodyString = response.errorBody().string();
-                            JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
-                            String errorMsg = errorJson.get("error").getAsString();
-                            setError(errorMsg);
-                        }
-                        callback.status(false);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Log.e("API Error", "Failed to add message ");
+                    callback.status(false);
                 }
             }
             @Override

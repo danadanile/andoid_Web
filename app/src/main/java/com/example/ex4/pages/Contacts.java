@@ -80,7 +80,6 @@ public class Contacts extends AppCompatActivity {
 //                                contactAdapter.notifyDataSetChanged();
 //                            }
 //                        });
-                    } else {
                     }
                 }
             });
