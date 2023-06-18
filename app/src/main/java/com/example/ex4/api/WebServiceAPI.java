@@ -1,6 +1,8 @@
 package com.example.ex4.api;
 
 import com.example.ex4.schemas.Contact;
+import com.example.ex4.schemas.Message;
+import com.example.ex4.schemas.Msg;
 import com.example.ex4.schemas.Username;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
@@ -33,9 +35,9 @@ public interface WebServiceAPI {
  Call<Void> addContact(@Header("authorization") String authorization, @Body Username username);
 
  @GET("Chats/{id}/Messages")
- Call<String> getMessages(@Header("Authorization") String token, @Path("id") String selectedId);
+ Call<List<Message>> getMessages(@Header("authorization") String token, @Path("id") int selectedId);
 
  @POST("Chats/{id}/Messages")
- Call<String> addMessage(@Header("Authorization") String token, @Path("id") String selectedId,@Body String message);
+ Call<Void> addMessage(@Header("authorization") String token, @Path("id") int selectedId, @Body Msg message);
 }
 
