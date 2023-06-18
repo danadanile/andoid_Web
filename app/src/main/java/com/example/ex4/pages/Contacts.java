@@ -5,23 +5,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ex4.ContactAdapter;
 import com.example.ex4.R;
+import com.example.ex4.api.ChatAPI;
+import com.example.ex4.api.ICallback;
 import com.example.ex4.pages.AddContact;
 import com.example.ex4.pages.Login;
+import com.example.ex4.schemas.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class Contacts extends AppCompatActivity {
     private int selectedColor;
     private String token;
+    private ListView lstContacts;
+
+    public void setLstContacts(ListView lstContacts) {
+        this.lstContacts = lstContacts;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
+        setLstContacts((ListView) findViewById(R.id.lstContacts));
 
         handleSettings();
 
@@ -39,8 +57,8 @@ public class Contacts extends AppCompatActivity {
             setToken(intent.getExtras().getString("token"));
         }
         NavigateToAddContact();
-
         NavigateToLogin();
+        getContacts();
     }
 
     public void setToken(String token) {
@@ -63,6 +81,31 @@ public class Contacts extends AppCompatActivity {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         });
+    }
+
+    private void getContacts() {
+
+            ChatAPI chatAPI = new ChatAPI();
+
+            chatAPI.getChats(token, new ICallback() {
+                @Override
+                public void status(boolean status) {
+                    if(status) {
+                        List<Contact> contactList =  chatAPI.getContactList();
+                        final ContactAdapter contactAdapter = new ContactAdapter(contactList);
+                        lstContacts.setAdapter(contactAdapter);
+//                        lstContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                Contact contact = contactList.get(position);
+//                                //p.select();
+//                                contactAdapter.notifyDataSetChanged();
+//                            }
+//                        });
+                    } else {
+                    }
+                }
+            });
     }
 
     private void setButtonAndTextColors(int colorResId) {

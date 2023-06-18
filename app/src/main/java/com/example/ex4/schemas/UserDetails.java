@@ -11,4 +11,16 @@ public class UserDetails {
         this.displayName = displayName;
         this.profilePic = profilePic;
     }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
 }
