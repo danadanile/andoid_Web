@@ -43,4 +43,18 @@ public class ChatPage extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    private void displayContactInfo() {
+        TextView contactName = findViewById(R.id.contact_name);
+        ImageView contactProfileImg = findViewById(R.id.contact_profile_img);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String username = intent.getStringExtra("username");
+            int photoRes = intent.getIntExtra("photo", 0);
+
+            contactName.setText(username);
+            contactProfileImg.setImageResource(photoRes);
+        }
+    }
 }
