@@ -58,6 +58,8 @@ public class Login extends AppCompatActivity {
     private void handleLogin() {
         Button bthLogin = findViewById(R.id.loginButton);
         bthLogin.setOnClickListener(view -> {
+            TextView errorElement = findViewById(R.id.error);
+            errorElement.setText("");
             EditText usernameInput = findViewById(R.id.username);
             String username = usernameInput.getText().toString();
 

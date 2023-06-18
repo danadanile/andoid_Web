@@ -77,25 +77,31 @@ public class UserAPI {
     }
 
 
-//    public void get(String username, String token, ICallback callback) {
-//        Call<User> call = webServiceAPI.getUser(username, token);
-//        call.enqueue(new Callback<User>() {
-//            @Override
-//            public void onResponse(Call<User> call, Response<User> response) {
-//                if(response.isSuccessful()) {
-//                    User user = response.body();
-//                    callback.onSuccess(user);
-//                }
-//                else {
-//                    callback.onFailure("Failed to login");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<User> call, Throwable t) {
-//            }
-//        });
-//    }
+    public void get(String username, String token, ICallback callback) {
+        Call<User> call = webServiceAPI.getUser(username, token);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.code() == 200) {
+                    callback.status(true);
+                } else {
+                    try {
+                        String errorBodyString = response.errorBody().string();
+                        JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
+                        String errorMsg = errorJson.get("error").getAsString();
+                        setError(errorMsg);
+                        callback.status(false);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+            }
+        });
+    }
 
     public void login(UserLogin userLogin, ICallback callback) {
         Call<JsonObject> call = webServiceAPI.login(userLogin);
