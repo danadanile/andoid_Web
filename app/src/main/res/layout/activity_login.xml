@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/rootLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/default_background"
     android:orientation="vertical"
 
     tools:context=".pages.Login">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -21,7 +25,7 @@
             android:id="@+id/btnSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/background"
+            android:backgroundTint="@color/white"
             android:src="@drawable/ic_settings"
             android:contentDescription="@string/settings" />
 
@@ -47,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_welcome"
                 android:textAlignment="center"
-                android:textColor="@color/color"
+                android:textColor="@color/default_color"
                 android:textSize="25sp"
                 android:textStyle="normal" />
 
@@ -56,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/screen_layout"
+                android:background="@drawable/pink_frame"
                 android:drawableStart="@drawable/ic_username"
                 android:drawablePadding="8dp"
                 android:hint="@string/username"
@@ -71,7 +75,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:autofillHints="no"
-                android:background="@drawable/screen_layout"
+                android:background="@drawable/pink_frame"
                 android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="8dp"
                 android:hint="@string/password"
@@ -86,7 +90,7 @@
                 android:layout_marginTop="30dp"
                 android:text=""
                 android:textAlignment="center"
-                android:textColor="@color/red"
+                android:textColor="@color/purple"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 
@@ -95,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
-                android:backgroundTint="@color/color"
+                android:backgroundTint="@color/default_color"
                 android:text="@string/login"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
@@ -113,17 +117,17 @@
             android:id="@+id/signupText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/color"
+            android:backgroundTint="@color/default_color"
             android:text="@string/register_account"
             android:textAlignment="center"
-            android:textColor="@color/grey"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/color"
+            android:backgroundTint="@color/default_color"
             android:text="@string/create"
             android:textAlignment="center"
             android:textSize="18sp"

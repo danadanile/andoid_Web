@@ -21,7 +21,7 @@
         android:contentDescription="@string/add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/background"
+        android:backgroundTint="@color/default_color"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10pt"
         android:layout_marginRight="10pt"
-        android:backgroundTint="@color/color"
+        android:backgroundTint="@color/default_color"
         android:contentDescription="@string/logout"
         android:src="@drawable/ic_logout"
         app:layout_constraintEnd_toEndOf="parent"
