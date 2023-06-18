@@ -3,8 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#837D7D</color>
-    <color name="color">#F49595</color>
-    <color name="red">#BC0E28</color>
+    <color name="default_color">#F49595</color>
+    <color name="purple">#8C6FC1</color>
+    <color name="blue">#87AECC</color>
 
-    <color name="background">#F6E9E9</color>
+    <color name="default_background">#F6E9E9</color>
+    <color name="blue_background">#C9E4E9</color>
+    <color name="purple_background">#D0C9ED</color>
 </resources>

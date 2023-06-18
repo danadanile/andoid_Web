@@ -7,78 +7,147 @@
     tools:context=".pages.Settings">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlHardcoded">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/default_color"
+            android:contentDescription="@string/close"
+            android:src="@drawable/ic_close" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textAlignment="center"
+        android:textColor="@color/default_color"
+        android:textSize="25sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+
+    <LinearLayout
+        android:layout_width="406dp"
+        android:layout_height="663dp"
         android:layout_gravity="center_vertical"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="64dp">
+        app:layout_constraintTop_toBottomOf="@+id/settings"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="5dp">
 
-        <TextView
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/settings"
-            android:textAlignment="center"
-            android:textColor="@color/color"
-            android:textSize="25sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address_text"
+                android:textColor="@color/default_color"
+                android:textSize="17sp"
+                android:layout_marginStart="8dp"
+                android:textStyle="normal"
+                app:layout_constraintBaseline_toBaselineOf="@+id/address"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="227dp"
+                android:layout_height="50dp"
+                android:background="@drawable/pink_frame"
+                android:hint="@string/nothing"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:paddingStart="8dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/server"
+                tools:ignore="LabelFor,MissingConstraints,RtlSymmetry" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/colors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/choose_color"
+                android:textColor="@color/default_color"
+                android:textSize="17sp" />
 
-                <TextView
-                    android:id="@+id/server"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/address_text"
-                    android:textColor="@color/color"
-                    android:textSize="17sp"
-                    android:textStyle="normal"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/address"
-                    app:layout_constraintEnd_toStartOf="@+id/address"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints" />
+            <Button
+                android:id="@+id/blueButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/blue_background"
+                android:text="@string/blue"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="15dp" />
 
-                <EditText
-                    android:id="@+id/address"
-                    android:layout_width="220dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/screen_layout"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/server"
-                    tools:ignore="LabelFor,MissingConstraints,RtlSymmetry"
-                    android:paddingStart="8dp"
-                    android:hint="@string/nothing"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/redButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/purple_background"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="15dp" />
+
+            <Button
+                android:id="@+id/pinkButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/default_background"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="15dp" />
+
         </LinearLayout>
-
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/color"
+            android:backgroundTint="@color/default_color"
             android:text="@string/save"
             android:textSize="18sp"
             app:cornerRadius="20dp" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
