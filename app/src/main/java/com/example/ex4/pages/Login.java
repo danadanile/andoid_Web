@@ -96,6 +96,7 @@ public class Login extends AppCompatActivity {
             String password = passwordInput.getText().toString();
 
             UserLogin userLogin = new UserLogin(username, password);
+            MyApplication.setMyProfile(username);
             UserAPI userAPI = new UserAPI();
 
             userAPI.login(userLogin, new ICallback() {
