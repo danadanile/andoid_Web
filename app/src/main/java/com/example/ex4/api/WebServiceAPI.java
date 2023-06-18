@@ -1,5 +1,6 @@
 package com.example.ex4.api;
 
+import com.example.ex4.schemas.Username;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
 
@@ -10,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -24,14 +26,21 @@ public interface WebServiceAPI {
 
  @GET("Chats")
  Call<String> getChats(@Header("Authorization") String token);
+ //@Headers({ "Content-Type: application/json;charset=UTF-8"})
+ //@POST("Chats")
+ //Call<Void> addContact(@Header("Authorization") String token, @Body Username username);
 
+ @Headers("Content-Type: application/json")
  @POST("Chats")
- Call<String> addContact(@Header("Authorization") String token, String username);
+ Call<Void> addContact(
+         @Header("authorization") String authorization,
+         @Body Username username
+ );
 
  @GET("Chats/{id}/Messages")
  Call<String> getMessages(@Header("Authorization") String token, @Path("id") String selectedId);
 
  @POST("Chats/{id}/Messages")
- Call<String> addMessage(@Header("Authorization") String token, @Path("id") String selectedId, String message);
+ Call<String> addMessage(@Header("Authorization") String token, @Path("id") String selectedId,@Body String message);
 }
 
