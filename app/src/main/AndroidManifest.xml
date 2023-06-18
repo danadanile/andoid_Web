@@ -29,9 +29,6 @@
             android:name=".pages.Settings"
             android:exported="false" />
         <activity
-            android:name=".Contact"
-            android:exported="false" />
-        <activity
             android:name=".pages.Contacts"
             android:exported="false" />
         <activity

@@ -13,4 +13,15 @@ public class Message {
         this.content = content;
     }
 
+    public String getCreated() {
+        return created;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public UserDetails getSender() {
+        return sender;
+    }
 }

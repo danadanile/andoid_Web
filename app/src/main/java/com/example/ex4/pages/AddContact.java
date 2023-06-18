@@ -50,7 +50,7 @@ public class AddContact extends AppCompatActivity {
             EditText Username = findViewById(R.id.contact_username);
             setContactUsername(Username.getText().toString());
 
-            com.example.ex4.schemas.Username username = new Username(contactUsername);
+            Username username = new Username(contactUsername);
 
             ChatAPI chatAPI = new ChatAPI();
 
