@@ -2,6 +2,8 @@ package com.example.ex4.api;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.schemas.Contact;
@@ -53,7 +55,7 @@ public class ChatAPI {
         Call<Void> call = webServiceAPI.addContact(token, username);
         call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     callback.status(true);
                 } else {
@@ -71,7 +73,7 @@ public class ChatAPI {
                 }
             }
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
@@ -82,7 +84,7 @@ public class ChatAPI {
         Call<List<Contact>> call = webServiceAPI.getChats(token);
         call.enqueue(new Callback<List<Contact>>() {
             @Override
-            public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
+            public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
                 Log.d("Response", "Response Code: " + response.code()); // Log the response code
                 if (response.isSuccessful()) {
                     setContactList(response.body());
@@ -110,27 +112,11 @@ public class ChatAPI {
             }
 
             @Override
-            public void onFailure(Call<List<Contact>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Contact>> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
     }
-
-
-//        public void get(String username) {
-//            Call<User> call = webServiceAPI.getUser(username);
-//            call.enqueue(new Callback<User>() {
-//                @Override
-//                public void onResponse(Call<User> call, Response<User> response) {
-//                    User user = response.body();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<User> call, Throwable t) {
-//                }
-//            });
-//        }
-
 
     public void setError(String error) {
         this.error = error;
