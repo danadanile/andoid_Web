@@ -105,6 +105,7 @@ public class Login extends AppCompatActivity {
                         token = "Bearer " + userAPI.getToken();
                         Intent intent = new Intent(getApplicationContext(), Contacts.class);
                         intent.putExtra("token", token);
+                        intent.putExtra("selectedColor", selectedColor);
 
                         startActivity(intent);
                     } else {
@@ -167,5 +168,6 @@ public class Login extends AppCompatActivity {
                 setButtonAndTextColors(R.color.purple);
             }
         }
+
     }
 }

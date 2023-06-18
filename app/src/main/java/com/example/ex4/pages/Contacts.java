@@ -30,6 +30,8 @@ public class Contacts extends AppCompatActivity {
     private String token;
     private ListView lstContacts;
 
+    private static final int SETTINGS_REQUEST_CODE = 1;
+
     public void setLstContacts(ListView lstContacts) {
         this.lstContacts = lstContacts;
     }
@@ -41,12 +43,6 @@ public class Contacts extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
         setLstContacts((ListView) findViewById(R.id.lstContacts));
 
-        handleSettings();
-
-//        Intent intentColor = getIntent();
-//        selectedColor = intentColor.getIntExtra("selectedColor", 0);
-        // setSelectedColorAndFrame();
-
 
         // Get the intent that started this activity
         Intent intent = getIntent();
@@ -56,10 +52,22 @@ public class Contacts extends AppCompatActivity {
             // Retrieve the value of "token" from the intent extras
             setToken(intent.getExtras().getString("token"));
         }
+        Intent intent2 = getIntent();
+        selectedColor = intent2.getIntExtra("selectedColor", 0);
+        Log.d("Contacts", "Selected Color: " + selectedColor);
+
+        handleSettings();
+        setSelectedColorAndFrame();
         NavigateToAddContact();
         NavigateToLogin();
         getContacts();
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        setSelectedColorAndFrame();
+//    }
 
     public void setToken(String token) {
         this.token = token;
@@ -68,9 +76,11 @@ public class Contacts extends AppCompatActivity {
     // Navigate to the add contact page
     private void NavigateToAddContact() {
         FloatingActionButton bthAdd = findViewById(R.id.btnAdd);
+
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
             intent.putExtra("token", token);
+            intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
         });
     }
@@ -79,6 +89,7 @@ public class Contacts extends AppCompatActivity {
         FloatingActionButton btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(view -> {
             Intent intent = new Intent(this, Login.class);
+            intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
         });
     }
@@ -111,11 +122,17 @@ public class Contacts extends AppCompatActivity {
     private void setButtonAndTextColors(int colorResId) {
         int color = getResources().getColor(colorResId);
 
-        Button loginButton = findViewById(R.id.addButton);
-        loginButton.setBackgroundTintList(ColorStateList.valueOf(color));
+        FloatingActionButton addButton = findViewById(R.id.btnAdd);
+        addButton.setBackgroundTintList(null);  // Clear the previous background tint
+        addButton.setBackgroundTintList(ColorStateList.valueOf(color));
 
-        Button registerButton = findViewById(R.id.btnLogout);
-        registerButton.setBackgroundTintList(ColorStateList.valueOf(color));
+        FloatingActionButton logoutButton = findViewById(R.id.btnLogout);
+        logoutButton.setBackgroundTintList(null);  // Clear the previous background tint
+        logoutButton.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        FloatingActionButton settingsButton = findViewById(R.id.btnSettings);
+        settingsButton.setBackgroundTintList(null);  // Clear the previous background tint
+        settingsButton.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     private void handleSettings() {
@@ -128,11 +145,23 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == SETTINGS_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
+//            if (data != null) {
+//                selectedColor = data.getIntExtra("selectedColor", 0);
+//                setSelectedColorAndFrame();
+//            }
+//        }
+//    }
+
+
     private void setSelectedColorAndFrame() {
         // Retrieve the selected color from the intent
-//        Intent intent = getIntent();
-//        int selectedColor = intent.getIntExtra("selectedColor", 0);
-
+//         Intent intent = getIntent();
+//        int color = intent.getIntExtra("selectedColor", 0);
+//        Log.d("Contacts", "Selected Color: " + selectedColor);
         if (selectedColor != 0) {
 
             int defaultColor = getResources().getColor(R.color.default_background);
@@ -146,6 +175,10 @@ public class Contacts extends AppCompatActivity {
             } else if (selectedColor == purpleColor) {
                 setButtonAndTextColors(R.color.purple);
             }
+        }
+
+        else{
+            setButtonAndTextColors(R.color.default_color);
         }
     }
 //    private void NavigateToChatPage() {
