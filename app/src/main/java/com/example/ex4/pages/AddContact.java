@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
@@ -18,7 +19,6 @@ import com.example.ex4.schemas.Username;
 
 public class AddContact extends AppCompatActivity {
     private String contactUsername;
-    private String token;
 
     private int selectedColor;
 
@@ -26,14 +26,11 @@ public class AddContact extends AppCompatActivity {
         this.contactUsername = contactUsername;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
+
 
         // Get the intent that started this activity
         Intent intent = getIntent();
@@ -47,6 +44,8 @@ public class AddContact extends AppCompatActivity {
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
         setSelectedColorAndFrame();
+
+
 
         handleAdd();
     }
@@ -63,7 +62,7 @@ public class AddContact extends AppCompatActivity {
 
             ChatAPI chatAPI = new ChatAPI();
 
-            chatAPI.addContact(token, username, new ICallback() {
+            chatAPI.addContact(MyApplication.getToken(), username, new ICallback() {
                 @Override
                 public void status(boolean status) {
                     if(status) {

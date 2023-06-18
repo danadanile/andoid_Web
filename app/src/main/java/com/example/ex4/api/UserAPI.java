@@ -1,15 +1,13 @@
 package com.example.ex4.api;
 
+import androidx.annotation.NonNull;
+
 import com.example.ex4.BaseUrlManager;
 import com.example.ex4.MyApplication;
-import com.example.ex4.R;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
-
 import java.io.IOException;
-
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,8 +21,6 @@ import com.google.gson.JsonParser;
 public class UserAPI {
 
     private String error;
-    private String token;
-
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
 
@@ -53,7 +49,7 @@ public class UserAPI {
         Call<Void> call = webServiceAPI.createUser(user);
         call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.code() == 200) {
                     callback.status(true);
                 } else {
@@ -70,18 +66,17 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
     }
 
-
     public void get(String username, String token, ICallback callback) {
         Call<User> call = webServiceAPI.getUser(username, token);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.code() == 200) {
                     callback.status(true);
                 } else {
@@ -98,7 +93,8 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                callback.status(false);
             }
         });
     }
@@ -107,12 +103,13 @@ public class UserAPI {
         Call<JsonObject> call = webServiceAPI.login(userLogin);
         call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.code() == 200) {
                     JsonObject body = response.body();
                     if (body != null && body.has("token")) {
                         String token = body.get("token").getAsString();
-                        setToken(token);
+                        token = "Bearer " + token;
+                        MyApplication.setToken(token);
                         callback.status(true);
                     }
                 } else {
@@ -130,7 +127,7 @@ public class UserAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 callback.status(false);
             }
 
@@ -143,14 +140,6 @@ public class UserAPI {
 
     public void setError(String error) {
         this.error = error;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }
 

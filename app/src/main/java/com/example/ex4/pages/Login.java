@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ex4.MyApplication;
 import com.example.ex4.api.ICallback;
 import com.example.ex4.R;
 import com.example.ex4.api.UserAPI;
@@ -20,7 +21,6 @@ import com.example.ex4.schemas.UserLogin;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Login extends AppCompatActivity {
-    private String token;
     private int selectedColor;
     private static final int SETTINGS_REQUEST_CODE = 1;
 
@@ -96,14 +96,15 @@ public class Login extends AppCompatActivity {
             String password = passwordInput.getText().toString();
 
             UserLogin userLogin = new UserLogin(username, password);
+            MyApplication.setMyProfile(username);
             UserAPI userAPI = new UserAPI();
 
             userAPI.login(userLogin, new ICallback() {
                 @Override
                 public void status(boolean status) {
                     if(status) {
-                        token = "Bearer " + userAPI.getToken();
                         Intent intent = new Intent(getApplicationContext(), Contacts.class);
+
                         intent.putExtra("token", token);
                         intent.putExtra("selectedColor", selectedColor);
 
