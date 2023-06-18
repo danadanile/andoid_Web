@@ -15,24 +15,20 @@ import com.example.ex4.pages.Login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Contacts extends AppCompatActivity {
-
     private int selectedColor;
     private String token;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
+        handleSettings();
 
 //        Intent intentColor = getIntent();
 //        selectedColor = intentColor.getIntExtra("selectedColor", 0);
+        // setSelectedColorAndFrame();
 
-       // setSelectedColorAndFrame();
-
-        // Navigate to the add contact page
 
         // Get the intent that started this activity
         Intent intent = getIntent();
@@ -42,7 +38,8 @@ public class Contacts extends AppCompatActivity {
             // Retrieve the value of "token" from the intent extras
             setToken(intent.getExtras().getString("token"));
         }
-            NavigateToAddContact();
+        NavigateToAddContact();
+
         NavigateToLogin();
     }
 
@@ -52,7 +49,6 @@ public class Contacts extends AppCompatActivity {
 
     // Navigate to the add contact page
     private void NavigateToAddContact() {
-
         FloatingActionButton bthAdd = findViewById(R.id.btnAdd);
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
@@ -61,18 +57,13 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
-
     private void NavigateToLogin() {
         FloatingActionButton btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(view -> {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
-
         });
     }
-
-
-
 
     private void setButtonAndTextColors(int colorResId) {
         int color = getResources().getColor(colorResId);
@@ -82,7 +73,16 @@ public class Contacts extends AppCompatActivity {
 
         Button registerButton = findViewById(R.id.btnLogout);
         registerButton.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
 
+    private void handleSettings() {
+        // Navigate to the settings page
+        FloatingActionButton btnSettings = findViewById(R.id.btnSettings);
+        btnSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Settings.class);
+            intent.putExtra("selectedColor", selectedColor);
+            startActivity(intent);
+        });
     }
 
     private void setSelectedColorAndFrame() {
