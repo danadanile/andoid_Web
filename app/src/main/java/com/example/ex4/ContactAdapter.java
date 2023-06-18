@@ -12,12 +12,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.ex4.pages.ChatPage;
 import com.example.ex4.schemas.Contact;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,8 +34,6 @@ public class ContactAdapter extends BaseAdapter {
         TextView displayName;
         TextView date;
     }
-
-
 
     @Override
     public int getCount() {
@@ -109,6 +105,7 @@ public class ContactAdapter extends BaseAdapter {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            // If there is no last massage we put the default current date.
         } else {
             Calendar calendar = Calendar.getInstance();
             Date currentDate = calendar.getTime();

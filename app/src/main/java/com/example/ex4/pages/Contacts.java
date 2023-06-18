@@ -7,9 +7,9 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
 import com.example.ex4.ContactAdapter;
+import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
@@ -20,7 +20,6 @@ import java.util.List;
 
 public class Contacts extends AppCompatActivity {
     private int selectedColor;
-    private String token;
     private ListView lstContacts;
 
     public void setLstContacts(ListView lstContacts) {
@@ -40,22 +39,9 @@ public class Contacts extends AppCompatActivity {
 //        selectedColor = intentColor.getIntExtra("selectedColor", 0);
         // setSelectedColorAndFrame();
 
-
-        // Get the intent that started this activity
-        Intent intent = getIntent();
-
-        // Check if the intent has extras
-        if (intent != null && intent.getExtras() != null) {
-            // Retrieve the value of "token" from the intent extras
-            setToken(intent.getExtras().getString("token"));
-        }
         NavigateToAddContact();
         NavigateToLogin();
         getContacts();
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     // Navigate to the add contact page
@@ -63,7 +49,6 @@ public class Contacts extends AppCompatActivity {
         FloatingActionButton bthAdd = findViewById(R.id.btnAdd);
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
-            intent.putExtra("token", token);
             startActivity(intent);
         });
     }
@@ -80,7 +65,7 @@ public class Contacts extends AppCompatActivity {
 
             ChatAPI chatAPI = new ChatAPI();
 
-            chatAPI.getChats(token, new ICallback() {
+            chatAPI.getChats(MyApplication.getToken(), new ICallback() {
                 @Override
                 public void status(boolean status) {
                     if(status) {
@@ -149,5 +134,12 @@ public class Contacts extends AppCompatActivity {
 //            intent.putExtra("photo", R.mipmap.ic_launcher_round); // Replace R.mipmap.ic_launcher_round with the actual photo resource
 //            startActivity(intent);
 //        });
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Call getContacts() method again when the activity resumes
+        getContacts();
+    }
 
 }

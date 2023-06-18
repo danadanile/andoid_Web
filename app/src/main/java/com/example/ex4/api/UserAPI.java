@@ -3,6 +3,7 @@ package com.example.ex4.api;
 import androidx.annotation.NonNull;
 
 import com.example.ex4.BaseUrlManager;
+import com.example.ex4.MyApplication;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
 import java.io.IOException;
@@ -20,8 +21,6 @@ import com.google.gson.JsonParser;
 public class UserAPI {
 
     private String error;
-    private String token;
-
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
 
@@ -95,6 +94,7 @@ public class UserAPI {
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                callback.status(false);
             }
         });
     }
@@ -108,7 +108,8 @@ public class UserAPI {
                     JsonObject body = response.body();
                     if (body != null && body.has("token")) {
                         String token = body.get("token").getAsString();
-                        setToken(token);
+                        token = "Bearer " + token;
+                        MyApplication.setToken(token);
                         callback.status(true);
                     }
                 } else {
@@ -139,14 +140,6 @@ public class UserAPI {
 
     public void setError(String error) {
         this.error = error;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }
 
