@@ -2,6 +2,7 @@ package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -9,15 +10,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ex4.BaseUrlManager;
 import com.example.ex4.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
-
     private int selectedColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         // Set the base URL text in the TextView
         addressTextView.setText(currentBaseUrl);
 
-
         //add button save
         Button btnBlue = findViewById(R.id.blueButton);
         Button btnRed = findViewById(R.id.redButton);
@@ -47,6 +47,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         setSelectedColorAndFrame();
         handleSave();
+        handleClose();
     }
 
     private void handleSave() {
@@ -59,23 +60,43 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
             // Update the base URL
             String newBaseUrl = String.valueOf(addressServer.getText());
-            baseUrlManager.setBaseUrl(newBaseUrl);
 
+            // Check if the url isn't changed
+            if (baseUrlManager.getBaseUrl().equals(newBaseUrl)) {
+                Intent intent = new Intent();
+                intent.putExtra("selectedColor", selectedColor);
+                setResult(Activity.RESULT_OK, intent);
 
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            intent.putExtra("selectedColor", selectedColor);
-           // System.out.println("Selected Color: " + selectedColor);
-            startActivity(intent);
+                // Finish the current Settings activity and navigate back to the previous page
+                finish();
+            } else {
+                baseUrlManager.setBaseUrl(newBaseUrl);
 
+                // Create an Intent to return to the Login page
+                Intent intent = new Intent(this, Login.class);
+                intent.putExtra("selectedColor", selectedColor);
+                startActivity(intent);
+            }
         });
     }
 
+    private void handleClose() {
+        FloatingActionButton btnClose = findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.putExtra("selectedColor", selectedColor);
+            setResult(Activity.RESULT_OK, intent);
+
+            // Finish the current Settings activity and navigate back to the previous page
+            finish();
+        });
+    }
 
     @Override
     public void onClick(View view) {
+        int color = 0;
 
         // Determine which color button was clicked
-        int color = 0;
         if (view.getId() == R.id.blueButton) {
             color = getResources().getColor(R.color.blue_background);
         } else if (view.getId() == R.id.redButton) {
@@ -83,9 +104,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         } else if (view.getId() == R.id.pinkButton) {
             color = getResources().getColor(R.color.default_background);
         }
+
         selectedColor = color;
     }
-
 
     private void setEditTextBackground(int editTextId, int drawableId) {
         EditText editText = findViewById(editTextId);
@@ -112,7 +133,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         TextView colorsText = findViewById(R.id.colors);
         colorsText.setTextColor(color);
-
     }
 
     private void setSelectedColorAndFrame() {
@@ -121,7 +141,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         int selectedColor = intent.getIntExtra("selectedColor", 0);
 
         if (selectedColor != 0) {
-
             int defaultColor = getResources().getColor(R.color.default_background);
             int purpleColor = getResources().getColor(R.color.purple_background);
             int blueColor = getResources().getColor(R.color.blue_background);
