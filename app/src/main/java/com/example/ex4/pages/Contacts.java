@@ -4,20 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.example.ex4.ContactAdapter;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
-import com.example.ex4.pages.AddContact;
-import com.example.ex4.pages.Login;
 import com.example.ex4.schemas.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,7 +26,7 @@ public class Contacts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
-        setLstContacts((ListView) findViewById(R.id.lstContacts));
+        setLstContacts(findViewById(R.id.lstContacts));
 
         // Get the intent that started this activity
         Intent intent = getIntent();
