@@ -2,9 +2,9 @@ package com.example.ex4.schemas;
 
 public class Msg {
 
-    private String message;
+    private String msg;
 
-    public Msg(String message) {
-        this.message = message;
+    public Msg(String msg) {
+        this.msg = msg;
     }
 }

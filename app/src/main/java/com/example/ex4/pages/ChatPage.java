@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,8 @@ import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
+import com.example.ex4.schemas.Msg;
+import com.example.ex4.schemas.Username;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -24,13 +28,13 @@ public class ChatPage extends AppCompatActivity {
 
     private int id;
 
+    private String message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         String contactJson = getIntent().getStringExtra("contact");
-
-        //setId(Integer.parseInt(getIntent().getStringExtra("contactId")));
 
         // Convert the JSON string back to a Contact object using Gson
         Gson gson = new Gson();
@@ -45,8 +49,10 @@ public class ChatPage extends AppCompatActivity {
 
         setId(contact.getId());
 
+        handleAddMessage();
         NavigateToContacts();
         getMessagesChat();
+
     }
 
     private void getMessagesChat() {
@@ -90,12 +96,47 @@ public class ChatPage extends AppCompatActivity {
         }
     }
 
+
+    private void handleAddMessage() {
+        Button bthAdd = findViewById(R.id.sendButton);
+        bthAdd.setOnClickListener(view -> {
+
+            EditText message = findViewById(R.id.msgInput);
+            setMessage(message.getText().toString());
+
+            Msg msg = new Msg(getMessage());
+
+            ChatAPI chatAPI = new ChatAPI();
+
+            chatAPI.addMessage(MyApplication.getToken(), getId(), msg , new ICallback() {
+                @Override
+                public void status(boolean status) {
+                    if(status) {
+                        finish();
+                    } else {
+                        String error = chatAPI.getError();
+                        TextView errorElement = findViewById(R.id.error);
+                        errorElement.setText(error);
+                    }
+                }
+            });
+        });
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     ///////////////////////////////////////////////////////////////check
