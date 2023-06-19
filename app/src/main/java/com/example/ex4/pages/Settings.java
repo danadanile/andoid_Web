@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
     private int selectedColor;
+
+    private int curColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,13 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             // Check if the url isn't changed
             if (baseUrlManager.getBaseUrl().equals(newBaseUrl)) {
                 Intent intent = new Intent();
-                intent.putExtra("selectedColor", selectedColor);
+                if(selectedColor==0){
+                    intent.putExtra("selectedColor", curColor);
+                }
+                else{
+                    intent.putExtra("selectedColor", selectedColor);
+                }
+
                 setResult(Activity.RESULT_OK, intent);
 
                 // Finish the current Settings activity and navigate back to the previous page
@@ -74,7 +83,13 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
                 // Create an Intent to return to the Login page
                 Intent intent = new Intent(this, Login.class);
-                intent.putExtra("selectedColor", selectedColor);
+                if(selectedColor==0){
+                    intent.putExtra("selectedColor", curColor);
+                }
+                else{
+                    intent.putExtra("selectedColor", selectedColor);
+                    Log.d("Contacts", "Selected Color sett: " + selectedColor);
+                }
                 startActivity(intent);
             }
         });
@@ -84,7 +99,13 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         FloatingActionButton btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.putExtra("selectedColor", selectedColor);
+            if(selectedColor==0){
+                intent.putExtra("selectedColor", curColor);
+            }
+            else{
+                intent.putExtra("selectedColor", selectedColor);
+
+            }
             setResult(Activity.RESULT_OK, intent);
 
             // Finish the current Settings activity and navigate back to the previous page
@@ -104,7 +125,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         } else if (view.getId() == R.id.pinkButton) {
             color = getResources().getColor(R.color.default_background);
         }
-
         selectedColor = color;
     }
 
@@ -125,6 +145,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setBackgroundTintList(ColorStateList.valueOf(color));
 
+        FloatingActionButton closeButton = findViewById(R.id.btnClose);
+        closeButton.setBackgroundTintList(null);  // Clear the previous background tint
+        closeButton.setBackgroundTintList(ColorStateList.valueOf(color));
+
         TextView settingText = findViewById(R.id.settings);
         settingText.setTextColor(color);
 
@@ -133,28 +157,34 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         TextView colorsText = findViewById(R.id.colors);
         colorsText.setTextColor(color);
+
+
     }
 
     private void setSelectedColorAndFrame() {
         // Retrieve the selected color from the intent
         Intent intent = getIntent();
-        int selectedColor = intent.getIntExtra("selectedColor", 0);
+        curColor = intent.getIntExtra("selectedColor", 0);
 
-        if (selectedColor != 0) {
+        if (curColor != 0) {
             int defaultColor = getResources().getColor(R.color.default_background);
             int purpleColor = getResources().getColor(R.color.purple_background);
             int blueColor = getResources().getColor(R.color.blue_background);
 
-            if (selectedColor == blueColor) {
+            if (curColor == blueColor) {
                 setFrameEditTextBackground(R.drawable.blue_frame);
                 setButtonAndTextColors(R.color.blue);
-            } else if (selectedColor == defaultColor) {
+            } else if (curColor == defaultColor) {
                 setFrameEditTextBackground(R.drawable.pink_frame);
                 setButtonAndTextColors(R.color.default_color);
-            } else if (selectedColor == purpleColor) {
+            } else if (curColor == purpleColor) {
                 setFrameEditTextBackground(R.drawable.purple_frame);
                 setButtonAndTextColors(R.color.purple);
             }
+        }
+        else{
+            setFrameEditTextBackground(R.drawable.pink_frame);
+            setButtonAndTextColors(R.color.default_color);
         }
     }
 }
