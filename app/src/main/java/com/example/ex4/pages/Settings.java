@@ -67,10 +67,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             if (baseUrlManager.getBaseUrl().equals(newBaseUrl)) {
                 Intent intent = new Intent();
                 // Intent intent1 = new Intent(this, Contacts.class);
-                if(selectedColor==0){
+                if (selectedColor == 0) {
                     intent.putExtra("selectedColor", curColor);
-                }
-                else{
+                } else {
                     intent.putExtra("selectedColor", selectedColor);
                 }
 
@@ -83,10 +82,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
                 // Create an Intent to return to the Login page
                 Intent intent = new Intent(this, Login.class);
-                if(selectedColor==0){
+                if (selectedColor == 0) {
                     intent.putExtra("selectedColor", curColor);
-                }
-                else{
+                } else {
                     intent.putExtra("selectedColor", selectedColor);
                 }
                 startActivity(intent);
@@ -98,10 +96,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         FloatingActionButton btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> {
             Intent intent = new Intent();
-            if(selectedColor==0){
+            if (selectedColor == 0) {
                 intent.putExtra("selectedColor", curColor);
-            }
-            else{
+            } else {
                 intent.putExtra("selectedColor", selectedColor);
 
             }
@@ -180,8 +177,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 setFrameEditTextBackground(R.drawable.purple_frame);
                 setButtonAndTextColors(R.color.purple);
             }
-        }
-        else{
+        } else {
             setFrameEditTextBackground(R.drawable.pink_frame);
             setButtonAndTextColors(R.color.default_color);
         }

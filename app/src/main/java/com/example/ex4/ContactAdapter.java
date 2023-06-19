@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.ex4.pages.ChatPage;
 import com.example.ex4.schemas.Contact;
 import com.google.gson.Gson;
-//import com.squareup.picasso.Picasso;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,10 +50,6 @@ public class ContactAdapter extends BaseAdapter {
         return 0;
     }
 
-    private boolean isBase64Image(String imageString) {
-        return imageString != null && imageString.startsWith("data:image/");
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -70,26 +66,18 @@ public class ContactAdapter extends BaseAdapter {
 
         Contact contact = contactList.get(position);
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-        // Check if the profile picture is in Base64 format
-//        if (isBase64Image(contact.getUser().getProfilePic())) {
-//            // Decode the Base64 string to a byte array
-//            byte[] decodedBytes = Base64.decode(contact.getUser().getProfilePic(), Base64.DEFAULT);
+
+//        String base64String = contact.getUser().getProfilePic();
 //
-//            // Create a Bitmap from the byte array
-//            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+//        // Convert the base64 string to a byte array
+//        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
 //
-//            // Convert the Bitmap to a Drawable
-//            Drawable decodedDrawable = new BitmapDrawable(convertView.getResources(), decodedBitmap);
+//        // Create a Bitmap from the byte array
+//        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 //
-//            // Set the decoded Drawable as the image source
-//            viewHolder.image.setImageDrawable(decodedDrawable);
-//        } else {
-//            // The profile picture is not in Base64 format, load it normally
-//            String imageUrl = contact.getUser().getProfilePic();
-//            Picasso.get().load(imageUrl).into(viewHolder.image);
-//        }
-        String imageUrl = contact.getUser().getProfilePic();
-        //Picasso.get().load(imageUrl).into(viewHolder.image);
+//        // Set the Bitmap as the image source of the ImageView
+//        viewHolder.image.setImageBitmap(decodedBitmap);
+
         viewHolder.displayName.setText(contact.getUser().getDisplayName());
 
         if (contact.getLastMessage() != null) {
@@ -115,13 +103,6 @@ public class ContactAdapter extends BaseAdapter {
             String formattedDate = dateFormat.format(currentDate);
             viewHolder.date.setText(formattedDate);
         }
-
-//        viewHolder.img.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(v.getContext(), "Clicked on image", Toast.LENGTH_LONG).show();
-//            }
-//        });
 
         // Set a click listener on the convertView (list item)
         convertView.setOnClickListener(new View.OnClickListener() {
