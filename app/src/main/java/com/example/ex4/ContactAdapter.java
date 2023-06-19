@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.ex4.pages.ChatPage;
 import com.example.ex4.schemas.Contact;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -89,7 +89,7 @@ public class ContactAdapter extends BaseAdapter {
 //            Picasso.get().load(imageUrl).into(viewHolder.image);
 //        }
         String imageUrl = contact.getUser().getProfilePic();
-        Picasso.get().load(imageUrl).into(viewHolder.image);
+        //Picasso.get().load(imageUrl).into(viewHolder.image);
         viewHolder.displayName.setText(contact.getUser().getDisplayName());
 
         if (contact.getLastMessage() != null) {
