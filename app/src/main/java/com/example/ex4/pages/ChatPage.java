@@ -4,9 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
-
     private int id;
-
     private String message;
 
     @Override
@@ -45,26 +40,6 @@ public class ChatPage extends AppCompatActivity {
 
     }
 
-
-//    private void displayMessages(List<Message> messages) {
-//        ViewGroup messageContainer = findViewById(R.id.message_container);
-//
-//        for (Message message : messages) {
-//            View messageView = LayoutInflater.from(this).inflate(R.layout.message_item, messageContainer, false);
-//
-//            TextView messageContent = messageView.findViewById(R.id.message_content);
-//            TextView messageSide = messageView.findViewById(R.id.message_side);
-//
-//            messageContent.setText(message.getContent());
-//
-//            // Determine the side of the message (0 for user, 1 for other side)
-//            int side = message.getSender().equals(MyApplication.getMyProfile()) ? 0 : 1;
-//            messageSide.setText(String.valueOf(side));
-//
-//            messageContainer.addView(messageView);
-//        }
-//    }
-
     private void getMessagesChat() {
 
         ChatAPI chatAPI = new ChatAPI();
@@ -72,15 +47,15 @@ public class ChatPage extends AppCompatActivity {
         chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
             @Override
             public void status(boolean status) {
-                if(status) {
-                    List<Message> messages= chatAPI.getMessages();
-                        ListView listView = findViewById(R.id.lstMessages);
-                        final MessageAdapter adapter = new MessageAdapter(messages);
-                        listView.setAdapter(adapter);
-                    }
+                if (status) {
+                    List<Message> messages = chatAPI.getMessages();
+                    ListView listView = findViewById(R.id.lstMessages);
+                    final MessageAdapter adapter = new MessageAdapter(messages);
+                    listView.setAdapter(adapter);
                 }
-            });
-        }
+            }
+        });
+    }
 
 
     private void NavigateToContacts() {
@@ -106,9 +81,7 @@ public class ChatPage extends AppCompatActivity {
         contactName.setText(contact.getUser().getDisplayName());
 
         setId(contact.getId());
-
     }
-
 
     private void handleAddMessage() {
         Button bthAdd = findViewById(R.id.sendButton);
@@ -120,20 +93,20 @@ public class ChatPage extends AppCompatActivity {
             if (!messageText.isEmpty()) {
                 setMessage(messageText);
 
-            Msg msg = new Msg(getMessage());
+                Msg msg = new Msg(getMessage());
 
-            ChatAPI chatAPI = new ChatAPI();
+                ChatAPI chatAPI = new ChatAPI();
 
-            chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
-                @Override
-                public void status(boolean status) {
-                    if (status) {
-                        getMessagesChat();
-                        message.setText("");
+                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
+                    @Override
+                    public void status(boolean status) {
+                        if (status) {
+                            getMessagesChat();
+                            message.setText("");
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
         });
     }
 

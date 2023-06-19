@@ -38,7 +38,6 @@ public class Login extends AppCompatActivity {
         handleSettings();
 
         NavigateToRegister();
-        //NavigateToContacts();
     }
 
     private void handleSettings() {
@@ -63,7 +62,6 @@ public class Login extends AppCompatActivity {
         }
     }
 
-
     private void NavigateToRegister() {
         Button bthRegister = findViewById(R.id.registerButton);
         bthRegister.setOnClickListener(view -> {
@@ -82,8 +80,6 @@ public class Login extends AppCompatActivity {
         });
     }
 
-
-
     private void handleLogin() {
         Button bthLogin = findViewById(R.id.loginButton);
         bthLogin.setOnClickListener(view -> {
@@ -99,20 +95,17 @@ public class Login extends AppCompatActivity {
             MyApplication.setMyProfile(username);
             UserAPI userAPI = new UserAPI();
 
-            userAPI.login(userLogin, new ICallback() {
-                @Override
-                public void status(boolean status) {
-                    if(status) {
-                        Intent intent = new Intent(getApplicationContext(), Contacts.class);
-                        
-                        intent.putExtra("selectedColor", selectedColor);
+            userAPI.login(userLogin, status -> {
+                if (status) {
+                    Intent intent = new Intent(getApplicationContext(), Contacts.class);
 
-                        startActivity(intent);
-                    } else {
-                        String error = userAPI.getError();
-                        TextView errorElement = findViewById(R.id.error);
-                        errorElement.setText(error);
-                    }
+                    intent.putExtra("selectedColor", selectedColor);
+
+                    startActivity(intent);
+                } else {
+                    String error = userAPI.getError();
+                    TextView errorElement1 = findViewById(R.id.error);
+                    errorElement1.setText(error);
                 }
             });
         });
@@ -144,10 +137,6 @@ public class Login extends AppCompatActivity {
     }
 
     private void setSelectedColorAndFrame() {
-        // Retrieve the selected color from the intent
-//        Intent intent = getIntent();
-//        int selectedColor = intent.getIntExtra("selectedColor", 0);
-
         if (selectedColor != 0) {
             LinearLayout rootLayout = findViewById(R.id.rootLayout);
             // Set the background color
@@ -168,6 +157,5 @@ public class Login extends AppCompatActivity {
                 setButtonAndTextColors(R.color.purple);
             }
         }
-
     }
 }

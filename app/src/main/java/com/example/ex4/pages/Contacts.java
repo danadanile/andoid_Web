@@ -8,11 +8,10 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ex4.ContactAdapter;
+import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
-import com.example.ex4.pages.AddContact;
-import com.example.ex4.pages.Login;
 import com.example.ex4.schemas.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,15 +19,12 @@ import java.util.List;
 
 public class Contacts extends AppCompatActivity {
     private int selectedColor;
-    private String token;
     private ListView lstContacts;
-
     private static final int SETTINGS_REQUEST_CODE = 1;
 
     public void setLstContacts(ListView lstContacts) {
         this.lstContacts = lstContacts;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +32,10 @@ public class Contacts extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
         setLstContacts((ListView) findViewById(R.id.lstContacts));
 
-
         // Get the intent that started this activity
         Intent intent = getIntent();
 
         selectedColor = intent.getIntExtra("selectedColor", 0);
-
-
-        // Check if the intent has extras
-        if (intent != null && intent.getExtras() != null) {
-            // Retrieve the value of "token" from the intent extras
-            setToken(intent.getExtras().getString("token"));
-        }
 
         setSelectedColorAndFrame();
         NavigateToAddContact();
@@ -56,22 +44,11 @@ public class Contacts extends AppCompatActivity {
         getContacts();
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        setSelectedColorAndFrame();
-//    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     // Navigate to the add contact page
     private void NavigateToAddContact() {
         FloatingActionButton bthAdd = findViewById(R.id.btnAdd);
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
-            intent.putExtra("token", token);
             intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
         });
@@ -100,7 +77,7 @@ public class Contacts extends AppCompatActivity {
     private void getContacts() {
 
         ChatAPI chatAPI = new ChatAPI();
-        chatAPI.getChats(token, new ICallback() {
+        chatAPI.getChats(MyApplication.getToken(), new ICallback() {
             @Override
             public void status(boolean status) {
                 if (status) {
@@ -148,22 +125,8 @@ public class Contacts extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == SETTINGS_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
-//            if (data != null) {
-//                selectedColor = data.getIntExtra("selectedColor", 0);
-//                setSelectedColorAndFrame();
-//            }
-//        }
-//    }
-
-
     private void setSelectedColorAndFrame() {
-
         if (selectedColor != 0) {
-
             int defaultColor = getResources().getColor(R.color.default_background);
             int purpleColor = getResources().getColor(R.color.purple_background);
             int blueColor = getResources().getColor(R.color.blue_background);

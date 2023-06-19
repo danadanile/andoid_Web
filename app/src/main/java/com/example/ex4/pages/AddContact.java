@@ -19,7 +19,6 @@ import com.example.ex4.schemas.Username;
 
 public class AddContact extends AppCompatActivity {
     private String contactUsername;
-
     private int selectedColor;
 
     public void setContactUsername(String contactUsername) {
@@ -33,7 +32,6 @@ public class AddContact extends AppCompatActivity {
 
         // Get the intent that started this activity
         Intent intent = getIntent();
-
 
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
@@ -113,7 +111,5 @@ public class AddContact extends AppCompatActivity {
                 setButtonAndTextColors(R.color.purple);
             }
         }
-
     }
-
 }
