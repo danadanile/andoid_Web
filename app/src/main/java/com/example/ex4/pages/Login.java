@@ -104,8 +104,7 @@ public class Login extends AppCompatActivity {
                 public void status(boolean status) {
                     if(status) {
                         Intent intent = new Intent(getApplicationContext(), Contacts.class);
-
-                        intent.putExtra("token", token);
+                        
                         intent.putExtra("selectedColor", selectedColor);
 
                         startActivity(intent);
