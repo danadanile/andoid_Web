@@ -31,21 +31,13 @@ public class AddContact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
 
-
         // Get the intent that started this activity
         Intent intent = getIntent();
 
-        // Check if the intent has extras
-        if (intent != null && intent.getExtras() != null) {
-            // Retrieve the value of "token" from the intent extras
-            setToken(intent.getExtras().getString("token"));
-        }
 
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
         setSelectedColorAndFrame();
-
-
 
         handleAdd();
     }
