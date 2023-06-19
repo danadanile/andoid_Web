@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.ex4.MessageAdapter;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
@@ -72,12 +74,14 @@ public class ChatPage extends AppCompatActivity {
             public void status(boolean status) {
                 if(status) {
                     List<Message> messages= chatAPI.getMessages();
- //                   displayMessages(messages);
+                        ListView listView = findViewById(R.id.lstMessages);
+                        final MessageAdapter adapter = new MessageAdapter(messages);
+                        listView.setAdapter(adapter);
+                    }
                 }
-            }
-        });
+            });
+        }
 
-    }
 
     private void NavigateToContacts() {
         FloatingActionButton bthRegister = findViewById(R.id.btnExitChat);
@@ -111,20 +115,25 @@ public class ChatPage extends AppCompatActivity {
         bthAdd.setOnClickListener(view -> {
 
             EditText message = findViewById(R.id.msgInput);
-            setMessage(message.getText().toString());
+            String messageText = message.getText().toString();
+
+            if (!messageText.isEmpty()) {
+                setMessage(messageText);
 
             Msg msg = new Msg(getMessage());
 
             ChatAPI chatAPI = new ChatAPI();
 
-            chatAPI.addMessage(MyApplication.getToken(), getId(), msg , new ICallback() {
+            chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
                 @Override
                 public void status(boolean status) {
-                    if(status) {
-                        finish();
+                    if (status) {
+                        getMessagesChat();
+                        message.setText("");
                     }
                 }
             });
+        }
         });
     }
 

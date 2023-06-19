@@ -107,7 +107,7 @@ public class Contacts extends AppCompatActivity {
                 @Override
                 public void status(boolean status) {
                     if(status) {
-                        List<Contact> contactList =  chatAPI.getContactList();
+                        List<Contact> contactList = chatAPI.getContactList();
                         final ContactAdapter contactAdapter = new ContactAdapter(contactList);
                         lstContacts.setAdapter(contactAdapter);
 //                        lstContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
