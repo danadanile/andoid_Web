@@ -73,7 +73,6 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
-
     private void getContacts() {
 
         ChatAPI chatAPI = new ChatAPI();
