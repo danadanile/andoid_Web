@@ -6,6 +6,7 @@
     <color name="default_color">#F49595</color>
     <color name="purple">#8C6FC1</color>
     <color name="blue">#87AECC</color>
+    <color name="red">#E11F11</color>
 
     <color name="default_background">#F6E9E9</color>
     <color name="blue_background">#C9E4E9</color>
