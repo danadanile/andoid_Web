@@ -43,11 +43,22 @@ public class MessageAdapter  extends BaseAdapter {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_message, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+            // Inflate the layout based on the message side
+            Message message = messageList.get(position);
+            int layoutId = message.getSender().getUsername().equals(MyApplication.getMyProfile()) ?
+                    R.layout.activity_message_me : R.layout.activity_message_other;
+
+            convertView = inflater.inflate(layoutId, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.messageContent = convertView.findViewById(R.id.message_content);
-            viewHolder.messageSide = convertView.findViewById(R.id.message_side);
+
+            if (layoutId == R.layout.activity_message_me) {
+                viewHolder.messageContent = convertView.findViewById(R.id.message_content_me);
+            } else {
+                viewHolder.messageContent = convertView.findViewById(R.id.message_content_other);
+            }
 
             convertView.setTag(viewHolder);
         } else {
@@ -55,22 +66,9 @@ public class MessageAdapter  extends BaseAdapter {
         }
 
         Message message = messageList.get(position);
+        viewHolder.messageContent.setText(message.getContent());
 
-        for (Message message : messages) {
-
-            viewHolder.messageContent.setText(message.getContent());
-
-            // Determine the side of the message (0 for user, 1 for the other side)
-            int side = message.getSender().equals(MyApplication.getMyProfile()) ? 0 : 1;
-            viewHolder.messageSide.setText(String.valueOf(side));
-
-            // Set different background colors based on the side of the message
-            if (side == 0) {
-                viewHolder.messageContent.setBackgroundResource(R.color.grey);
-            } else {
-                viewHolder.messageContent.setBackgroundResource(R.color.default_color);
-            }
-        }
         return convertView;
     }
+
 }
