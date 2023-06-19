@@ -135,9 +135,13 @@ public class Register extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), Login.class);
                     startActivity(intent);
                 } else {
-                    String error = "Invalid " + userAPI.getError();
-                    if (!confirmPassword.equals(password)) {
-                        error += ", confirm password ";
+                    String error = userAPI.getError();
+                    if (!error.contains("Username")) {
+                        error = "Invalid " + error;
+
+                        if (!confirmPassword.equals(password)) {
+                            error += ", confirm password ";
+                        }
                     }
                     TextView errorElement1 = findViewById(R.id.error);
                     errorElement1.setText(error);
