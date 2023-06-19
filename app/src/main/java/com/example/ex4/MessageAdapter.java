@@ -53,7 +53,6 @@ public class MessageAdapter  extends BaseAdapter {
             convertView = inflater.inflate(layoutId, parent, false);
 
             viewHolder = new ViewHolder();
-
             if (layoutId == R.layout.activity_message_me) {
                 viewHolder.messageContent = convertView.findViewById(R.id.message_content_me);
             } else {
@@ -66,9 +65,11 @@ public class MessageAdapter  extends BaseAdapter {
         }
 
         Message message = messageList.get(position);
+
         viewHolder.messageContent.setText(message.getContent());
 
         return convertView;
     }
+
 
 }

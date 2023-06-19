@@ -128,7 +128,8 @@ public class ChatPage extends AppCompatActivity {
                 @Override
                 public void status(boolean status) {
                     if (status) {
-                        finish();
+                        getMessagesChat();
+                        message.setText("");
                     }
                 }
             });
