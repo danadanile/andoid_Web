@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -35,16 +36,6 @@ public class Contacts extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
         setLstContacts(findViewById(R.id.lstContacts));
 
-
-
-        // Get the intent that started this activity
-        Intent intent = getIntent();
-
-        // Check if the intent has extras
-        if (intent != null && intent.getExtras() != null) {
-            // Retrieve the value of "token" from the intent extras
-            setToken(intent.getExtras().getString("token"));
-        }
         Intent intent2 = getIntent();
         selectedColor = intent2.getIntExtra("selectedColor", 0);
         Log.d("Contacts", "Selected Color: " + selectedColor);
@@ -71,10 +62,6 @@ public class Contacts extends AppCompatActivity {
 //        setSelectedColorAndFrame();
 //    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
 
     // Navigate to the add contact page
     private void NavigateToAddContact() {
@@ -83,7 +70,6 @@ public class Contacts extends AppCompatActivity {
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
 
-            intent.putExtra("token", token);
             intent.putExtra("selectedColor", selectedColor);
 
             startActivity(intent);
