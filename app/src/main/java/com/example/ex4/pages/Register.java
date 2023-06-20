@@ -1,8 +1,10 @@
 package com.example.ex4.pages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.ex4.R;
 import com.example.ex4.schemas.User;
@@ -28,10 +31,6 @@ public class Register extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView imgGallery;
     private int selectedColor;
-    //Bitmap to get image from gallery
-    private Bitmap bitmap;
-
-    //Uri to store the image uri
     private Uri filePath;
 
     @Override
@@ -78,7 +77,8 @@ public class Register extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Bitmap to get image from gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imgGallery.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -90,16 +90,30 @@ public class Register extends AppCompatActivity {
         String base64String = "";
 
         try {
-            InputStream inputStream = getContentResolver().openInputStream(filePath);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            byte[] imageBytes = outputStream.toByteArray();
-            base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            @SuppressLint("Recycle") InputStream inputStream = getContentResolver().openInputStream(filePath);
 
+            // Resize the image
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, options);
+
+            inputStream.close(); // Close the stream to reset its position
+            inputStream = getContentResolver().openInputStream(filePath); // Reopen the stream
+
+            int imageWidth = options.outWidth;
+            int imageHeight = options.outHeight;
+            int desiredWidth = 200;
+            int desiredHeight = 150;
+
+            options.inSampleSize = Math.min(imageWidth / desiredWidth, imageHeight / desiredHeight);
+            options.inJustDecodeBounds = false;
+
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            byte[] imageBytes = outputStream.toByteArray();
+            base64String = "data:image/png;base64," + Base64.encodeToString(imageBytes, Base64.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,9 +124,6 @@ public class Register extends AppCompatActivity {
     private void handleRegister() {
         Button bthRegister = findViewById(R.id.registerButton);
         bthRegister.setOnClickListener(view -> {
-            TextView errorElement = findViewById(R.id.error);
-            errorElement.setText("");
-
             EditText usernameInput = findViewById(R.id.username);
             String username = usernameInput.getText().toString();
 
@@ -124,12 +135,12 @@ public class Register extends AppCompatActivity {
 
             EditText displayNameInput = findViewById(R.id.display_name);
             String displayName = displayNameInput.getText().toString();
+
             String image = convertToBase64();
 
             User user = new User(username, password, displayName, image);
 
             UserAPI userAPI = new UserAPI();
-
             userAPI.createUser(user, status -> {
                 if (status) {
                     Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -143,8 +154,8 @@ public class Register extends AppCompatActivity {
                             error += ", confirm password ";
                         }
                     }
-                    TextView errorElement1 = findViewById(R.id.error);
-                    errorElement1.setText(error);
+                    TextView errorElement = findViewById(R.id.error);
+                    errorElement.setText(error);
                 }
             });
         });
@@ -152,7 +163,7 @@ public class Register extends AppCompatActivity {
 
     private void setEditTextBackground(int editTextId, int drawableId) {
         EditText editText = findViewById(editTextId);
-        Drawable drawable = getResources().getDrawable(drawableId);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), drawableId, null);
         editText.setBackground(drawable);
     }
 
