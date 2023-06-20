@@ -3,13 +3,17 @@ package com.example.ex4.pages;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,6 +32,8 @@ import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
     private int id;
+
+    private int selectedColor;
     private String message;
 
     @Override
@@ -35,11 +41,14 @@ public class ChatPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        Intent intent = getIntent();
+        selectedColor = intent.getIntExtra("selectedColor", 0);
+
+        setSelectedColorAndFrame();
         displayContactInfo();
         handleAddMessage();
         NavigateToContacts();
         getMessagesChat();
-
     }
 
     private void getMessagesChat() {
@@ -148,4 +157,55 @@ public class ChatPage extends AppCompatActivity {
 //        // Call getMessagesChat() method again when the activity resumes
 //        getMessagesChat();
 //    }
+
+
+
+    private void setEditTextBackground(int editTextId, int drawableId) {
+        EditText editText = findViewById(editTextId);
+        Drawable drawable = getResources().getDrawable(drawableId);
+        editText.setBackground(drawable);
+    }
+
+    // Call this method to change the background drawable of the username EditText
+    private void setFrameEditTextBackground(int drawableId) {
+        setEditTextBackground(R.id.msgInput, drawableId);
+        //setEditTextBackground(R.id.contact_profile_img, drawableId);
+    }
+
+    private void setButtonAndTextColors(int colorResId) {
+        int color = getResources().getColor(colorResId);
+
+        Button send = findViewById(R.id.sendButton);
+        send.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        View line = findViewById(R.id.line);
+        line.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        FloatingActionButton logout = findViewById(R.id.btnExitChat);
+        logout.setBackgroundTintList(null);  // Clear the previous background tint
+        logout.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+
+    private void setSelectedColorAndFrame() {
+        if (selectedColor != 0) {
+
+            int defaultColor = getResources().getColor(R.color.default_background);
+            int purpleColor = getResources().getColor(R.color.purple_background);
+            int blueColor = getResources().getColor(R.color.blue_background);
+
+            if (selectedColor == blueColor) {
+                setFrameEditTextBackground(R.drawable.blue_frame);
+                setButtonAndTextColors(R.color.blue);
+            } else if (selectedColor == defaultColor) {
+                setFrameEditTextBackground(R.drawable.pink_frame);
+                setButtonAndTextColors(R.color.default_color);
+            } else if (selectedColor == purpleColor) {
+                setFrameEditTextBackground(R.drawable.purple_frame);
+                setButtonAndTextColors(R.color.purple);
+            }
+        }
+     else {
+        setButtonAndTextColors(R.color.default_color);
+    }
+    }
 }
