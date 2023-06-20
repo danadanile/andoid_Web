@@ -1,10 +1,9 @@
 package com.example.ex4;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.example.ex4.pages.ChatPage;
 import com.example.ex4.schemas.Contact;
 import com.google.gson.Gson;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,23 +67,29 @@ public class ContactAdapter extends BaseAdapter {
         Contact contact = contactList.get(position);
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
 
-//        String base64String = contact.getUser().getProfilePic();
-//
-//        // Convert the base64 string to a byte array
-//        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
-//
-//        // Create a Bitmap from the byte array
-//        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//
-//        // Set the Bitmap as the image source of the ImageView
-//        viewHolder.image.setImageBitmap(decodedBitmap);
+        String base64String = contact.getUser().getProfilePic();
+
+        // Remove the prefix and line breaks from the base64 string
+        base64String = base64String.replace("data:image/png;base64,", "")
+                .replaceAll("\\s", "");
+
+        // Convert the base64 string to a byte array
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+
+        // Create a Bitmap from the byte array
+        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        // Set the Bitmap as the image source of the ImageView
+        viewHolder.image.setImageBitmap(decodedBitmap);
 
         viewHolder.displayName.setText(contact.getUser().getDisplayName());
 
         if (contact.getLastMessage() != null) {
             viewHolder.date.setText(contact.getLastMessage().getCreated());
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat inputFormat =
+                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFormat =
+                    new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
             try {
                 Date date = inputFormat.parse(contact.getLastMessage().getCreated());
@@ -99,7 +105,8 @@ public class ContactAdapter extends BaseAdapter {
             Date currentDate = calendar.getTime();
 
             // Format the date and time using SimpleDateFormat
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat =
+                    new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             String formattedDate = dateFormat.format(currentDate);
             viewHolder.date.setText(formattedDate);
         }
@@ -113,11 +120,12 @@ public class ContactAdapter extends BaseAdapter {
                 Intent intent = new Intent(v.getContext(), ChatPage.class);
                 Gson gson = new Gson();
                 String contactJson = gson.toJson(contact);
-                intent.putExtra("contact", contactJson); // Pass the contact object to the details activity
+                // Pass the contact object to the details activity
+                intent.putExtra("contact", contactJson);
                 v.getContext().startActivity(intent);
             }
         });
+
         return convertView;
     }
-
 }
