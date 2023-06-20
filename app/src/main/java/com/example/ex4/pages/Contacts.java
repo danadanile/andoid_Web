@@ -141,4 +141,13 @@ public class Contacts extends AppCompatActivity {
             setButtonAndTextColors(R.color.default_color);
         }
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Call getContacts() method again when the activity resumes
+        getContacts();
+    }
+
 }
