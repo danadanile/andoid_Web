@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
+import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
@@ -30,6 +31,8 @@ public class ChatAPI {
         private String error;
         private List<Contact> contactList;
         private List<Message> messages;
+
+        private Chat chat;
 
         Retrofit retrofit;
         WebServiceAPI webServiceAPI;
@@ -104,6 +107,27 @@ public class ChatAPI {
         });
     }
 
+    public void getChat(String token, int id, ICallback callback) {
+        Call<Chat> call = webServiceAPI.getChat(token, id);
+        call.enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(@NonNull Call<Chat> call, @NonNull Response<Chat> response) {
+                if (response.code() == 200) {
+                    setChat(response.body());
+                    callback.status(true);
+                } else {
+                    Log.e("API Error", "Failed to get messages ");
+                    callback.status(false);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Chat> call, @NonNull Throwable t) {
+                callback.status(false);
+            }
+        });
+    }
+
     public void getMessages(String token, int id, ICallback callback) {
         Call<List<Message>> call = webServiceAPI.getMessages(token, id);
         call.enqueue(new Callback<List<Message>>() {
@@ -166,5 +190,13 @@ public class ChatAPI {
 
     public List<Message> getMessages() {
         return messages;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
+    public Chat getChat() {
+        return chat;
     }
 }

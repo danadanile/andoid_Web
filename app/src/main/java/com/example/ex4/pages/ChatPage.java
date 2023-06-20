@@ -1,6 +1,7 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,6 +19,11 @@ import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
+import com.example.ex4.db.AppDB;
+import com.example.ex4.db.AppDBCh;
+import com.example.ex4.db.ChatDao;
+import com.example.ex4.db.ContactDao;
+import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
@@ -27,8 +33,12 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
+
+    private AppDBCh db;
+    ChatDao chatDao;
     private int id;
     private String message;
+    private Chat chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +48,37 @@ public class ChatPage extends AppCompatActivity {
         displayContactInfo();
         handleAddMessage();
         NavigateToContacts();
+        getChat();
         getMessagesChat();
 
     }
+
+    private void getMessagesDb (Chat chat) {
+        db = Room.databaseBuilder(getApplicationContext(),
+                        AppDBCh.class, "FooDB")
+                .allowMainThreadQueries()
+                .build();
+        chatDao = db.chatDao();
+
+        chatDao.insert(chat);
+    }
+
+
+    private void getChat() {
+
+        ChatAPI chatAPI = new ChatAPI();
+
+        chatAPI.getChat(MyApplication.getToken(), getId(), new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if (status) {
+                    chat = chatAPI.getChat();
+                    getMessagesDb (chat);
+                }
+            }
+        });
+    }
+
 
     private void getMessagesChat() {
 

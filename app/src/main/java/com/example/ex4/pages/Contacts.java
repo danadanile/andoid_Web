@@ -6,18 +6,26 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.ex4.ContactAdapter;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
+import com.example.ex4.db.AppDB;
+import com.example.ex4.db.AppDB2;
+import com.example.ex4.db.ContactDao;
+import com.example.ex4.db.ConvertersContacts;
 import com.example.ex4.schemas.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class Contacts extends AppCompatActivity {
+
+    private AppDB2 db;
+    ContactDao contactDao;
     private int selectedColor;
     private ListView lstContacts;
     private static final int SETTINGS_REQUEST_CODE = 1;
@@ -73,6 +81,17 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
+    private void getChatsDb (List<Contact> chatList) {
+        db = Room.databaseBuilder(getApplicationContext(),
+                        AppDB2.class, "Foo")
+                .allowMainThreadQueries()
+                .build();
+        contactDao = db.contactDao();
+
+        contactDao.deleteAll();
+        contactDao.insert(chatList.toArray(new Contact[0]));
+    }
+
     private void getContacts() {
 
         ChatAPI chatAPI = new ChatAPI();
@@ -81,6 +100,7 @@ public class Contacts extends AppCompatActivity {
             public void status(boolean status) {
                 if (status) {
                     List<Contact> contactList = chatAPI.getContactList();
+                    getChatsDb(contactList);
                     final ContactAdapter contactAdapter = new ContactAdapter(contactList);
                     lstContacts.setAdapter(contactAdapter);
 //                        lstContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -1,5 +1,8 @@
 package com.example.ex4.schemas;
 
+import androidx.room.Entity;
+
+@Entity
 public class Message {
     private int id;
     private String created;
