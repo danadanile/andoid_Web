@@ -2,7 +2,9 @@ package com.example.ex4.pages;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,6 +126,12 @@ public class Contacts extends AppCompatActivity {
         }
     }
 
+    private void setImageFrameBackground(int drawableId) {
+        ImageView imageFrame = findViewById(R.id.contact_profile_img);
+        Drawable drawable = getResources().getDrawable(drawableId);
+        imageFrame.setImageDrawable(drawable);
+    }
+
     private void setSelectedColorAndFrame() {
         if (selectedColor != 0) {
             int defaultColor = getResources().getColor(R.color.default_background);
@@ -131,10 +139,13 @@ public class Contacts extends AppCompatActivity {
             int blueColor = getResources().getColor(R.color.blue_background);
 
             if (selectedColor == blueColor) {
+                setImageFrameBackground(R.drawable.image_blue);
                 setButtonAndTextColors(R.color.blue);
             } else if (selectedColor == defaultColor) {
+                setImageFrameBackground(R.drawable.image_pink);
                 setButtonAndTextColors(R.color.default_color);
             } else if (selectedColor == purpleColor) {
+                setImageFrameBackground(R.drawable.image_purple);
                 setButtonAndTextColors(R.color.purple);
             }
         } else {
