@@ -72,6 +72,7 @@ public class ChatPage extends AppCompatActivity {
         FloatingActionButton bthRegister = findViewById(R.id.btnExitChat);
         bthRegister.setOnClickListener(view -> {
             Intent intent = new Intent(this, Contacts.class);
+            intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
         });
     }
@@ -164,12 +165,20 @@ public class ChatPage extends AppCompatActivity {
         EditText editText = findViewById(editTextId);
         Drawable drawable = getResources().getDrawable(drawableId);
         editText.setBackground(drawable);
+
+
+    }
+
+    private void setImageFrameBackground(int drawableId) {
+        ImageView imageFrame = findViewById(R.id.contact_profile_background);
+        Drawable drawable = getResources().getDrawable(drawableId);
+        imageFrame.setImageDrawable(drawable);
     }
 
     // Call this method to change the background drawable of the username EditText
     private void setFrameEditTextBackground(int drawableId) {
         setEditTextBackground(R.id.msgInput, drawableId);
-        //setEditTextBackground(R.id.contact_profile_img, drawableId);
+      //  setImageFrameBackground(R.id.contact_profile_img, drawableId);
     }
 
     private void setButtonAndTextColors(int colorResId) {
@@ -194,16 +203,20 @@ public class ChatPage extends AppCompatActivity {
             int blueColor = getResources().getColor(R.color.blue_background);
 
             if (selectedColor == blueColor) {
-                setFrameEditTextBackground(R.drawable.blue_frame);
+                setFrameEditTextBackground(R.drawable.image_blue);
+                setImageFrameBackground(R.drawable.image_blue);
                 setButtonAndTextColors(R.color.blue);
             } else if (selectedColor == defaultColor) {
-                setFrameEditTextBackground(R.drawable.pink_frame);
+                setFrameEditTextBackground(R.drawable.image_pink);
+                setImageFrameBackground(R.drawable.image_pink);
                 setButtonAndTextColors(R.color.default_color);
             } else if (selectedColor == purpleColor) {
-                setFrameEditTextBackground(R.drawable.purple_frame);
+                setFrameEditTextBackground(R.drawable.image_purple);
+                setImageFrameBackground(R.drawable.image_purple);
                 setButtonAndTextColors(R.color.purple);
             }
         }
+
      else {
         setButtonAndTextColors(R.color.default_color);
     }
