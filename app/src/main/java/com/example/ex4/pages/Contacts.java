@@ -13,10 +13,8 @@ import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
-import com.example.ex4.db.AppDB;
 import com.example.ex4.db.AppDB2;
 import com.example.ex4.db.ContactDao;
-import com.example.ex4.db.ConvertersContacts;
 import com.example.ex4.schemas.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -81,7 +79,7 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
-    private void getChatsDb (List<Contact> chatList) {
+    private void setContactsDb (List<Contact> chatList) {
         db = Room.databaseBuilder(getApplicationContext(),
                         AppDB2.class, "Foo")
                 .allowMainThreadQueries()
@@ -100,7 +98,7 @@ public class Contacts extends AppCompatActivity {
             public void status(boolean status) {
                 if (status) {
                     List<Contact> contactList = chatAPI.getContactList();
-                    getChatsDb(contactList);
+                    setContactsDb(contactList);
                     final ContactAdapter contactAdapter = new ContactAdapter(contactList);
                     lstContacts.setAdapter(contactAdapter);
 //                        lstContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {

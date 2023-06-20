@@ -19,8 +19,7 @@ import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
-import com.example.ex4.db.AppDB;
-import com.example.ex4.db.AppDBCh;
+import com.example.ex4.db.AppDB2;
 import com.example.ex4.db.ChatDao;
 import com.example.ex4.db.ContactDao;
 import com.example.ex4.schemas.Chat;
@@ -34,7 +33,7 @@ import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
 
-    private AppDBCh db;
+    private AppDB2 db;
     ChatDao chatDao;
     private int id;
     private String message;
@@ -53,9 +52,9 @@ public class ChatPage extends AppCompatActivity {
 
     }
 
-    private void getMessagesDb (Chat chat) {
+    private void setChatDb(Chat chat) {
         db = Room.databaseBuilder(getApplicationContext(),
-                        AppDBCh.class, "FooDB")
+                        AppDB2.class, "Foo")
                 .allowMainThreadQueries()
                 .build();
         chatDao = db.chatDao();
@@ -73,7 +72,7 @@ public class ChatPage extends AppCompatActivity {
             public void status(boolean status) {
                 if (status) {
                     chat = chatAPI.getChat();
-                    getMessagesDb (chat);
+                    setChatDb(chat);
                 }
             }
         });
