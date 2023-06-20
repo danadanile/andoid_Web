@@ -81,7 +81,7 @@ public class Contacts extends AppCompatActivity {
             public void status(boolean status) {
                 if (status) {
                     List<Contact> contactList = chatAPI.getContactList();
-                    final ContactAdapter contactAdapter = new ContactAdapter(contactList);
+                    final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
                     lstContacts.setAdapter(contactAdapter);
 //                        lstContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                            @Override

@@ -11,15 +11,21 @@
         android:background="@drawable/message_background"
         android:id="@+id/layoutformessage">
 
-    <TextView
-        android:id="@+id/message_content_me"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:paddingLeft="7dp"
-        android:paddingRight="40dp"
-        android:paddingBottom="7dp"
-        android:paddingTop="7dp" />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sender Message Display Here "
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="7dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp"
+            android:id="@+id/sendermessage">
+
+        </TextView>
+
     </RelativeLayout>
+
 </RelativeLayout>
