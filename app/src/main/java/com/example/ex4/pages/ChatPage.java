@@ -80,7 +80,11 @@ public class ChatPage extends AppCompatActivity {
                 final MessageAdapter adapter = new MessageAdapter(messages);
                 listView.setAdapter(adapter);
 
+                // Convert the list of messages to be array
+                Message[] messageArray = messages.toArray(new Message[messages.size()]);
 
+                // Update all the messages of a specific chat
+                db.setMessagesDb(messageArray, getId());
             }
         });
     }
@@ -128,18 +132,19 @@ public class ChatPage extends AppCompatActivity {
     private void handleAddMessage() {
         Button bthAdd = findViewById(R.id.sendButton);
         bthAdd.setOnClickListener(view -> {
-
             EditText message = findViewById(R.id.msgInput);
             String messageText = message.getText().toString();
 
             if (!messageText.isEmpty()) {
                 setMessage(messageText);
-
                 Msg msg = new Msg(getMessage());
 
                 ChatAPI chatAPI = new ChatAPI();
                 chatAPI.addMessage(MyApplication.getToken(), getId(), msg, status -> {
                     if (status) {
+                        // Add the new message to the DB
+                        db.setMessageDb(chatAPI.getMessage(), getId());
+
                         getMessagesChat();
                         message.setText("");
                     }

@@ -32,6 +32,7 @@ public class ChatAPI {
     private String error;
     private List<Contact> contactList;
     private List<Message> messages;
+    private Message message;
     private Chat chat;
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
@@ -152,11 +153,12 @@ public class ChatAPI {
 
 
     public void addMessage(String token, int id, Msg message, ICallback callback) {
-        Call<Void> call = webServiceAPI.addMessage(token, id, message);
-        call.enqueue(new Callback<Void>() {
+        Call<Message> call = webServiceAPI.addMessage(token, id, message);
+        call.enqueue(new Callback<Message>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
+                if (response.code() == 200) {
+                    setMessage(response.body());
                     callback.status(true);
                 } else {
                     Log.e("API Error", "Failed to add message ");
@@ -165,7 +167,7 @@ public class ChatAPI {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Message> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
@@ -180,8 +182,20 @@ public class ChatAPI {
         this.contactList = contactList;
     }
 
+    public List<Message> getMessages() {
+        return messages;
+    }
+
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     public String getError() {
@@ -192,9 +206,6 @@ public class ChatAPI {
         return contactList;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
 
     public void setChat(Chat chat) {
         this.chat = chat;

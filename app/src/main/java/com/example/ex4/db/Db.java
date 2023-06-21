@@ -39,12 +39,35 @@ public class Db {
         }
     }
 
-    public void setMessagesDb(Message msg, int id) {
-//        if (chatDao.get(id) == null) {
-//            chatDao.insert(chat);
-//        } else {
-//            chatDao.update(chat);
-//        }
+    public void setMessageDb(Message msg, int chatId) {
+        Chat chat = chatDao.get(chatId);
+
+        // Check if the chat exists in the table
+        if (chat != null) {
+            // Create a new array with increased size
+            Message[] newMessages = new Message[chat.getMessages().length + 1];
+
+            // Copy existing messages to the new array
+            System.arraycopy(chat.getMessages(), 0, newMessages, 0, chat.getMessages().length);
+
+            // Add the new message to the last index of the new array
+            newMessages[newMessages.length - 1] = msg;
+
+            // Update the chat object with the new messages array
+            chat.setMessages(newMessages);
+
+            chatDao.update(chat);
+        }
+    }
+
+    public void setMessagesDb(Message[] messages, int chatId) {
+        Chat chat = chatDao.get(chatId);
+
+        // Check if the chat exists in the table
+        if (chat != null) {
+            chat.setMessages(messages);
+            chatDao.update(chat);
+        }
     }
 
     public void addContactDb(Contact newContact) {

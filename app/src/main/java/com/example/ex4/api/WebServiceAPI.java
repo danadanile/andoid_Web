@@ -42,6 +42,6 @@ public interface WebServiceAPI {
     Call<List<Message>> getMessages(@Header("authorization") String token, @Path("id") int selectedId);
 
     @POST("Chats/{id}/Messages")
-    Call<Void> addMessage(@Header("authorization") String token, @Path("id") int selectedId, @Body Msg message);
+    Call<Message> addMessage(@Header("authorization") String token, @Path("id") int selectedId, @Body Msg message);
 }
 
