@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.example.ex4.pages.Contacts;
 import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
@@ -26,9 +27,21 @@ public class Db {
         chatDao = db.chatDao();
     }
 
-    public void setContactsDb(List<Contact> chatList) {
-        contactDao.deleteAll(); ////////////////////////
-        contactDao.insert(chatList.toArray(new Contact[0]));
+    public void setContactsDb(List<Contact> contactList) {
+        for (Contact contact : contactList) {
+            Contact existingContact = contactDao.get(contact.getId());
+            if (existingContact == null) {
+                // Contact doesn't exist, insert it
+                contactDao.insert(contact);
+            } else {
+                // Contact already exists, update it
+                contactDao.update(contact);
+            }
+        }
+    }
+
+    public List<Contact> getContactsDb() {
+        return contactDao.index();
     }
 
     public void setChatDb(Chat chat) {
@@ -67,6 +80,16 @@ public class Db {
         if (chat != null) {
             chat.setMessages(messages);
             chatDao.update(chat);
+        }
+    }
+
+    public Message[] getMessagesDb(int chatId) {
+        Chat chat = chatDao.get(chatId);
+        if (chat != null) {
+            Message[] messages = chat.getMessages();
+            return messages;
+        } else {
+            return null;
         }
     }
 
