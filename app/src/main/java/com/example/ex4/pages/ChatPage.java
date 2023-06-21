@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +40,8 @@ public class ChatPage extends AppCompatActivity {
 
     private Db db;
     private int id;
+
+    private int selectedColor;
     private String message;
     private Chat chat;
 
@@ -46,12 +52,17 @@ public class ChatPage extends AppCompatActivity {
 
         db = new Db(getApplicationContext());
 
+
+        Intent intent = getIntent();
+        selectedColor = intent.getIntExtra("selectedColor", 0);
+
+        setSelectedColorAndFrame();
+
         displayContactInfo();
         handleAddMessage();
         NavigateToContacts();
         getChat();
         getMessagesChat();
-
     }
 
 
@@ -92,6 +103,7 @@ public class ChatPage extends AppCompatActivity {
         FloatingActionButton bthRegister = findViewById(R.id.btnExitChat);
         bthRegister.setOnClickListener(view -> {
             Intent intent = new Intent(this, Contacts.class);
+            intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
         });
     }
@@ -178,4 +190,67 @@ public class ChatPage extends AppCompatActivity {
 //        // Call getMessagesChat() method again when the activity resumes
 //        getMessagesChat();
 //    }
+
+
+
+    private void setEditTextBackground(int editTextId, int drawableId) {
+        EditText editText = findViewById(editTextId);
+        Drawable drawable = getResources().getDrawable(drawableId);
+        editText.setBackground(drawable);
+
+
+    }
+
+    private void setImageFrameBackground(int drawableId) {
+        ImageView imageFrame = findViewById(R.id.contact_profile_background);
+        Drawable drawable = getResources().getDrawable(drawableId);
+        imageFrame.setImageDrawable(drawable);
+    }
+
+    // Call this method to change the background drawable of the username EditText
+    private void setFrameEditTextBackground(int drawableId) {
+        setEditTextBackground(R.id.msgInput, drawableId);
+      //  setImageFrameBackground(R.id.contact_profile_img, drawableId);
+    }
+
+    private void setButtonAndTextColors(int colorResId) {
+        int color = getResources().getColor(colorResId);
+
+        Button send = findViewById(R.id.sendButton);
+        send.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        View line = findViewById(R.id.line);
+        line.setBackgroundTintList(ColorStateList.valueOf(color));
+
+        FloatingActionButton logout = findViewById(R.id.btnExitChat);
+        logout.setBackgroundTintList(null);  // Clear the previous background tint
+        logout.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+
+    private void setSelectedColorAndFrame() {
+        if (selectedColor != 0) {
+
+            int defaultColor = getResources().getColor(R.color.default_background);
+            int purpleColor = getResources().getColor(R.color.purple_background);
+            int blueColor = getResources().getColor(R.color.blue_background);
+
+            if (selectedColor == blueColor) {
+                setFrameEditTextBackground(R.drawable.image_blue);
+                setImageFrameBackground(R.drawable.image_blue);
+                setButtonAndTextColors(R.color.blue);
+            } else if (selectedColor == defaultColor) {
+                setFrameEditTextBackground(R.drawable.image_pink);
+                setImageFrameBackground(R.drawable.image_pink);
+                setButtonAndTextColors(R.color.default_color);
+            } else if (selectedColor == purpleColor) {
+                setFrameEditTextBackground(R.drawable.image_purple);
+                setImageFrameBackground(R.drawable.image_purple);
+                setButtonAndTextColors(R.color.purple);
+            }
+        }
+
+     else {
+        setButtonAndTextColors(R.color.default_color);
+    }
+    }
 }

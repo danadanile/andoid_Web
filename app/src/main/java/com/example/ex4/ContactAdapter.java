@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +25,19 @@ import java.util.List;
 
 public class ContactAdapter extends BaseAdapter {
     private List<Contact> contactList;
+    private int selectedColor;
 
-    public ContactAdapter(List<Contact> contacts) {
+    public ContactAdapter(List<Contact> contacts, int color) {
         this.contactList = contacts;
+        this.selectedColor=color;
     }
 
     private class ViewHolder {
         ImageView image;
         TextView displayName;
         TextView date;
+
+
     }
 
     @Override
@@ -118,6 +123,9 @@ public class ContactAdapter extends BaseAdapter {
                 // Perform the desired action when the contact is clicked
                 // For example, you can start a new activity and pass the contact information
                 Intent intent = new Intent(v.getContext(), ChatPage.class);
+                intent.putExtra("selectedColor", selectedColor);
+                Log.d("v", "Selected Color: " + selectedColor);
+
                 Gson gson = new Gson();
                 String contactJson = gson.toJson(contact);
                 // Pass the contact object to the details activity
