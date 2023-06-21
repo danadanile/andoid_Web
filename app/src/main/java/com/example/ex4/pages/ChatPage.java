@@ -1,6 +1,7 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -22,6 +23,11 @@ import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
+import com.example.ex4.db.AppDB2;
+import com.example.ex4.db.ChatDao;
+import com.example.ex4.db.ContactDao;
+import com.example.ex4.db.Db;
+import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
@@ -31,25 +37,50 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
+
+    private Db db;
     private int id;
 
     private int selectedColor;
     private String message;
+    private Chat chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        db = new Db(getApplicationContext());
+
+
         Intent intent = getIntent();
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
         setSelectedColorAndFrame();
+
         displayContactInfo();
         handleAddMessage();
         NavigateToContacts();
+        getChat();
         getMessagesChat();
     }
+
+
+    private void getChat() {
+
+        ChatAPI chatAPI = new ChatAPI();
+
+        chatAPI.getChat(MyApplication.getToken(), getId(), new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if (status) {
+                    chat = chatAPI.getChat();
+                    db.setChatDb(chat);
+                }
+            }
+        });
+    }
+
 
     private void getMessagesChat() {
 
@@ -126,6 +157,7 @@ public class ChatPage extends AppCompatActivity {
                     @Override
                     public void status(boolean status) {
                         if (status) {
+
                             getMessagesChat();
                             message.setText("");
                         }

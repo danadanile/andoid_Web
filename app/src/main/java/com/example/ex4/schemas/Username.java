@@ -7,4 +7,8 @@ public class Username {
     public Username(String username) {
         this.username = username;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }
