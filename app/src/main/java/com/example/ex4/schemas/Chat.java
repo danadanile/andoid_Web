@@ -2,6 +2,7 @@ package com.example.ex4.schemas;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
 @Entity
 public class Chat {
     @PrimaryKey(autoGenerate = true)
@@ -25,5 +26,9 @@ public class Chat {
 
     public Message[] getMessages() {
         return messages;
+    }
+
+    public void setMessages(Message[] messages) {
+        this.messages = messages;
     }
 }

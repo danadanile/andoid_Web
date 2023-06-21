@@ -86,15 +86,12 @@ public class Contacts extends AppCompatActivity {
     private void getContacts() {
 
         ChatAPI chatAPI = new ChatAPI();
-        chatAPI.getChats(MyApplication.getToken(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
-                    List<Contact> contactList = chatAPI.getContactList();
-                    db.setContactsDb(contactList);
-                    final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
-                    lstContacts.setAdapter(contactAdapter);
-                }
+        chatAPI.getChats(MyApplication.getToken(), status -> {
+            if (status) {
+                List<Contact> contactList = chatAPI.getContactList();
+                db.setContactsDb(contactList);
+                final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
+                lstContacts.setAdapter(contactAdapter);
             }
         });
     }

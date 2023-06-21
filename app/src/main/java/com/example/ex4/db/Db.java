@@ -2,17 +2,15 @@ package com.example.ex4.db;
 
 import android.content.Context;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
-import com.google.gson.JsonObject;
+import com.example.ex4.schemas.Message;
 
 import java.util.List;
 
 public class Db {
-
     private Context context;
     private AppDB2 db;
     ContactDao contactDao;
@@ -28,14 +26,48 @@ public class Db {
         chatDao = db.chatDao();
     }
 
-    public void setContactsDb (List<Contact> chatList) {
+    public void setContactsDb(List<Contact> chatList) {
         contactDao.deleteAll(); ////////////////////////
         contactDao.insert(chatList.toArray(new Contact[0]));
     }
 
-
     public void setChatDb(Chat chat) {
-        chatDao.insert(chat);
+        if (chatDao.get(chat.getId()) == null) {
+            chatDao.insert(chat);
+        } else {
+            chatDao.update(chat);
+        }
+    }
+
+    public void setMessageDb(Message msg, int chatId) {
+        Chat chat = chatDao.get(chatId);
+
+        // Check if the chat exists in the table
+        if (chat != null) {
+            // Create a new array with increased size
+            Message[] newMessages = new Message[chat.getMessages().length + 1];
+
+            // Copy existing messages to the new array
+            System.arraycopy(chat.getMessages(), 0, newMessages, 0, chat.getMessages().length);
+
+            // Add the new message to the last index of the new array
+            newMessages[newMessages.length - 1] = msg;
+
+            // Update the chat object with the new messages array
+            chat.setMessages(newMessages);
+
+            chatDao.update(chat);
+        }
+    }
+
+    public void setMessagesDb(Message[] messages, int chatId) {
+        Chat chat = chatDao.get(chatId);
+
+        // Check if the chat exists in the table
+        if (chat != null) {
+            chat.setMessages(messages);
+            chatDao.update(chat);
+        }
     }
 
     public void addContactDb(Contact newContact) {
