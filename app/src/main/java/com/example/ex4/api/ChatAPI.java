@@ -28,6 +28,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatAPI {
+
+        private JsonObject user;
         private String error;
         private List<Contact> contactList;
         private List<Message> messages;
@@ -58,11 +60,12 @@ public class ChatAPI {
 
 
     public void addContact(String token, Username username, ICallback callback) {
-        Call<Void> call = webServiceAPI.addContact(token, username);
-        call.enqueue(new Callback<Void>() {
+        Call<JsonObject> call = webServiceAPI.addContact(token, username);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.isSuccessful()) {
+                    setUser(response.body());
                     callback.status(true);
                 } else {
                     try {
@@ -79,7 +82,7 @@ public class ChatAPI {
                 }
             }
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
@@ -198,5 +201,13 @@ public class ChatAPI {
 
     public Chat getChat() {
         return chat;
+    }
+
+    public void setUser(JsonObject user) {
+        this.user = user;
+    }
+
+    public JsonObject getUser() {
+        return user;
     }
 }

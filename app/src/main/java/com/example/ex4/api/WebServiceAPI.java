@@ -33,7 +33,7 @@ public interface WebServiceAPI {
  Call<List<Contact>> getChats(@Header("authorization") String token);
 
  @POST("Chats")
- Call<Void> addContact(@Header("authorization") String authorization, @Body Username username);
+ Call<JsonObject> addContact(@Header("authorization") String authorization, @Body Username username);
 
  @GET("Chats/{id}")
  Call<Chat> getChat(@Header("authorization") String token, @Path("id") int selectedId);

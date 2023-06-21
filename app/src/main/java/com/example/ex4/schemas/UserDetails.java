@@ -1,7 +1,7 @@
 package com.example.ex4.schemas;
 
-public class UserDetails {
 
+public class UserDetails {
     private String username;
     private String displayName;
     private String profilePic;

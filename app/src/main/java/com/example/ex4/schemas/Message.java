@@ -6,10 +6,10 @@ import androidx.room.Entity;
 public class Message {
     private int id;
     private String created;
-    private UserDetails sender;
+    private Username sender;
     private String content;
 
-    public Message(int id, String created, UserDetails sender, String content) {
+    public Message(int id, String created, Username sender, String content) {
         this.id = id;
         this.created = created;
         this.sender = sender;
@@ -24,7 +24,7 @@ public class Message {
         return content;
     }
 
-    public UserDetails getSender() {
+    public Username getSender() {
         return sender;
     }
 }

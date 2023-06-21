@@ -15,6 +15,7 @@ import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
 import com.example.ex4.db.AppDB2;
 import com.example.ex4.db.ContactDao;
+import com.example.ex4.db.Db;
 import com.example.ex4.schemas.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,8 +23,7 @@ import java.util.List;
 
 public class Contacts extends AppCompatActivity {
 
-    private AppDB2 db;
-    ContactDao contactDao;
+    private Db db;
     private int selectedColor;
     private ListView lstContacts;
     private static final int SETTINGS_REQUEST_CODE = 1;
@@ -37,6 +37,8 @@ public class Contacts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
         setLstContacts((ListView) findViewById(R.id.lstContacts));
+
+        db = new Db(getApplicationContext());
 
         // Get the intent that started this activity
         Intent intent = getIntent();
@@ -79,17 +81,6 @@ public class Contacts extends AppCompatActivity {
         });
     }
 
-    private void setContactsDb (List<Contact> chatList) {
-        db = Room.databaseBuilder(getApplicationContext(),
-                        AppDB2.class, "Foo")
-                .allowMainThreadQueries()
-                .build();
-        contactDao = db.contactDao();
-
-        contactDao.deleteAll();
-        contactDao.insert(chatList.toArray(new Contact[0]));
-    }
-
     private void getContacts() {
 
         ChatAPI chatAPI = new ChatAPI();
@@ -98,18 +89,9 @@ public class Contacts extends AppCompatActivity {
             public void status(boolean status) {
                 if (status) {
                     List<Contact> contactList = chatAPI.getContactList();
-                    setContactsDb(contactList);
+                    db.setContactsDb(contactList);
                     final ContactAdapter contactAdapter = new ContactAdapter(contactList);
                     lstContacts.setAdapter(contactAdapter);
-//                        lstContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                Contact contact = contactList.get(position);
-//                                //p.select();
-//                                contactAdapter.notifyDataSetChanged();
-//                            }
-//                        });
-                } else {
                 }
             }
         });
@@ -161,11 +143,11 @@ public class Contacts extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Call getContacts() method again when the activity resumes
-        getContacts();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        // Call getContacts() method again when the activity resumes
+//        getContacts();
+//    }
 
 }

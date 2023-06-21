@@ -9,6 +9,12 @@ public class Contact {
     private UserDetails user;
     private Message lastMessage;
 
+    public Contact(int id, UserDetails user, Message lastMessage) {
+        this.id = id;
+        this.user = user;
+        this.lastMessage = lastMessage;
+    }
+
 
     public void setId(int id) {
         this.id = id;
