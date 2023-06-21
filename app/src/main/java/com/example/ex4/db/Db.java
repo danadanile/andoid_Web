@@ -2,17 +2,15 @@ package com.example.ex4.db;
 
 import android.content.Context;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
-import com.google.gson.JsonObject;
+import com.example.ex4.schemas.Message;
 
 import java.util.List;
 
 public class Db {
-
     private Context context;
     private AppDB2 db;
     ContactDao contactDao;
@@ -28,14 +26,25 @@ public class Db {
         chatDao = db.chatDao();
     }
 
-    public void setContactsDb (List<Contact> chatList) {
+    public void setContactsDb(List<Contact> chatList) {
         contactDao.deleteAll(); ////////////////////////
         contactDao.insert(chatList.toArray(new Contact[0]));
     }
 
-
     public void setChatDb(Chat chat) {
-        chatDao.insert(chat);
+        if (chatDao.get(chat.getId()) == null) {
+            chatDao.insert(chat);
+        } else {
+            chatDao.update(chat);
+        }
+    }
+
+    public void setMessagesDb(Message msg, int id) {
+//        if (chatDao.get(id) == null) {
+//            chatDao.insert(chat);
+//        } else {
+//            chatDao.update(chat);
+//        }
     }
 
     public void addContactDb(Contact newContact) {
