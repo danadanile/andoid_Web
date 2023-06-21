@@ -1,7 +1,6 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,9 +14,9 @@ import android.widget.TextView;
 
 import com.example.ex4.MessageAdapter;
 import com.example.ex4.MyApplication;
+import com.example.ex4.Notifications;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
-import com.example.ex4.api.ICallback;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
@@ -46,15 +45,12 @@ public class ChatPage extends AppCompatActivity {
 
         ChatAPI chatAPI = new ChatAPI();
 
-        chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
-                    List<Message> messages = chatAPI.getMessages();
-                    ListView listView = findViewById(R.id.lstMessages);
-                    final MessageAdapter adapter = new MessageAdapter(messages);
-                    listView.setAdapter(adapter);
-                }
+        chatAPI.getMessages(MyApplication.getToken(), getId(), status -> {
+            if (status) {
+                List<Message> messages = chatAPI.getMessages();
+                ListView listView = findViewById(R.id.lstMessages);
+                final MessageAdapter adapter = new MessageAdapter(messages);
+                listView.setAdapter(adapter);
             }
         });
     }
@@ -109,16 +105,16 @@ public class ChatPage extends AppCompatActivity {
                 setMessage(messageText);
 
                 Msg msg = new Msg(getMessage());
-
                 ChatAPI chatAPI = new ChatAPI();
 
-                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
-                    @Override
-                    public void status(boolean status) {
-                        if (status) {
-                            getMessagesChat();
-                            message.setText("");
-                        }
+                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, status -> {
+                    if (status) {
+                        getMessagesChat();
+                        message.setText("");
+
+                        Notifications notifications = new Notifications("adi", messageText);
+                        notifications.createNotificationChannel();
+
                     }
                 });
             }

@@ -70,6 +70,4 @@ public class MessageAdapter  extends BaseAdapter {
 
         return convertView;
     }
-
-
 }
