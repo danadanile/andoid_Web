@@ -21,7 +21,7 @@ public class Db {
     public Db(Context context) {
         this.context = context;
         db = Room.databaseBuilder(context.getApplicationContext(),
-                        AppDB2.class, "Db")
+                        AppDB2.class, "Db2")
                 .allowMainThreadQueries()
                 .build();
         contactDao = db.contactDao();
