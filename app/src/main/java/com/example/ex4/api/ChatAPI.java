@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
+import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
@@ -27,39 +28,42 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatAPI {
-        private String error;
-        private List<Contact> contactList;
-        private List<Message> messages;
+    private JsonObject user;
+    private String error;
+    private List<Contact> contactList;
+    private List<Message> messages;
+    private Message message;
+    private Chat chat;
+    Retrofit retrofit;
+    WebServiceAPI webServiceAPI;
 
-        Retrofit retrofit;
-        WebServiceAPI webServiceAPI;
+    public ChatAPI() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
 
-        public ChatAPI() {
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .build();
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(client)
-                    .build();
-            webServiceAPI = retrofit.create(WebServiceAPI.class);
-        }
+        retrofit = new Retrofit.Builder()
+                .baseUrl(MyApplication.context.getString(R.string.BaseUrl)) // TAKE IT FROM THE BASEURL
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+        webServiceAPI = retrofit.create(WebServiceAPI.class);
+    }
 
 
     public void addContact(String token, Username username, ICallback callback) {
-        Call<Void> call = webServiceAPI.addContact(token, username);
-        call.enqueue(new Callback<Void>() {
+        Call<JsonObject> call = webServiceAPI.addContact(token, username);
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.isSuccessful()) {
+                    setUser(response.body());
                     callback.status(true);
                 } else {
                     try {
@@ -75,8 +79,9 @@ public class ChatAPI {
                     }
                 }
             }
+
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
@@ -99,6 +104,27 @@ public class ChatAPI {
 
             @Override
             public void onFailure(@NonNull Call<List<Contact>> call, @NonNull Throwable t) {
+                callback.status(false);
+            }
+        });
+    }
+
+    public void getChat(String token, int id, ICallback callback) {
+        Call<Chat> call = webServiceAPI.getChat(token, id);
+        call.enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(@NonNull Call<Chat> call, @NonNull Response<Chat> response) {
+                if (response.code() == 200) {
+                    setChat(response.body());
+                    callback.status(true);
+                } else {
+                    Log.e("API Error", "Failed to get messages ");
+                    callback.status(false);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Chat> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
@@ -127,19 +153,21 @@ public class ChatAPI {
 
 
     public void addMessage(String token, int id, Msg message, ICallback callback) {
-        Call<Void> call = webServiceAPI.addMessage(token, id, message);
-        call.enqueue(new Callback<Void>() {
+        Call<Message> call = webServiceAPI.addMessage(token, id, message);
+        call.enqueue(new Callback<Message>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(@NonNull Call<Message> call, @NonNull Response<Message> response) {
+                if (response.code() == 200) {
+                    setMessage(response.body());
                     callback.status(true);
                 } else {
                     Log.e("API Error", "Failed to add message ");
                     callback.status(false);
                 }
             }
+
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Message> call, @NonNull Throwable t) {
                 callback.status(false);
             }
         });
@@ -149,11 +177,25 @@ public class ChatAPI {
     public void setError(String error) {
         this.error = error;
     }
+
     public void setContactList(List<Contact> contactList) {
         this.contactList = contactList;
     }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     public String getError() {
@@ -164,7 +206,20 @@ public class ChatAPI {
         return contactList;
     }
 
-    public List<Message> getMessages() {
-        return messages;
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setUser(JsonObject user) {
+        this.user = user;
+    }
+
+    public JsonObject getUser() {
+        return user;
     }
 }

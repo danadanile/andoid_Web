@@ -16,11 +16,18 @@ import android.widget.TextView;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
-import com.example.ex4.api.ICallback;
+import com.example.ex4.db.Db;
+import com.example.ex4.schemas.Contact;
+import com.example.ex4.schemas.UserDetails;
 import com.example.ex4.schemas.Username;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.gson.JsonObject;
+
+
 public class AddContact extends AppCompatActivity {
+    private Db db;
     private String contactUsername;
     private int selectedColor;
 
@@ -32,6 +39,8 @@ public class AddContact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
+
+        db = new Db(getApplicationContext());
 
         // Get the intent that started this activity
         Intent intent = getIntent();
@@ -53,19 +62,25 @@ public class AddContact extends AppCompatActivity {
             setContactUsername(Username.getText().toString());
 
             Username username = new Username(contactUsername);
-
             ChatAPI chatAPI = new ChatAPI();
 
-            chatAPI.addContact(MyApplication.getToken(), username, new ICallback() {
-                @Override
-                public void status(boolean status) {
-                    if(status) {
-                        finish();
-                    } else {
-                        String error = chatAPI.getError();
-                        TextView errorElement = findViewById(R.id.error);
-                        errorElement.setText(error);
-                    }
+            chatAPI.addContact(MyApplication.getToken(), username, status -> {
+                if (status) {
+                    JsonObject user = chatAPI.getUser();
+                    int id = user.get("id").getAsInt();
+                    JsonObject userJson = user.getAsJsonObject("user");
+                    String username1 = userJson.get("username").getAsString();
+                    String displayName = userJson.get("displayName").getAsString();
+                    String profilePic = userJson.get("profilePic").getAsString();
+
+                    UserDetails userDetails = new UserDetails(username1, displayName, profilePic);
+                    Contact newContact = new Contact(id, userDetails, null);
+                    db.addContactDb(newContact);
+
+                    finish();
+                } else {
+                    String error = chatAPI.getError();
+                    errorElement.setText(error);
                 }
             });
         });

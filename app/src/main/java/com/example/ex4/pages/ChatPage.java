@@ -1,6 +1,9 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -18,10 +21,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.ex4.MessageAdapter;
+import com.example.ex4.MessageViewModel;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
+import com.example.ex4.db.AppDB2;
+import com.example.ex4.db.ChatDao;
+import com.example.ex4.db.ContactDao;
+import com.example.ex4.db.Db;
+import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
@@ -31,41 +40,70 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
+    private Db db;
     private int id;
-
     private int selectedColor;
     private String message;
+    private Chat chat;
+    private MessageViewModel messageViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        db = new Db(getApplicationContext());
+
+        messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
+
+
         Intent intent = getIntent();
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
-
-
         setSelectedColorAndFrame();
+
         displayContactInfo();
         handleAddMessage();
         NavigateToContacts();
+        getChat();
         getMessagesChat();
+
+        messageViewModel.getMessagesLiveData().observe(this, new Observer<List<Message>>() {
+            @Override
+            public void onChanged(List<Message> messages) {
+                // Update your UI components with the new list of messages
+                ListView listView = findViewById(R.id.lstMessages);
+                final MessageAdapter adapter = new MessageAdapter(messages);
+                listView.setAdapter(adapter);
     }
 
-    private void getMessagesChat() {
-
+    private void getChat() {
         ChatAPI chatAPI = new ChatAPI();
+        chatAPI.getChat(MyApplication.getToken(), getId(), status -> {
+            if (status) {
+                chat = chatAPI.getChat();
+                db.setChatDb(chat);
+            }
+        });
+    }
 
-        chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
-                    List<Message> messages = chatAPI.getMessages();
-                    ListView listView = findViewById(R.id.lstMessages);
-                    final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
-                    listView.setAdapter(adapter);
-                }
+
+    private void getMessagesChat() {
+        ChatAPI chatAPI = new ChatAPI();
+        chatAPI.getMessages(MyApplication.getToken(), getId(), status -> {
+            if (status) {
+                List<Message> messages = chatAPI.getMessages();
+                ListView listView = findViewById(R.id.lstMessages);
+                final MessageAdapter adapter = new MessageAdapter(messages);
+                listView.setAdapter(adapter);
+
+                // Convert the list of messages to be array
+                Message[] messageArray = messages.toArray(new Message[messages.size()]);
+
+                // Update all the messages of a specific chat
+                db.setMessagesDb(messageArray, getId());
+ 
+  
             }
         });
     }
@@ -110,27 +148,59 @@ public class ChatPage extends AppCompatActivity {
         setId(contact.getId());
     }
 
+
+    private void getChat() {
+
+        ChatAPI chatAPI = new ChatAPI();
+
+        chatAPI.getChat(MyApplication.getToken(), getId(), new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if (status) {
+                    chat = chatAPI.getChat();
+                    db.setChatDb(chat);
+                }
+            }
+        });
+    }
+
+    private void getMessagesChat() {
+
+        ChatAPI chatAPI = new ChatAPI();
+
+        chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if (status) {
+                    List<Message> messages = chatAPI.getMessages();
+                    messageViewModel.setMessages(messages);
+//                    ListView listView = findViewById(R.id.lstMessages);
+//                    final MessageAdapter adapter = new MessageAdapter(messages);
+//                    listView.setAdapter(adapter);
+                }
+            }
+        });
+    }
+
     private void handleAddMessage() {
         Button bthAdd = findViewById(R.id.sendButton);
         bthAdd.setOnClickListener(view -> {
-
             EditText message = findViewById(R.id.msgInput);
             String messageText = message.getText().toString();
 
             if (!messageText.isEmpty()) {
                 setMessage(messageText);
-
                 Msg msg = new Msg(getMessage());
 
                 ChatAPI chatAPI = new ChatAPI();
+                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, status -> {
+                    if (status) {
+                        // Add the new message to the DB
+                        db.setMessageDb(chatAPI.getMessage(), getId());
 
-                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
-                    @Override
-                    public void status(boolean status) {
-                        if (status) {
-                            getMessagesChat();
-                            message.setText("");
-                        }
+                        getMessagesChat();
+                        message.setText("");
+
                     }
                 });
             }
@@ -162,13 +232,10 @@ public class ChatPage extends AppCompatActivity {
 //    }
 
 
-
     private void setEditTextBackground(int editTextId, int drawableId) {
         EditText editText = findViewById(editTextId);
         Drawable drawable = getResources().getDrawable(drawableId);
         editText.setBackground(drawable);
-
-
     }
 
     private void setImageFrameBackground(int drawableId) {
@@ -180,7 +247,7 @@ public class ChatPage extends AppCompatActivity {
     // Call this method to change the background drawable of the username EditText
     private void setFrameEditTextBackground(int drawableId) {
         setEditTextBackground(R.id.msgInput, drawableId);
-      //  setImageFrameBackground(R.id.contact_profile_img, drawableId);
+        //  setImageFrameBackground(R.id.contact_profile_img, drawableId);
     }
 
     private void setButtonAndTextColors(int colorResId) {
@@ -223,7 +290,10 @@ public class ChatPage extends AppCompatActivity {
                 setImageFrameBackground(R.drawable.image_purple);
                 setButtonAndTextColors(R.color.purple);
             }
+        } else {
+            setButtonAndTextColors(R.color.default_color);
         }
+
      else {
             if(selectedColor==0) {
                 // Set the background color
