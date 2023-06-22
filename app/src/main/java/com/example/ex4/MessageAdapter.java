@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.ex4.MyApplication;
+import com.example.ex4.R;
 import com.example.ex4.schemas.Message;
 
 import java.util.List;
@@ -38,18 +40,33 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Message message = messageList.get(position);
+        if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
+            return 0; // View type for sender message
+        } else {
+            return 1; // View type for other message
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2; // Total number of view types (sender and other messages)
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
+        int viewType = getItemViewType(position);
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            Message message = messageList.get(position);
 
-            if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
+            if (viewType == 0) {
                 convertView = inflater.inflate(R.layout.activity_message_me, parent, false);
                 viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
             } else {
@@ -57,6 +74,7 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
             }
 
+            viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -65,7 +83,7 @@ public class MessageAdapter extends BaseAdapter {
         Message message = messageList.get(position);
         viewHolder.messageContent.setText(message.getContent());
 
-        if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
+        if (viewType == 0) {
             viewHolder.messageContent.setGravity(Gravity.END);
         } else {
             viewHolder.messageContent.setGravity(Gravity.START);
