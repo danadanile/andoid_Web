@@ -1,7 +1,9 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -18,7 +20,11 @@ import com.example.ex4.db.Db;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.UserDetails;
 import com.example.ex4.schemas.Username;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.google.gson.JsonObject;
+
 
 public class AddContact extends AppCompatActivity {
     private Db db;
@@ -44,6 +50,7 @@ public class AddContact extends AppCompatActivity {
         setSelectedColorAndFrame();
 
         handleAdd();
+        handleClose();
     }
 
     private void handleAdd() {
@@ -78,7 +85,18 @@ public class AddContact extends AppCompatActivity {
             });
         });
     }
+    private void handleClose() {
+        FloatingActionButton btnClose = findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(view -> {
+            Intent intent = new Intent();
 
+            intent.putExtra("selectedColor", selectedColor);
+            setResult(Activity.RESULT_OK, intent);
+
+            // Finish the current Settings activity and navigate back to the previous page
+            finish();
+        });
+    }
 
     private void setEditTextBackground(int editTextId, int drawableId) {
         EditText editText = findViewById(editTextId);
@@ -99,13 +117,16 @@ public class AddContact extends AppCompatActivity {
 
         TextView addText = findViewById(R.id.ContactText);
         addText.setTextColor(color);
+
+        FloatingActionButton close = findViewById(R.id.btnClose);
+        close.setBackgroundTintList(null);  // Clear the previous background tint
+        close.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     private void setSelectedColorAndFrame() {
 
         if (selectedColor != 0) {
-            LinearLayout rootLayout = findViewById(R.id.rootLayout);
-            // Set the background color
+            ConstraintLayout rootLayout = findViewById(R.id.rootLayout);
             rootLayout.setBackgroundColor(selectedColor);
 
             int defaultColor = getResources().getColor(R.color.default_background);
@@ -122,6 +143,9 @@ public class AddContact extends AppCompatActivity {
                 setFrameEditTextBackground(R.drawable.purple_frame);
                 setButtonAndTextColors(R.color.purple);
             }
+        }
+        else{
+            setButtonAndTextColors(R.color.default_color);
         }
     }
 }

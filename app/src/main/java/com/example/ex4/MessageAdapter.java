@@ -1,26 +1,29 @@
 package com.example.ex4;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.ex4.schemas.Message;
 
 import java.util.List;
-public class MessageAdapter  extends BaseAdapter {
-    private List<Message> messageList;
 
-    public MessageAdapter(List<Message> messages) {
+public class MessageAdapter extends BaseAdapter {
+    private List<Message> messageList;
+    private LayoutInflater inflater;
+
+    public MessageAdapter(Context context, List<Message> messages) {
         this.messageList = messages;
+        this.inflater = LayoutInflater.from(context);
     }
 
     private static class ViewHolder {
         TextView messageContent;
-        TextView messageSide;
+        TextView timeTextView;
     }
 
     @Override
@@ -43,20 +46,17 @@ public class MessageAdapter  extends BaseAdapter {
         ViewHolder viewHolder;
 
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-            // Inflate the layout based on the message side
-            Message message = messageList.get(position);
-            int layoutId = message.getSender().getUsername().equals(MyApplication.getMyProfile()) ?
-                    R.layout.activity_message_me : R.layout.activity_message_other;
-
-            convertView = inflater.inflate(layoutId, parent, false);
-
             viewHolder = new ViewHolder();
-            if (layoutId == R.layout.activity_message_me) {
-                viewHolder.messageContent = convertView.findViewById(R.id.message_content_me);
+            Message message = messageList.get(position);
+
+            if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
+                convertView = inflater.inflate(R.layout.activity_message_me, parent, false);
+                viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
+                viewHolder.timeTextView = convertView.findViewById(R.id.timeofmessage);
             } else {
-                viewHolder.messageContent = convertView.findViewById(R.id.message_content_other);
+                convertView = inflater.inflate(R.layout.activity_message_other, parent, false);
+                viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
+                viewHolder.timeTextView = convertView.findViewById(R.id.timeofmessage);
             }
 
             convertView.setTag(viewHolder);
@@ -65,11 +65,17 @@ public class MessageAdapter  extends BaseAdapter {
         }
 
         Message message = messageList.get(position);
-
         viewHolder.messageContent.setText(message.getContent());
+        //viewHolder.timeTextView.setText(message.getTime());
+
+        if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
+            viewHolder.messageContent.setGravity(Gravity.END);
+            viewHolder.timeTextView.setGravity(Gravity.END);
+        } else {
+            viewHolder.messageContent.setGravity(Gravity.START);
+            viewHolder.timeTextView.setGravity(Gravity.START);
+        }
 
         return convertView;
     }
-
-
 }
