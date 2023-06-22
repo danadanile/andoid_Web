@@ -18,6 +18,7 @@ public class MessageAdapter extends BaseAdapter {
 
     public MessageAdapter(List<Message> messages) {
         this.messageList = messages;
+        inflater = LayoutInflater.from(context);
     }
 
     private static class ViewHolder {
@@ -51,11 +52,11 @@ public class MessageAdapter extends BaseAdapter {
             if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
                 convertView = inflater.inflate(R.layout.activity_message_me, parent, false);
                 viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
-                viewHolder.timeTextView = convertView.findViewById(R.id.timeofmessage);
+
             } else {
                 convertView = inflater.inflate(R.layout.activity_message_other, parent, false);
                 viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
-                viewHolder.timeTextView = convertView.findViewById(R.id.timeofmessage);
+
             }
 
             convertView.setTag(viewHolder);
@@ -65,14 +66,11 @@ public class MessageAdapter extends BaseAdapter {
 
         Message message = messageList.get(position);
         viewHolder.messageContent.setText(message.getContent());
-        //viewHolder.timeTextView.setText(message.getTime());
 
         if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
             viewHolder.messageContent.setGravity(Gravity.END);
-            viewHolder.timeTextView.setGravity(Gravity.END);
         } else {
             viewHolder.messageContent.setGravity(Gravity.START);
-            viewHolder.timeTextView.setGravity(Gravity.START);
         }
 
         return convertView;

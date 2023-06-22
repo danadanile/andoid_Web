@@ -25,18 +25,6 @@
 
                 </TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/timeofmessage"
-                    android:textSize="10sp"
-                    android:layout_toRightOf="@id/sendermessage"
-                    android:layout_marginLeft="-40dp"
-                    android:layout_alignBottom="@id/sendermessage"
-                    android:text="20:09"
-                    android:padding="7dp"
-                    android:textColor="#434343" />
-
 
         </RelativeLayout>
 

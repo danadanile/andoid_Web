@@ -74,7 +74,7 @@ public class ChatPage extends AppCompatActivity {
             public void onChanged(List<Message> messages) {
                 // Update your UI components with the new list of messages
                 ListView listView = findViewById(R.id.lstMessages);
-                final MessageAdapter adapter = new MessageAdapter(messages);
+                final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
                 listView.setAdapter(adapter);
             }
         });
@@ -254,13 +254,13 @@ public class ChatPage extends AppCompatActivity {
                 setFrameEditTextBackground(R.drawable.purple_frame);
                 setImageFrameBackground(R.drawable.image_purple);
                 setButtonAndTextColors(R.color.purple);
-            }
-        } else {
-                if(selectedColor==0) {
+            } else {
+                if (selectedColor == 0) {
                     // Set the background color
                     rootLayout.setBackgroundColor(defaultColor);
                 }
-            setButtonAndTextColors(R.color.default_color);
-        }
+                setButtonAndTextColors(R.color.default_color);
+            }
+        
     }
 }
