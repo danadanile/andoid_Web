@@ -92,12 +92,13 @@ public class ChatAPI {
         Call<List<Contact>> call = webServiceAPI.getChats(token);
         call.enqueue(new Callback<List<Contact>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
+            public void onResponse(@NonNull Call<List<Contact>> call,
+                                   @NonNull Response<List<Contact>> response) {
                 if (response.isSuccessful()) {
                     setContactList(response.body());
                     callback.status(true);
                 } else {
-                    Log.e("API Error", "Failed to get chats ");
+                    Log.e("API Error", "Failed to get chats");
                     callback.status(false);
                 }
             }
@@ -108,6 +109,7 @@ public class ChatAPI {
             }
         });
     }
+
 
     public void getChat(String token, int id, ICallback callback) {
         Call<Chat> call = webServiceAPI.getChat(token, id);
@@ -134,12 +136,13 @@ public class ChatAPI {
         Call<List<Message>> call = webServiceAPI.getMessages(token, id);
         call.enqueue(new Callback<List<Message>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Message>> call, @NonNull Response<List<Message>> response) {
+            public void onResponse(@NonNull Call<List<Message>> call,
+                                   @NonNull Response<List<Message>> response) {
                 if (response.code() == 200) {
                     setMessages(response.body());
                     callback.status(true);
                 } else {
-                    Log.e("API Error", "Failed to get messages ");
+                    Log.e("API Error", "Failed to get messages");
                     callback.status(false);
                 }
             }
@@ -150,7 +153,6 @@ public class ChatAPI {
             }
         });
     }
-
 
     public void addMessage(String token, int id, Msg message, ICallback callback) {
         Call<Message> call = webServiceAPI.addMessage(token, id, message);
@@ -172,7 +174,6 @@ public class ChatAPI {
             }
         });
     }
-
 
     public void setError(String error) {
         this.error = error;
@@ -205,7 +206,6 @@ public class ChatAPI {
     public List<Contact> getContactList() {
         return contactList;
     }
-
 
     public void setChat(Chat chat) {
         this.chat = chat;

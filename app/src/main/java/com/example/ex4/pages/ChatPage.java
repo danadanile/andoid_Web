@@ -1,9 +1,7 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -25,10 +23,6 @@ import com.example.ex4.MessageViewModel;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
-import com.example.ex4.api.ICallback;
-import com.example.ex4.db.AppDB2;
-import com.example.ex4.db.ChatDao;
-import com.example.ex4.db.ContactDao;
 import com.example.ex4.db.Db;
 import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
@@ -57,7 +51,6 @@ public class ChatPage extends AppCompatActivity {
 
         messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
 
-
         Intent intent = getIntent();
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
@@ -69,52 +62,43 @@ public class ChatPage extends AppCompatActivity {
         getChat();
         getMessagesChat();
 
-        messageViewModel.getMessagesLiveData().observe(this, new Observer<List<Message>>() {
-            @Override
-            public void onChanged(List<Message> messages) {
-                // Update your UI components with the new list of messages
-                ListView listView = findViewById(R.id.lstMessages);
-                final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
-                listView.setAdapter(adapter);
-            }
+        messageViewModel.getMessagesLiveData().observe(this, messages -> {
+            // Update your UI components with the new list of messages
+            ListView listView = findViewById(R.id.lstMessages);
+            final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
+            listView.setAdapter(adapter);
         });
     }
 
     private void getChat() {
         ChatAPI chatAPI = new ChatAPI();
-        chatAPI.getChat(MyApplication.getToken(), getId(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
+        chatAPI.getChat(MyApplication.getToken(), getId(), status -> {
+            if (status) {
+                new Thread(() -> {
                     chat = chatAPI.getChat();
                     db.setChatDb(chat);
-                }
+                }).start();
             }
         });
     }
-
 
     private void getMessagesChat() {
         ChatAPI chatAPI = new ChatAPI();
-        chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
-                    List<Message> messages = chatAPI.getMessages();
-                    messageViewModel.setMessages(messages);
-//                    ListView listView = findViewById(R.id.lstMessages);
-//                    final MessageAdapter adapter = new MessageAdapter(messages);
-//                    listView.setAdapter(adapter);
+        chatAPI.getMessages(MyApplication.getToken(), getId(), status -> {
+            if (status) {
+                List<Message> messages = chatAPI.getMessages();
 
-                    // Convert the list of messages to an array
-                    Message[] messageArray = messages.toArray(new Message[messages.size()]);
-
-                    // Update all the messages of a specific chat
+                new Thread(() -> {
+                    // Update all the messages of a specific chat in the database
+                    Message[] messageArray = messages.toArray(new Message[0]);
                     db.setMessagesDb(messageArray, getId());
-                }
+                }).start();
+
+                messageViewModel.setMessages(messages);
             }
         });
     }
+
 
     private void NavigateToContacts() {
         FloatingActionButton bthRegister = findViewById(R.id.btnExitChat);
@@ -135,25 +119,26 @@ public class ChatPage extends AppCompatActivity {
                 setMessage(messageText);
                 Msg msg = new Msg(getMessage());
 
-                ChatAPI chatAPI = new ChatAPI();
-                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
-                    @Override
-                    public void status(boolean status) {
+                new Thread(() -> {
+                    ChatAPI chatAPI = new ChatAPI();
+                    chatAPI.addMessage(MyApplication.getToken(), getId(), msg, status -> {
                         if (status) {
-                            // Add the new message to the DB
-                            db.setMessageDb(chatAPI.getMessage(), getId());
-                            Message[] messages = db.getMessagesDb(getId());
-                            List<Message> messageList = Arrays.asList(messages);
-                            messageViewModel.setMessages(messageList);
+                            Message tempMsg = chatAPI.getMessage();
+                            runOnUiThread(() -> {
+                                // Update the database on the main thread
+                                db.setMessageDb(tempMsg, getId());
+                                Message[] messages = db.getMessagesDb(getId());
+                                List<Message> messageList = Arrays.asList(messages);
+                                messageViewModel.setMessages(messageList);
+                            });
                             message.setText("");
-
-                            //getMessagesChat();
                         }
-                    }
-                });
+                    });
+                }).start();
             }
         });
     }
+
 
     private void displayContactInfo() {
         String contactJson = getIntent().getStringExtra("contact");
@@ -233,7 +218,6 @@ public class ChatPage extends AppCompatActivity {
     }
 
     private void setSelectedColorAndFrame() {
-
         LinearLayout rootLayout = findViewById(R.id.rootLayout);
         // Set the background color
         rootLayout.setBackgroundColor(selectedColor);
@@ -241,6 +225,7 @@ public class ChatPage extends AppCompatActivity {
         int defaultColor = getResources().getColor(R.color.default_background);
         int purpleColor = getResources().getColor(R.color.purple_background);
         int blueColor = getResources().getColor(R.color.blue_background);
+
         if (selectedColor != 0) {
             if (selectedColor == blueColor) {
                 setFrameEditTextBackground(R.drawable.blue_frame);
@@ -263,5 +248,6 @@ public class ChatPage extends AppCompatActivity {
                 }
                 setButtonAndTextColors(R.color.default_color);
             }
+        }
     }
 }

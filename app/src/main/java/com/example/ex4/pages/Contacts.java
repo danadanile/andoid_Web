@@ -98,15 +98,18 @@ public class Contacts extends AppCompatActivity {
     }
 
     private void getContacts() {
-
         ChatAPI chatAPI = new ChatAPI();
         chatAPI.getChats(MyApplication.getToken(), status -> {
             if (status) {
                 List<Contact> contactList = chatAPI.getContactList();
+
+                new Thread(() -> {
+                    // Update the contacts in the database
+                    db.setContactsDb(contactList);
+                }).start();
+
+                // Update the ViewModel with the new contacts
                 contactViewModel.setContacts(contactList);
-                db.setContactsDb(contactList);
-//                final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
-//                lstContacts.setAdapter(contactAdapter);
             }
         });
     }
