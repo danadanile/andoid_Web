@@ -261,6 +261,6 @@ public class ChatPage extends AppCompatActivity {
                 }
                 setButtonAndTextColors(R.color.default_color);
             }
-        
+        }
     }
 }
