@@ -16,7 +16,7 @@ public class MessageAdapter extends BaseAdapter {
     private List<Message> messageList;
     private LayoutInflater inflater;
 
-    public MessageAdapter(List<Message> messages) {
+    public MessageAdapter(Context context, List<Message> messages) {
         this.messageList = messages;
         inflater = LayoutInflater.from(context);
     }
@@ -52,11 +52,9 @@ public class MessageAdapter extends BaseAdapter {
             if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
                 convertView = inflater.inflate(R.layout.activity_message_me, parent, false);
                 viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
-
             } else {
                 convertView = inflater.inflate(R.layout.activity_message_other, parent, false);
                 viewHolder.messageContent = convertView.findViewById(R.id.sendermessage);
-
             }
 
             convertView.setTag(viewHolder);
