@@ -28,16 +28,18 @@ public class Db {
     }
 
     public void setContactsDb(List<Contact> contactList) {
-        for (Contact contact : contactList) {
-            Contact existingContact = contactDao.get(contact.getId());
-            if (existingContact == null) {
-                // Contact doesn't exist, insert it
-                contactDao.insert(contact);
-            } else {
-                // Contact already exists, update it
-                contactDao.update(contact);
-            }
-        }
+        contactDao.deleteAll(); ////////////////////////
+        contactDao.insert(contactList.toArray(new Contact[0]));
+//        for (Contact contact : contactList) {
+//            Contact existingContact = contactDao.get(contact.getId());
+//            if (existingContact == null) {
+//                // Contact doesn't exist, insert it
+//                contactDao.insert(contact);
+//            } else {
+//                // Contact already exists, update it
+//                contactDao.update(contact);
+//            }
+//        }
     }
 
     public List<Contact> getContactsDb() {

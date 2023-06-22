@@ -77,6 +77,8 @@ public class AddContact extends AppCompatActivity {
                     Contact newContact = new Contact(id, userDetails, null);
                     db.addContactDb(newContact);
 
+                    Intent intent = new Intent();
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
                 } else {
                     String error = chatAPI.getError();

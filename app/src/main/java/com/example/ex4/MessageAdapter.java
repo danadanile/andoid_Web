@@ -16,9 +16,8 @@ public class MessageAdapter extends BaseAdapter {
     private List<Message> messageList;
     private LayoutInflater inflater;
 
-    public MessageAdapter(Context context, List<Message> messages) {
+    public MessageAdapter(List<Message> messages) {
         this.messageList = messages;
-        this.inflater = LayoutInflater.from(context);
     }
 
     private static class ViewHolder {
