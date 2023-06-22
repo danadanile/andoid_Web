@@ -234,7 +234,6 @@ public class ChatPage extends AppCompatActivity {
 
     private void setSelectedColorAndFrame() {
 
-
         LinearLayout rootLayout = findViewById(R.id.rootLayout);
         // Set the background color
         rootLayout.setBackgroundColor(selectedColor);
@@ -257,15 +256,11 @@ public class ChatPage extends AppCompatActivity {
                 setButtonAndTextColors(R.color.purple);
             }
         } else {
+                if(selectedColor==0) {
+                    // Set the background color
+                    rootLayout.setBackgroundColor(defaultColor);
+                }
             setButtonAndTextColors(R.color.default_color);
         }
-
-     else {
-            if(selectedColor==0) {
-                // Set the background color
-                rootLayout.setBackgroundColor(defaultColor);
-            }
-        setButtonAndTextColors(R.color.default_color);
-    }
     }
 }

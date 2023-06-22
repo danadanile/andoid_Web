@@ -74,7 +74,7 @@ public class Contacts extends AppCompatActivity {
         bthAdd.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), AddContact.class);
             intent.putExtra("selectedColor", selectedColor);
-            startActivity(intent);
+            startActivityForResult(intent, SETTINGS_REQUEST_CODE);
         });
     }
 
@@ -170,7 +170,6 @@ public class Contacts extends AppCompatActivity {
 //    @Override
 //    protected void onResume() {
 //        super.onResume();
-//        // Call getContacts() method again when the activity resumes
 //        getContacts();
 //    }
 
