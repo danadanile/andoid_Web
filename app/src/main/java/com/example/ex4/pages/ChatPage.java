@@ -37,6 +37,7 @@ import com.example.ex4.schemas.Msg;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ChatPage extends AppCompatActivity {
@@ -75,14 +76,19 @@ public class ChatPage extends AppCompatActivity {
                 ListView listView = findViewById(R.id.lstMessages);
                 final MessageAdapter adapter = new MessageAdapter(messages);
                 listView.setAdapter(adapter);
+            }
+        });
     }
 
     private void getChat() {
         ChatAPI chatAPI = new ChatAPI();
-        chatAPI.getChat(MyApplication.getToken(), getId(), status -> {
-            if (status) {
-                chat = chatAPI.getChat();
-                db.setChatDb(chat);
+        chatAPI.getChat(MyApplication.getToken(), getId(), new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if (status) {
+                    chat = chatAPI.getChat();
+                    db.setChatDb(chat);
+                }
             }
         });
     }
@@ -90,20 +96,22 @@ public class ChatPage extends AppCompatActivity {
 
     private void getMessagesChat() {
         ChatAPI chatAPI = new ChatAPI();
-        chatAPI.getMessages(MyApplication.getToken(), getId(), status -> {
-            if (status) {
-                List<Message> messages = chatAPI.getMessages();
-                ListView listView = findViewById(R.id.lstMessages);
-                final MessageAdapter adapter = new MessageAdapter(messages);
-                listView.setAdapter(adapter);
+        chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
+            @Override
+            public void status(boolean status) {
+                if (status) {
+                    List<Message> messages = chatAPI.getMessages();
+                    messageViewModel.setMessages(messages);
+//                    ListView listView = findViewById(R.id.lstMessages);
+//                    final MessageAdapter adapter = new MessageAdapter(messages);
+//                    listView.setAdapter(adapter);
 
-                // Convert the list of messages to be array
-                Message[] messageArray = messages.toArray(new Message[messages.size()]);
+                    // Convert the list of messages to an array
+                    Message[] messageArray = messages.toArray(new Message[messages.size()]);
 
-                // Update all the messages of a specific chat
-                db.setMessagesDb(messageArray, getId());
- 
-  
+                    // Update all the messages of a specific chat
+                    db.setMessagesDb(messageArray, getId());
+                }
             }
         });
     }
@@ -114,6 +122,36 @@ public class ChatPage extends AppCompatActivity {
             Intent intent = new Intent(this, Contacts.class);
             intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
+        });
+    }
+
+    private void handleAddMessage() {
+        Button bthAdd = findViewById(R.id.sendButton);
+        bthAdd.setOnClickListener(view -> {
+            EditText message = findViewById(R.id.msgInput);
+            String messageText = message.getText().toString();
+
+            if (!messageText.isEmpty()) {
+                setMessage(messageText);
+                Msg msg = new Msg(getMessage());
+
+                ChatAPI chatAPI = new ChatAPI();
+                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, new ICallback() {
+                    @Override
+                    public void status(boolean status) {
+                        if (status) {
+                            // Add the new message to the DB
+                            db.setMessageDb(chatAPI.getMessage(), getId());
+                            Message[] messages = db.getMessagesDb(getId());
+                            List<Message> messageList = Arrays.asList(messages);
+                            messageViewModel.setMessages(messageList);
+                            message.setText("");
+
+                            //getMessagesChat();
+                        }
+                    }
+                });
+            }
         });
     }
 
@@ -148,65 +186,6 @@ public class ChatPage extends AppCompatActivity {
         setId(contact.getId());
     }
 
-
-    private void getChat() {
-
-        ChatAPI chatAPI = new ChatAPI();
-
-        chatAPI.getChat(MyApplication.getToken(), getId(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
-                    chat = chatAPI.getChat();
-                    db.setChatDb(chat);
-                }
-            }
-        });
-    }
-
-    private void getMessagesChat() {
-
-        ChatAPI chatAPI = new ChatAPI();
-
-        chatAPI.getMessages(MyApplication.getToken(), getId(), new ICallback() {
-            @Override
-            public void status(boolean status) {
-                if (status) {
-                    List<Message> messages = chatAPI.getMessages();
-                    messageViewModel.setMessages(messages);
-//                    ListView listView = findViewById(R.id.lstMessages);
-//                    final MessageAdapter adapter = new MessageAdapter(messages);
-//                    listView.setAdapter(adapter);
-                }
-            }
-        });
-    }
-
-    private void handleAddMessage() {
-        Button bthAdd = findViewById(R.id.sendButton);
-        bthAdd.setOnClickListener(view -> {
-            EditText message = findViewById(R.id.msgInput);
-            String messageText = message.getText().toString();
-
-            if (!messageText.isEmpty()) {
-                setMessage(messageText);
-                Msg msg = new Msg(getMessage());
-
-                ChatAPI chatAPI = new ChatAPI();
-                chatAPI.addMessage(MyApplication.getToken(), getId(), msg, status -> {
-                    if (status) {
-                        // Add the new message to the DB
-                        db.setMessageDb(chatAPI.getMessage(), getId());
-
-                        getMessagesChat();
-                        message.setText("");
-
-                    }
-                });
-            }
-        });
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -223,15 +202,6 @@ public class ChatPage extends AppCompatActivity {
         return message;
     }
 
-    ///////////////////////////////////////////////////////////////check
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        // Call getMessagesChat() method again when the activity resumes
-//        getMessagesChat();
-//    }
-
-
     private void setEditTextBackground(int editTextId, int drawableId) {
         EditText editText = findViewById(editTextId);
         Drawable drawable = getResources().getDrawable(drawableId);
@@ -244,10 +214,8 @@ public class ChatPage extends AppCompatActivity {
         imageFrame.setImageDrawable(drawable);
     }
 
-    // Call this method to change the background drawable of the username EditText
     private void setFrameEditTextBackground(int drawableId) {
         setEditTextBackground(R.id.msgInput, drawableId);
-        //  setImageFrameBackground(R.id.contact_profile_img, drawableId);
     }
 
     private void setButtonAndTextColors(int colorResId) {
@@ -260,7 +228,7 @@ public class ChatPage extends AppCompatActivity {
         line.setBackgroundTintList(ColorStateList.valueOf(color));
 
         FloatingActionButton logout = findViewById(R.id.btnExitChat);
-        logout.setBackgroundTintList(null);  // Clear the previous background tint
+        logout.setBackgroundTintList(null);
         logout.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
@@ -275,8 +243,6 @@ public class ChatPage extends AppCompatActivity {
         int purpleColor = getResources().getColor(R.color.purple_background);
         int blueColor = getResources().getColor(R.color.blue_background);
         if (selectedColor != 0) {
-
-
             if (selectedColor == blueColor) {
                 setFrameEditTextBackground(R.drawable.blue_frame);
                 setImageFrameBackground(R.drawable.image_blue);

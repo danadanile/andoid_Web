@@ -8,19 +8,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.ex4.ContactAdapter;
+import com.example.ex4.ContactViewModel;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.api.ICallback;
-import com.example.ex4.db.AppDB2;
-import com.example.ex4.db.ContactDao;
 import com.example.ex4.db.Db;
 import com.example.ex4.schemas.Contact;
+import com.example.ex4.schemas.Message;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Contacts extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class Contacts extends AppCompatActivity {
     private int selectedColor;
     private ListView lstContacts;
     private static final int SETTINGS_REQUEST_CODE = 1;
+    private ContactViewModel contactViewModel;
 
     public void setLstContacts(ListView lstContacts) {
         this.lstContacts = lstContacts;
@@ -41,6 +44,7 @@ public class Contacts extends AppCompatActivity {
         setLstContacts((ListView) findViewById(R.id.lstContacts));
 
         db = new Db(getApplicationContext());
+        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
 
         // Get the intent that started this activity
         Intent intent = getIntent();
@@ -52,6 +56,16 @@ public class Contacts extends AppCompatActivity {
         handleSettings();
         NavigateToLogin();
         getContacts();
+
+        contactViewModel.getContactsLiveData().observe(this, new Observer<List<Contact>>() {
+            @Override
+            public void onChanged(List<Contact> contacts) {
+                // Update your UI components with the new list of messages
+                ListView listView = findViewById(R.id.lstContacts);
+                final ContactAdapter adapter = new ContactAdapter(contacts, selectedColor);
+                listView.setAdapter(adapter);
+            }
+        });
     }
 
     // Navigate to the add contact page
@@ -89,9 +103,10 @@ public class Contacts extends AppCompatActivity {
         chatAPI.getChats(MyApplication.getToken(), status -> {
             if (status) {
                 List<Contact> contactList = chatAPI.getContactList();
+                contactViewModel.setContacts(contactList);
                 db.setContactsDb(contactList);
-                final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
-                lstContacts.setAdapter(contactAdapter);
+//                final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
+//                lstContacts.setAdapter(contactAdapter);
             }
         });
     }
@@ -121,6 +136,8 @@ public class Contacts extends AppCompatActivity {
                 setSelectedColorAndFrame();
             }
         }
+        List<Contact> contacts = db.getContactsDb();
+        contactViewModel.setContacts(contacts);
     }
 
     private void setImageFrameBackground(int drawableId) {
@@ -149,7 +166,6 @@ public class Contacts extends AppCompatActivity {
             setButtonAndTextColors(R.color.default_color);
         }
     }
-
 
 //    @Override
 //    protected void onResume() {
