@@ -240,14 +240,13 @@ public class ChatPage extends AppCompatActivity {
                 setImageFrameBackground(R.drawable.image_purple);
                 setButtonAndTextColors(R.color.purple);
             }
-        }
-            else {
-                if (selectedColor == 0) {
-                    // Set the background color
-                    rootLayout.setBackgroundColor(defaultColor);
-                }
-                setButtonAndTextColors(R.color.default_color);
+        } else {
+            if (selectedColor == 0) {
+                // Set the background color
+                rootLayout.setBackgroundColor(defaultColor);
             }
+            setButtonAndTextColors(R.color.default_color);
         }
     }
 }
+
