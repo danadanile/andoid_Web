@@ -81,6 +81,7 @@ public class Contacts extends AppCompatActivity {
     private void NavigateToLogin() {
         FloatingActionButton btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(view -> {
+            db.deleteAll();
             Intent intent = new Intent(this, Login.class);
             intent.putExtra("selectedColor", selectedColor);
             startActivity(intent);
@@ -110,7 +111,6 @@ public class Contacts extends AppCompatActivity {
 
                 // Update the ViewModel with the new contacts
                 contactViewModel.setContacts(contactList);
-                db.setContactsDb(contactList);
             }
         });
     }
