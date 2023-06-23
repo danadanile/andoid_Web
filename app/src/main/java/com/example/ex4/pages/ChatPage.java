@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.example.ex4.MessageAdapter;
 import com.example.ex4.MyApplication;
-import com.example.ex4.Notifications;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
 import com.example.ex4.schemas.Contact;
@@ -112,8 +111,7 @@ public class ChatPage extends AppCompatActivity {
                         getMessagesChat();
                         message.setText("");
 
-                        Notifications notifications = new Notifications("adi", messageText);
-                        notifications.createNotificationChannel();
+
 
                     }
                 });

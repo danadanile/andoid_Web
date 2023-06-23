@@ -1,3 +1,5 @@
+package com.example.ex4.Notificatons;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,17 +10,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.ex4.R;
+import com.example.ex4.pages.Login;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        // Create notification channel if running on Android Oreo or higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -32,13 +37,17 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
             mNotificationManager.createNotificationChannel(mChannel);
         }
 
-        if (remoteMessage.getData() != null && !remoteMessage.getData().isEmpty()) {
+        remoteMessage.getData();
+
+        // Process data payload if available
+        if (!remoteMessage.getData().isEmpty()) {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("message");
             Log.d("Notification", "From data object, notification title: " + title + " and body: " + body);
             sendNotification(title, body);
         }
 
+        // Process notification payload if available
         if (remoteMessage.getNotification() != null) {
             String title = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
@@ -50,13 +59,14 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        // Create notification channel if running on Android Oreo or higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(
@@ -70,6 +80,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
+        // Build the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                 this, AppConstants.FCMConstants.CHANNEL_ID)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
@@ -81,20 +92,18 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.push_icon);
-            notificationBuilder.setColor(ContextCompat.getColor(this, R.color.pink_500));
-        } else {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        }
+        // Set the notification icon and color
+        notificationBuilder.setSmallIcon(R.drawable.push_icon);
+        notificationBuilder.setColor(ContextCompat.getColor(this, R.color.black));
 
+        // Display the notification
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
     @Override
-    public void onNewToken(String token) {
+    public void onNewToken(@NonNull String token) {
         Log.d("NotificationFCM", "Token: " + token);
     }
 }
