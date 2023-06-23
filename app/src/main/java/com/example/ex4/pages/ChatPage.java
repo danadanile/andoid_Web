@@ -57,7 +57,6 @@ public class ChatPage extends AppCompatActivity {
 
         messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
 
-
         Intent intent = getIntent();
         selectedColor = intent.getIntExtra("selectedColor", 0);
 
@@ -76,6 +75,8 @@ public class ChatPage extends AppCompatActivity {
                 ListView listView = findViewById(R.id.lstMessages);
                 final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
                 listView.setAdapter(adapter);
+                //listView.smoothScrollToPosition(adapter.getCount() - 1);
+                listView.setSelection(adapter.getCount() - 1);
             }
         });
     }

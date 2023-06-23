@@ -105,8 +105,6 @@ public class Contacts extends AppCompatActivity {
                 List<Contact> contactList = chatAPI.getContactList();
                 contactViewModel.setContacts(contactList);
                 db.setContactsDb(contactList);
-//                final ContactAdapter contactAdapter = new ContactAdapter(contactList, selectedColor);
-//                lstContacts.setAdapter(contactAdapter);
             }
         });
     }
@@ -166,11 +164,4 @@ public class Contacts extends AppCompatActivity {
             setButtonAndTextColors(R.color.default_color);
         }
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        getContacts();
-//    }
-
 }

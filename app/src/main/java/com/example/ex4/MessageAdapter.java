@@ -61,10 +61,12 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        int viewType = getItemViewType(position);
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
+
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            int viewType = getItemViewType(position);
 
             if (viewType == 0) {
                 convertView = inflater.inflate(R.layout.activity_message_me, parent, false);
@@ -81,7 +83,7 @@ public class MessageAdapter extends BaseAdapter {
         Message message = messageList.get(position);
         viewHolder.messageContent.setText(message.getContent());
 
-        if (viewType == 0) {
+        if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
             viewHolder.messageContent.setGravity(Gravity.END);
         } else {
             viewHolder.messageContent.setGravity(Gravity.START);
