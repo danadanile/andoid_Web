@@ -20,7 +20,7 @@ public class Db {
     public Db(Context context) {
         this.context = context;
         db = Room.databaseBuilder(context.getApplicationContext(),
-                        AppDB2.class, "Db2")
+                        AppDB2.class, "DB2")
                 .allowMainThreadQueries()
                 .build();
         contactDao = db.contactDao();
@@ -28,18 +28,8 @@ public class Db {
     }
 
     public void setContactsDb(List<Contact> contactList) {
-        contactDao.deleteAll(); ////////////////////////
+        contactDao.deleteAll();
         contactDao.insert(contactList.toArray(new Contact[0]));
-//        for (Contact contact : contactList) {
-//            Contact existingContact = contactDao.get(contact.getId());
-//            if (existingContact == null) {
-//                // Contact doesn't exist, insert it
-//                contactDao.insert(contact);
-//            } else {
-//                // Contact already exists, update it
-//                contactDao.update(contact);
-//            }
-//        }
     }
 
     public List<Contact> getContactsDb() {
@@ -97,5 +87,10 @@ public class Db {
 
     public void addContactDb(Contact newContact) {
         contactDao.insert(newContact);
+    }
+
+    public void deleteAll(){
+        chatDao.deleteAll();
+        contactDao.deleteAll();
     }
 }
