@@ -29,27 +29,25 @@ which will display appropriate notifications when a user sends a message.
 
 login:
 
-![image](https://github.com/danadanile/andoid_Web/assets/117977429/f720ca00-5dbf-46ad-932e-6b6b4c75c81b)
+<img src="https://github.com/danadanile/andoid_Web/assets/117977429/f720ca00-5dbf-46ad-932e-6b6b4c75c81b" alt="Login" width="300">
 
 register:
 
-![image](https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d)
+<img src="https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d" alt="Register" width="300">
 
 contacts:
 
-![image](https://github.com/danadanile/andoid_Web/assets/117977429/075c9cdb-c5f4-4eac-9ac2-835db38cf994)
+<img src="https://github.com/danadanile/andoid_Web/assets/117977429/075c9cdb-c5f4-4eac-9ac2-835db38cf994" alt="Contacts" width="300">
 
 chat page:
 
-![image](https://github.com/danadanile/andoid_Web/assets/117977429/7ad8809a-40b4-4d0a-9be5-5801e98d9b86)
+<img src="https://github.com/danadanile/andoid_Web/assets/117977429/7ad8809a-40b4-4d0a-9be5-5801e98d9b86" alt="Chat page" width="300">
 
 setting:
 
-![image](https://github.com/danadanile/andoid_Web/assets/117977429/54dc321d-8b08-4045-957c-42a1fcef2f9a)
+<img src="https://github.com/danadanile/andoid_Web/assets/117977429/54dc321d-8b08-4045-957c-42a1fcef2f9a" alt="Setting" width="300">
 
 add contact:
-
-![image](https://github.com/danadanile/andoid_Web/assets/117977429/46ca340b-a83c-4b7c-bd0e-4f96b7a75d4e)
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/46ca340b-a83c-4b7c-bd0e-4f96b7a75d4e" alt="image" width="300">
 
