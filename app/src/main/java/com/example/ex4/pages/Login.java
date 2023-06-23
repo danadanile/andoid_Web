@@ -16,6 +16,7 @@ import com.example.ex4.MyApplication;
 import com.example.ex4.api.ICallback;
 import com.example.ex4.R;
 import com.example.ex4.api.UserAPI;
+import com.example.ex4.db.Db;
 import com.example.ex4.schemas.UserLogin;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +29,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Db db = new Db(getApplicationContext());
+        db.deleteAll();
 
         Intent intent = getIntent();
         selectedColor = intent.getIntExtra("selectedColor", 0);
