@@ -62,11 +62,16 @@ public class ChatPage extends AppCompatActivity {
         getChat();
         getMessagesChat();
 
-        messageViewModel.getMessagesLiveData().observe(this, messages -> {
-            // Update your UI components with the new list of messages
-            ListView listView = findViewById(R.id.lstMessages);
-            final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
-            listView.setAdapter(adapter);
+        messageViewModel.getMessagesLiveData().observe(this, new Observer<List<Message>>() {
+            @Override
+            public void onChanged(List<Message> messages) {
+                // Update your UI components with the new list of messages
+                ListView listView = findViewById(R.id.lstMessages);
+                final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
+                listView.setAdapter(adapter);
+                //listView.smoothScrollToPosition(adapter.getCount() - 1);
+                listView.setSelection(adapter.getCount() - 1);
+            }
         });
     }
 

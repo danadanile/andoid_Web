@@ -110,6 +110,7 @@ public class Contacts extends AppCompatActivity {
 
                 // Update the ViewModel with the new contacts
                 contactViewModel.setContacts(contactList);
+                db.setContactsDb(contactList);
             }
         });
     }
@@ -169,11 +170,4 @@ public class Contacts extends AppCompatActivity {
             setButtonAndTextColors(R.color.default_color);
         }
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        getContacts();
-//    }
-
 }
