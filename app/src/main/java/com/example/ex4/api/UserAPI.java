@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 
 import com.example.ex4.BaseUrlManager;
 import com.example.ex4.MyApplication;
+import com.example.ex4.schemas.Token;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
+
 import java.io.IOException;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -14,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -128,6 +132,26 @@ public class UserAPI {
 
             @Override
             public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
+                callback.status(false);
+            }
+
+        });
+    }
+
+    public void sendToken(Token token, ICallback callback) {
+        Call<Void> call = webServiceAPI.sendToken(token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.code() == 200) {
+                    callback.status(true);
+                } else {
+                    callback.status(false);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 callback.status(false);
             }
 

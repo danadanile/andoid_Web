@@ -1,25 +1,35 @@
 package com.example.ex4.pages;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ex4.MyApplication;
-import com.example.ex4.api.ICallback;
 import com.example.ex4.R;
 import com.example.ex4.api.UserAPI;
 import com.example.ex4.db.Db;
+import com.example.ex4.schemas.Token;
 import com.example.ex4.schemas.UserLogin;
 
+import android.Manifest;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Login extends AppCompatActivity {
     private int selectedColor;
@@ -29,6 +39,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        FirebaseApp.initializeApp(this);
+
         Db db = new Db(getApplicationContext());
         db.deleteAll();
 
@@ -41,6 +54,31 @@ public class Login extends AppCompatActivity {
         handleSettings();
 
         NavigateToRegister();
+
+    }
+
+    private void getToken() {
+        // Initialize Firebase
+
+        askNotificationPermission();
+
+        // Retrieve the FCM token
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                // Handle the error case if token retrieval fails
+                return;
+            }
+
+            // Get new FCM registration token
+            String token = task.getResult();
+            Log.d("NotificationFCM", "TokenFCM: " + token);
+
+            Token tokenObject = new Token(MyApplication.getMyProfile(), token);
+
+            UserAPI userAPI = new UserAPI();
+            userAPI.sendToken(tokenObject, status -> {
+            });
+        });
     }
 
     private void handleSettings() {
@@ -88,6 +126,7 @@ public class Login extends AppCompatActivity {
         bthLogin.setOnClickListener(view -> {
             TextView errorElement = findViewById(R.id.error);
             errorElement.setText("");
+
             EditText usernameInput = findViewById(R.id.username);
             String username = usernameInput.getText().toString();
 
@@ -96,19 +135,18 @@ public class Login extends AppCompatActivity {
 
             UserLogin userLogin = new UserLogin(username, password);
             MyApplication.setMyProfile(username);
-            UserAPI userAPI = new UserAPI();
 
+            getToken();
+
+            UserAPI userAPI = new UserAPI();
             userAPI.login(userLogin, status -> {
                 if (status) {
                     Intent intent = new Intent(getApplicationContext(), Contacts.class);
-
                     intent.putExtra("selectedColor", selectedColor);
-
                     startActivity(intent);
                 } else {
                     String error = userAPI.getError();
-                    TextView errorElement1 = findViewById(R.id.error);
-                    errorElement1.setText(error);
+                    errorElement.setText(error);
                 }
             });
         });
@@ -158,6 +196,34 @@ public class Login extends AppCompatActivity {
             } else if (selectedColor == purpleColor) {
                 setFrameEditTextBackground(R.drawable.purple_frame);
                 setButtonAndTextColors(R.color.purple);
+            }
+        }
+    }
+
+    // Declare the launcher at the top of your Activity/Fragment:
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                } else {
+                    // TODO: Inform user that that your app will not show notifications.
+                }
+            });
+
+    private void askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
     }
