@@ -4,6 +4,7 @@ import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
 import com.example.ex4.schemas.Msg;
+import com.example.ex4.schemas.Token;
 import com.example.ex4.schemas.Username;
 import com.example.ex4.schemas.User;
 import com.example.ex4.schemas.UserLogin;
@@ -43,5 +44,8 @@ public interface WebServiceAPI {
 
     @POST("Chats/{id}/Messages")
     Call<Message> addMessage(@Header("authorization") String token, @Path("id") int selectedId, @Body Msg message);
+
+    @POST("FCMTokens")
+    Call<Void> sendToken(@Body Token token);
 }
 

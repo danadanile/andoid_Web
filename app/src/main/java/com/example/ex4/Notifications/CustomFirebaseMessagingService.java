@@ -1,4 +1,4 @@
-package com.example.ex4.Notificatons;
+package com.example.ex4.Notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -20,7 +20,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
-
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         // Create notification channel if running on Android Oreo or higher
@@ -43,7 +42,8 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         if (!remoteMessage.getData().isEmpty()) {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("message");
-            Log.d("Notification", "From data object, notification title: " + title + " and body: " + body);
+            Log.d("Notification", "From data object, notification title: " + title
+                    + " and body: " + body);
             sendNotification(title, body);
         }
 
@@ -51,7 +51,8 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             String title = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
-            Log.d("Notification", "From notification object, notification title: " + title + " and body: " + body);
+            Log.d("Notification", "From notification object, notification title: "
+                    + title + " and body: " + body);
             if (title != null && body != null) {
                 sendNotification(title, body);
             }
@@ -106,4 +107,16 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         Log.d("NotificationFCM", "Token: " + token);
     }
+
+//    @Override
+//    public void onTokenRefresh() {
+//        // Get updated InstanceID token.
+//        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+//        Log.d(TAG, "Refreshed token: " + refreshedToken);
+//
+//        // If you want to send messages to this application instance or
+//        // manage this apps subscriptions on the server side, send the
+//        // Instance ID token to your app server.
+//        sendRegistrationToServer(refreshedToken);
+//    }
 }

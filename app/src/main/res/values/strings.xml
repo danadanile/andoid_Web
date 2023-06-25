@@ -28,4 +28,7 @@
     <string name="blue" />
     <string name="close">close the page</string>
     <string name="choose_color">The color of the app:</string>
+    <string name="default_notification_channel_id">1</string>
+
+
 </resources>

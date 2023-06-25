@@ -1,4 +1,4 @@
-package com.example.ex4.Notificatons;
+package com.example.ex4.Notifications;
 
 public class AppConstants {
     public static class FCMConstants {
