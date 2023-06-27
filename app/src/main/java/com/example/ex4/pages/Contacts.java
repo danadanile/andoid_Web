@@ -16,13 +16,10 @@ import com.example.ex4.ContactViewModel;
 import com.example.ex4.MyApplication;
 import com.example.ex4.R;
 import com.example.ex4.api.ChatAPI;
-import com.example.ex4.api.ICallback;
 import com.example.ex4.db.Db;
 import com.example.ex4.schemas.Contact;
-import com.example.ex4.schemas.Message;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Contacts extends AppCompatActivity {
@@ -57,14 +54,11 @@ public class Contacts extends AppCompatActivity {
         NavigateToLogin();
         getContacts();
 
-        contactViewModel.getContactsLiveData().observe(this, new Observer<List<Contact>>() {
-            @Override
-            public void onChanged(List<Contact> contacts) {
-                // Update your UI components with the new list of messages
-                ListView listView = findViewById(R.id.lstContacts);
-                final ContactAdapter adapter = new ContactAdapter(contacts, selectedColor);
-                listView.setAdapter(adapter);
-            }
+        contactViewModel.getContactsLiveData().observe(this, contacts -> {
+            // Update your UI components with the new list of messages
+            ListView listView = findViewById(R.id.lstContacts);
+            final ContactAdapter adapter = new ContactAdapter(contacts, selectedColor);
+            listView.setAdapter(adapter);
         });
     }
 

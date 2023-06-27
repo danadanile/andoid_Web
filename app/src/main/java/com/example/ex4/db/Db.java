@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import com.example.ex4.pages.Contacts;
 import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
@@ -12,14 +11,11 @@ import com.example.ex4.schemas.Message;
 import java.util.List;
 
 public class Db {
-    private Context context;
-    private AppDB2 db;
     ContactDao contactDao;
     ChatDao chatDao;
 
     public Db(Context context) {
-        this.context = context;
-        db = Room.databaseBuilder(context.getApplicationContext(),
+        AppDB2 db = Room.databaseBuilder(context.getApplicationContext(),
                         AppDB2.class, "DB2")
                 .allowMainThreadQueries()
                 .build();
@@ -78,8 +74,7 @@ public class Db {
     public Message[] getMessagesDb(int chatId) {
         Chat chat = chatDao.get(chatId);
         if (chat != null) {
-            Message[] messages = chat.getMessages();
-            return messages;
+            return chat.getMessages();
         } else {
             return null;
         }
@@ -89,7 +84,7 @@ public class Db {
         contactDao.insert(newContact);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         chatDao.deleteAll();
         contactDao.deleteAll();
     }

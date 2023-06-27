@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ex4.MyApplication;
@@ -24,7 +23,6 @@ import com.example.ex4.schemas.Username;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.gson.JsonObject;
-
 
 public class AddContact extends AppCompatActivity {
     private Db db;
@@ -87,6 +85,7 @@ public class AddContact extends AppCompatActivity {
             });
         });
     }
+
     private void handleClose() {
         FloatingActionButton btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> {
@@ -126,7 +125,6 @@ public class AddContact extends AppCompatActivity {
     }
 
     private void setSelectedColorAndFrame() {
-
         if (selectedColor != 0) {
             ConstraintLayout rootLayout = findViewById(R.id.rootLayout);
             rootLayout.setBackgroundColor(selectedColor);
@@ -145,8 +143,7 @@ public class AddContact extends AppCompatActivity {
                 setFrameEditTextBackground(R.drawable.purple_frame);
                 setButtonAndTextColors(R.color.purple);
             }
-        }
-        else{
+        } else {
             setButtonAndTextColors(R.color.default_color);
         }
     }

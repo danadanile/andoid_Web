@@ -63,5 +63,13 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".Notifications.NotificationActionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.ex4.NEW_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

@@ -1,10 +1,13 @@
 package com.example.ex4.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,11 +45,15 @@ public class ChatPage extends AppCompatActivity {
     private String message;
     private Chat chat;
     private MessageViewModel messageViewModel;
+    private BroadcastReceiver newNotificationReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        IntentFilter filter = new IntentFilter("com.example.ex4.ACTION_NEW_NOTIFICATION");
+        registerReceiver(newNotificationReceiver, filter);
 
         db = new Db(getApplicationContext());
 
@@ -63,17 +70,24 @@ public class ChatPage extends AppCompatActivity {
         getChat();
         getMessagesChat();
 
-        messageViewModel.getMessagesLiveData().observe(this, new Observer<List<Message>>() {
-            @Override
-            public void onChanged(List<Message> messages) {
-                // Update your UI components with the new list of messages
-                ListView listView = findViewById(R.id.lstMessages);
-                final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
-                listView.setAdapter(adapter);
-                //listView.smoothScrollToPosition(adapter.getCount() - 1);
-                listView.setSelection(adapter.getCount() - 1);
-            }
+        messageViewModel.getMessagesLiveData().observe(this, messages -> {
+            // Update your UI components with the new list of messages
+            ListView listView = findViewById(R.id.lstMessages);
+            final MessageAdapter adapter = new MessageAdapter(ChatPage.this, messages);
+            listView.setAdapter(adapter);
+            listView.setSelection(adapter.getCount() - 1);
         });
+
+        // Set up the newNotificationBroadcastReceiver
+        newNotificationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction() != null && intent.getAction().equals("com.example.ex4.NEW_NOTIFICATION")) {
+                    // Call the method to update the MessageViewModel
+                    getMessagesChat();
+                }
+            }
+        };
     }
 
     private void getChat() {
@@ -88,7 +102,7 @@ public class ChatPage extends AppCompatActivity {
         });
     }
 
-    private void getMessagesChat() {
+    public void getMessagesChat() {
         ChatAPI chatAPI = new ChatAPI();
         chatAPI.getMessages(MyApplication.getToken(), getId(), status -> {
             if (status) {
@@ -104,7 +118,6 @@ public class ChatPage extends AppCompatActivity {
             }
         });
     }
-
 
     private void NavigateToContacts() {
         FloatingActionButton bthRegister = findViewById(R.id.btnExitChat);
@@ -144,7 +157,6 @@ public class ChatPage extends AppCompatActivity {
             }
         });
     }
-
 
     private void displayContactInfo() {
         String contactJson = getIntent().getStringExtra("contact");
@@ -195,13 +207,15 @@ public class ChatPage extends AppCompatActivity {
 
     private void setEditTextBackground(int editTextId, int drawableId) {
         EditText editText = findViewById(editTextId);
-        Drawable drawable = getResources().getDrawable(drawableId);
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable =
+                getResources().getDrawable(drawableId);
         editText.setBackground(drawable);
     }
 
     private void setImageFrameBackground(int drawableId) {
         ImageView imageFrame = findViewById(R.id.contact_profile_background);
-        Drawable drawable = getResources().getDrawable(drawableId);
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable =
+                getResources().getDrawable(drawableId);
         imageFrame.setImageDrawable(drawable);
     }
 
@@ -247,12 +261,43 @@ public class ChatPage extends AppCompatActivity {
                 setButtonAndTextColors(R.color.purple);
             }
         } else {
-            if (selectedColor == 0) {
-                // Set the background color
-                rootLayout.setBackgroundColor(defaultColor);
-            }
+            // Set the background color
+            rootLayout.setBackgroundColor(defaultColor);
             setButtonAndTextColors(R.color.default_color);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(newNotificationReceiver);
+    }
+
+    private BroadcastReceiver newNotificationBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals("com.example.ex4.NEW_NOTIFICATION")) {
+                // Call the method to update the MessageViewModel
+                getMessagesChat();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Register the newNotificationBroadcastReceiver to listen for the NEW_NOTIFICATION action
+        IntentFilter filter = new IntentFilter("com.example.ex4.NEW_NOTIFICATION");
+        registerReceiver(newNotificationBroadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Unregister the newNotificationBroadcastReceiver
+        unregisterReceiver(newNotificationBroadcastReceiver);
     }
 }
 

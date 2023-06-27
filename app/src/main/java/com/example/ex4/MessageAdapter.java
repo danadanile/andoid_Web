@@ -8,14 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.ex4.MyApplication;
-import com.example.ex4.R;
 import com.example.ex4.schemas.Message;
 
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
-    private List<Message> messageList;
+    private final List<Message> messageList;
     private LayoutInflater inflater;
 
     public MessageAdapter(Context context, List<Message> messages) {
@@ -46,11 +44,12 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
+
         if (message.getSender().getUsername().equals(MyApplication.getMyProfile())) {
             return 0; // View type for sender message
-        } else {
-            return 1; // View type for other message
         }
+
+        return 1; // View type for other message
     }
 
     @Override

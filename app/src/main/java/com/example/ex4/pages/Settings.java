@@ -18,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
     private int selectedColor;
-
     private int curColor;
 
     @Override
@@ -96,12 +95,13 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         FloatingActionButton btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> {
             Intent intent = new Intent();
+
             if (selectedColor == 0) {
                 intent.putExtra("selectedColor", curColor);
             } else {
                 intent.putExtra("selectedColor", selectedColor);
-
             }
+
             setResult(Activity.RESULT_OK, intent);
 
             // Finish the current Settings activity and navigate back to the previous page
@@ -121,6 +121,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         } else if (view.getId() == R.id.pinkButton) {
             color = getResources().getColor(R.color.default_background);
         }
+
         selectedColor = color;
     }
 
@@ -153,8 +154,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         TextView colorsText = findViewById(R.id.colors);
         colorsText.setTextColor(color);
-
-
     }
 
     private void setSelectedColorAndFrame() {

@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.ex4.R;
-import com.example.ex4.pages.Login;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -60,8 +59,8 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, Login.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(this, NotificationActionReceiver.class);
+        intent.putExtra("trigger", true);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
@@ -100,23 +99,15 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         // Display the notification
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());
+
+        // Send a broadcast intent to notify the ChatPage
+        Intent broadcastIntent = new Intent("com.example.ex4.NEW_NOTIFICATION");
+        sendBroadcast(broadcastIntent);
     }
 
     @Override
     public void onNewToken(@NonNull String token) {
         Log.d("NotificationFCM", "Token: " + token);
     }
-
-//    @Override
-//    public void onTokenRefresh() {
-//        // Get updated InstanceID token.
-//        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-//        Log.d(TAG, "Refreshed token: " + refreshedToken);
-//
-//        // If you want to send messages to this application instance or
-//        // manage this apps subscriptions on the server side, send the
-//        // Instance ID token to your app server.
-//        sendRegistrationToServer(refreshedToken);
-//    }
 }
