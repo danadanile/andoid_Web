@@ -66,3 +66,8 @@ Before installing this project, you need to install on your computer:
 - Git
 - Android Studio
 
+Then open a terminal and clone the project to the folder that was created:
+```
+git clone https://github.com/danadanile/andoid_Web.git
+```
+
