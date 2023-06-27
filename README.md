@@ -60,3 +60,9 @@ add contact:
 
 
 ## Installation
+
+Before installing this project, you need to install on your computer:
+
+*Git
+*Android Studio
+
