@@ -24,7 +24,7 @@ In our android app we save a local copy of the chats and messages .
 When the application is opened, the information is extracted from the local sqlite DB with the help of
 Room. 
 
-The app also includes notification functionality via Firebase. When the user is logged in and another user sends a notification, an alert is displayed. The notification includes the name of the sender and the content of the message.
+The app also includes notification functionality via Firebase. After the user is logged in and another user sends a notification and displayed it. The notification includes the name of the sender and the content of the message.
 If the user is not currently active, the notification will be displayed the next time the application is launched.
 
 login:
