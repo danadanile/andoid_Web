@@ -21,9 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
 public class UserAPI {
-
     private String error;
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
@@ -46,6 +44,7 @@ public class UserAPI {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
@@ -58,6 +57,7 @@ public class UserAPI {
                     callback.status(true);
                 } else {
                     try {
+                        assert response.errorBody() != null;
                         String errorBodyString = response.errorBody().string();
                         JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
                         String errorMsg = errorJson.get("error").getAsString();
@@ -85,6 +85,7 @@ public class UserAPI {
                     callback.status(true);
                 } else {
                     try {
+                        assert response.errorBody() != null;
                         String errorBodyString = response.errorBody().string();
                         JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
                         String errorMsg = errorJson.get("error").getAsString();
@@ -118,6 +119,7 @@ public class UserAPI {
                     }
                 } else {
                     try {
+                        assert response.errorBody() != null;
                         String errorBodyString = response.errorBody().string();
                         JsonObject errorJson = JsonParser.parseString(errorBodyString).getAsJsonObject();
                         String errorMsg = errorJson.get("error").getAsString();
@@ -143,11 +145,7 @@ public class UserAPI {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if (response.code() == 200) {
-                    callback.status(true);
-                } else {
-                    callback.status(false);
-                }
+                callback.status(response.code() == 200);
             }
 
             @Override

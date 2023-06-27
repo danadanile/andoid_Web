@@ -1,4 +1,5 @@
 package com.example.ex4.db;
+
 import com.example.ex4.schemas.Chat;
 
 import androidx.room.Dao;

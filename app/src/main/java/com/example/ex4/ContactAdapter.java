@@ -24,20 +24,18 @@ import java.util.Date;
 import java.util.List;
 
 public class ContactAdapter extends BaseAdapter {
-    private List<Contact> contactList;
-    private int selectedColor;
+    private final List<Contact> contactList;
+    private final int selectedColor;
 
     public ContactAdapter(List<Contact> contacts, int color) {
         this.contactList = contacts;
-        this.selectedColor=color;
+        this.selectedColor = color;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         ImageView image;
         TextView displayName;
         TextView date;
-
-
     }
 
     @Override
@@ -98,9 +96,11 @@ public class ContactAdapter extends BaseAdapter {
 
             try {
                 Date date = inputFormat.parse(contact.getLastMessage().getCreated());
-                String formattedDate = outputFormat.format(date);
-                viewHolder.date.setText(contact.getLastMessage().getCreated());
-                viewHolder.date.setText(formattedDate);
+                if (date != null) {
+                    String formattedDate = outputFormat.format(date);
+                    viewHolder.date.setText(contact.getLastMessage().getCreated());
+                    viewHolder.date.setText(formattedDate);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -117,21 +117,18 @@ public class ContactAdapter extends BaseAdapter {
         }
 
         // Set a click listener on the convertView (list item)
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Perform the desired action when the contact is clicked
-                // For example, you can start a new activity and pass the contact information
-                Intent intent = new Intent(v.getContext(), ChatPage.class);
-                intent.putExtra("selectedColor", selectedColor);
-                Log.d("v", "Selected Color: " + selectedColor);
+        convertView.setOnClickListener(v -> {
+            // Perform the desired action when the contact is clicked
+            // For example, you can start a new activity and pass the contact information
+            Intent intent = new Intent(v.getContext(), ChatPage.class);
+            intent.putExtra("selectedColor", selectedColor);
+            Log.d("v", "Selected Color: " + selectedColor);
 
-                Gson gson = new Gson();
-                String contactJson = gson.toJson(contact);
-                // Pass the contact object to the details activity
-                intent.putExtra("contact", contactJson);
-                v.getContext().startActivity(intent);
-            }
+            Gson gson = new Gson();
+            String contactJson = gson.toJson(contact);
+            // Pass the contact object to the details activity
+            intent.putExtra("contact", contactJson);
+            v.getContext().startActivity(intent);
         });
 
         return convertView;

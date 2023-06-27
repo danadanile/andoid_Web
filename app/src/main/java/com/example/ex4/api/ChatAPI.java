@@ -4,8 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.ex4.MyApplication;
-import com.example.ex4.R;
+import com.example.ex4.BaseUrlManager;
 import com.example.ex4.schemas.Chat;
 import com.example.ex4.schemas.Contact;
 import com.example.ex4.schemas.Message;
@@ -48,14 +47,20 @@ public class ChatAPI {
                 .setLenient()
                 .create();
 
+        // Get the singleton instance of BaseUrlManager
+        BaseUrlManager baseUrlManager = BaseUrlManager.getInstance();
+
+        // Access the current base URL
+        String currentBaseUrl = baseUrlManager.getBaseUrl();
+
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.context.getString(R.string.BaseUrl)) // TAKE IT FROM THE BASEURL
+                .baseUrl(currentBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
+
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
-
 
     public void addContact(String token, Username username, ICallback callback) {
         Call<JsonObject> call = webServiceAPI.addContact(token, username);
@@ -87,7 +92,6 @@ public class ChatAPI {
         });
     }
 
-
     public void getChats(String token, ICallback callback) {
         Call<List<Contact>> call = webServiceAPI.getChats(token);
         call.enqueue(new Callback<List<Contact>>() {
@@ -109,7 +113,6 @@ public class ChatAPI {
             }
         });
     }
-
 
     public void getChat(String token, int id, ICallback callback) {
         Call<Chat> call = webServiceAPI.getChat(token, id);

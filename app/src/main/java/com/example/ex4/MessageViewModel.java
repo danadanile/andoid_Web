@@ -14,7 +14,6 @@ public class MessageViewModel extends ViewModel {
     public LiveData<List<Message>> getMessagesLiveData() {
         if (messagesLiveData == null) {
             messagesLiveData = new MutableLiveData<>();
-            // Initialize the messagesLiveData if needed
         }
         return messagesLiveData;
     }
