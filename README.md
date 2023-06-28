@@ -15,10 +15,7 @@ The main page displays a simple login screen where the user is required to enter
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/f720ca00-5dbf-46ad-932e-6b6b4c75c81b" alt="Login" width="200">
 
-On the registration screen, the customer needs to enter their username, password, display name, and upload a photo. The input fields are validated with the following requirements:
-⋅⋅* All fields are mandatory.
-⋅⋅* The password must have at least 8 characters.
-⋅⋅* The username must be unique.
+On the registration screen, the customer needs to enter their username, password, display name, and upload a photo. The input fields are validated with the following requirements: all fields are mandatory, the password must have at least 8 characters and the username must be unique.
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d" alt="Register" width="200">
 
