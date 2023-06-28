@@ -24,8 +24,8 @@ In our android app we save a local copy of the chats and messages .
 When the application is opened, the information is extracted from the local sqlite DB with the help of
 Room. 
 
-The app also includes notification functionality using Firebase. The server sends push notifications to clients,
-which will display appropriate notifications when a user sends a message.
+The app also includes notification functionality via Firebase. After the user is logged in and another user sends a notification and displayed it. The notification includes the name of the sender and the content of the message.
+If the user is not currently active, the notification will be displayed the next time the application is launched.
 
 login:
 
@@ -55,9 +55,19 @@ add contact:
 
 
 
-
 ## Server side:
 
 
 
 ## Installation
+
+Before installing this project, you need to install on your computer:
+
+- Git
+- Android Studio
+
+Then open a terminal and clone the project to the folder that was created:
+```
+git clone https://github.com/danadanile/andoid_Web.git
+```
+
