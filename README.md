@@ -15,15 +15,13 @@ The main page displays a simple login screen where the user is required to enter
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/f720ca00-5dbf-46ad-932e-6b6b4c75c81b" alt="Login" width="200">
 
-![image](https://github.com/danadanile/andoid_Web/assets/75027826/fcbe694f-c2fa-4013-9180-2bbc35aa2513)
-
+![image](https://github.com/danadanile/andoid_Web/assets/75027826/93b2b1bb-cc3f-4a05-928f-e0aad19ab965)
 
 On the registration screen, the customer needs to enter their username, password, display name, and upload a photo. The input fields are validated with the following requirements: all fields are mandatory, the password must have at least 8 characters and the username must be unique.
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d" alt="Register" width="200">
 
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/c559d90e-a1a0-4e81-8082-bd7ee82fc682)
-
 
 After registration, the user can log in to the application by entering his username and password. If the details are correct, the user will be redirected to the contacts screen. 
 
