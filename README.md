@@ -22,7 +22,7 @@ On the registration screen, the customer needs to enter their username, password
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d" alt="Register" width="200">
 
-![image](https://github.com/danadanile/andoid_Web/assets/75027826/83774fc9-2357-4462-919e-caa539356f80)
+![image](https://github.com/danadanile/andoid_Web/assets/75027826/d1fd56f7-6b44-4cd1-8e47-a300a431c496)
 
 
 After registration, the user can log in to the application by entering his username and password. If the details are correct, the user will be redirected to the contacts screen. 
