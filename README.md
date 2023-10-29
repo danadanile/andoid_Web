@@ -14,6 +14,7 @@ The application contains the following screens:
 The main page displays a simple login screen where the user is required to enter a username and password or navigate to the registration screen.
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/f720ca00-5dbf-46ad-932e-6b6b4c75c81b" alt="Login" width="200">
+
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/f01427c7-e75e-4874-aab6-1d93c3f14cc4)
 
 
