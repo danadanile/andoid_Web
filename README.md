@@ -41,9 +41,13 @@ From the Contacts page, the user can add a new contact using the Add button and 
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/46ca340b-a83c-4b7c-bd0e-4f96b7a75d4e" alt="image" width="200">
 
+![image](https://github.com/danadanile/andoid_Web/assets/75027826/75b30b76-9de2-4c0d-b0bb-fb29741ab8fe)
+
 There is also a settings option on the login page and the contacts page. On the settings page, the user can change the address of the server to which the application is connected or the color theme of the application.
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/54dc321d-8b08-4045-957c-42a1fcef2f9a" alt="Setting" width="200">
+
+![image](https://github.com/danadanile/andoid_Web/assets/75027826/7bcefda2-162c-4b08-a5e3-d7c5f34cc941)
 
 In our Android app, we keep a local copy of the chats and messages.
 When the application is opened, the information is pulled from the local SQLite DB using Room. After the server returns the updated information to us via the API, the local DB is updated.
