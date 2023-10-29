@@ -13,13 +13,9 @@ The application contains the following screens:
 ## General Information
 The main page displays a simple login screen where the user is required to enter a username and password or navigate to the registration screen.
 
-<img src="https://github.com/danadanile/andoid_Web/assets/117977429/f720ca00-5dbf-46ad-932e-6b6b4c75c81b" alt="Login" width="200">
-
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/93b2b1bb-cc3f-4a05-928f-e0aad19ab965)
 
 On the registration screen, the customer needs to enter their username, password, display name, and upload a photo. The input fields are validated with the following requirements: all fields are mandatory, the password must have at least 8 characters and the username must be unique.
-
-<img src="https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d" alt="Register" width="200">
 
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/c559d90e-a1a0-4e81-8082-bd7ee82fc682)
 
@@ -27,25 +23,17 @@ After registration, the user can log in to the application by entering his usern
 
 On the Contacts screen, all of the user's contacts are displayed. The user can click on a specific contact and the chat with him will be displayed.
 
-<img src="https://github.com/danadanile/andoid_Web/assets/117977429/075c9cdb-c5f4-4eac-9ac2-835db38cf994" alt="Contacts" width="200">
-
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/6b4bcdfd-2a86-46b4-a5b4-62c60d3be96f)
 
 On the chat page, the user can see all the message history with the specific contact. The user can also send him a new message.
-
-<img src="https://github.com/danadanile/andoid_Web/assets/117977429/7ad8809a-40b4-4d0a-9be5-5801e98d9b86" alt="Chat page" width="200">
 
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/48415166-64f8-4892-88ae-b227ecadc675)
 
 From the Contacts page, the user can add a new contact using the Add button and navigate to the Add Contact page. On this page, the user enters the username they want to add and clicks Add. On the Contacts page, the new contact will be displayed.
 
-<img src="https://github.com/danadanile/andoid_Web/assets/117977429/46ca340b-a83c-4b7c-bd0e-4f96b7a75d4e" alt="image" width="200">
-
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/75b30b76-9de2-4c0d-b0bb-fb29741ab8fe)
 
 There is also a settings option on the login page and the contacts page. On the settings page, the user can change the address of the server to which the application is connected or the color theme of the application.
-
-<img src="https://github.com/danadanile/andoid_Web/assets/117977429/54dc321d-8b08-4045-957c-42a1fcef2f9a" alt="Setting" width="200">
 
 ![image](https://github.com/danadanile/andoid_Web/assets/75027826/7bcefda2-162c-4b08-a5e3-d7c5f34cc941)
 
