@@ -22,6 +22,9 @@ On the registration screen, the customer needs to enter their username, password
 
 <img src="https://github.com/danadanile/andoid_Web/assets/117977429/2bb48b65-e1cf-44f3-a68a-9248c772677d" alt="Register" width="200">
 
+![image](https://github.com/danadanile/andoid_Web/assets/75027826/83774fc9-2357-4462-919e-caa539356f80)
+
+
 After registration, the user can log in to the application by entering his username and password. If the details are correct, the user will be redirected to the contacts screen. 
 
 On the Contacts screen, all of the user's contacts are displayed. The user can click on a specific contact and the chat with him will be displayed.
